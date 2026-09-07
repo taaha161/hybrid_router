@@ -1,5 +1,4 @@
 import Flutter
-import FlutterPluginRegistrant
 import UIKit
 
 /// Owns the **single, long-lived** `FlutterEngine` for the whole app.
@@ -23,8 +22,8 @@ final class FlutterEngineManager {
     func warmUp() {
         guard !engine.hasRun else { return }
         engine.run() // runs the module's `main()` -> GoRouter at '/'
-        // If the module used plugins, register them here:
-        // GeneratedPluginRegistrant.register(with: engine)
+        // No Flutter plugins in this demo. If any are added, embed
+        // FlutterPluginRegistrant and call GeneratedPluginRegistrant.register(with: engine).
         navigation = NavigationChannel(
             binaryMessenger: engine.binaryMessenger
         )

@@ -41,6 +41,11 @@ internal final class AppDelegate: UIResponder, UIApplicationDelegate {
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+    // hybrid_router demo: warm the single Flutter engine once, and register the
+    // native "Hybrid" tab before the root tab bar loads.
+    FlutterEngineManager.shared.warmUp()
+    RootTabBarViewController.additionalTabs = [HybridTab.navigationController]
+
     // FBSDK initialization
     let facebookAppID = Bundle.main.infoDictionary?["FacebookAppID"] as? String
     AppEnvironment.configureFacebookSDK(
