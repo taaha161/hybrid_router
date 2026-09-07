@@ -58,6 +58,9 @@ class _RecordingChannel extends NativeNavigatorChannel {
 
   @override
   Future<void> popToRoot() async => calls.add('popToRoot');
+
+  @override
+  Future<void> closeFlutter() async => calls.add('closeFlutter');
 }
 
 void main() {
@@ -160,6 +163,69 @@ void main() {
       expect(flutter.stack.length, flutterLenBefore);
       expect(router.stack.last, isA<FlutterEntry>());
       expect((router.stack.last as FlutterEntry).path, '/project/42');
+    });
+  });
+
+  group('closing the flutter container at the base route', () {
+    test('programmatic pop of the last flutter page closes the container', () {
+      router.push('/project/42');
+      channel.calls.clear();
+      router.pop(); // back from the only flutter page
+      // Only the base route '/' remains -> the whole container must leave native.
+      expect(channel.calls, contains('closeFlutter'));
+      expect(channel.calls, isNot(contains('popNative')));
+      expect(router.stack.length, 1);
+      expect(router.stack.single, isA<FlutterEntry>());
+    });
+
+    test('a Flutter gesture back (AppBar/edge-swipe) is reconciled once', () {
+      router.push('/project/42');
+      channel.calls.clear();
+      // Simulate GoRouter popping from a user gesture: the navigator shrinks on
+      // its own, then the observer fires. The router did NOT initiate it.
+      flutter.pop();
+      router.handleFlutterNavigatorPop();
+      expect(channel.calls, contains('closeFlutter'));
+      expect(router.stack.length, 1);
+    });
+
+    test('a programmatic pop is not reconciled twice by the observer', () {
+      router.push('/project/42');
+      router.push('/backer/9');
+      channel.calls.clear();
+      router.pop(); // programmatic: pops /backer/9, marks it programmatic
+      // The observer signal that follows the programmatic pop is consumed.
+      router.handleFlutterNavigatorPop();
+      // Still sitting on /project/42 — the observer did NOT pop a second page.
+      expect(router.stack.last, isA<FlutterEntry>());
+      expect((router.stack.last as FlutterEntry).path, '/project/42');
+      expect(channel.calls, isNot(contains('closeFlutter')));
+    });
+  });
+
+  group('fresh entry from a native root', () {
+    test('enterFlutter discards stale history so it cannot duplicate', () {
+      router.push('/project/42');
+      router.push('/backer/9');
+      // User backed out to the native feed, then taps the same project again.
+      router.enterFlutter('/project/42');
+      expect(flutter.stack, ['/', '/project/42']);
+      expect(stackString(), 'Flutter(/) > Flutter(/project/42)');
+    });
+
+    test('native pushFlutter with reset:true routes through enterFlutter', () {
+      router.push('/project/42');
+      router.push('/backer/9');
+      channel.callbacks!.onPushFlutter('/project/42', null, true);
+      expect(stackString(), 'Flutter(/) > Flutter(/project/42)');
+    });
+
+    test('native pushFlutter with reset:false keeps the stack (interleaving)',
+        () {
+      router.push('/project/42');
+      channel.callbacks!.onPushFlutter('/backer/9', null, false);
+      expect(stackString(),
+          'Flutter(/) > Flutter(/project/42) > Flutter(/backer/9)');
     });
   });
 

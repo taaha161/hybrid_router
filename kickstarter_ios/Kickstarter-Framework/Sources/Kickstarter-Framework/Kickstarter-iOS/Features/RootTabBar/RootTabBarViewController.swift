@@ -28,10 +28,13 @@ public final class RootTabBarViewController: UITabBarController, MessageBannerVi
 
   fileprivate let viewModel: RootViewModelType = RootViewModel()
 
-  /// Extra tabs injected by the app layer (e.g. the hybrid_router demo's native
-  /// "Hybrid" tab). Set before the tab bar loads. Kept as plain
-  /// UIViewControllers so this framework has no Flutter dependency.
-  public static var additionalTabs: [UIViewController] = []
+  /// The app layer provides a replacement navigation controller for the
+  /// hybrid_router demo. It takes over an existing, view-model-known tab slot
+  /// (Search) so Kickstarter's reactive selection keeps working — appending a
+  /// brand-new tab index the RootViewModel doesn't know about makes it snap the
+  /// selection back to a known tab. Kept as a plain UINavigationController so
+  /// this framework has no Flutter dependency.
+  public static var hybridTabNavProvider: (() -> UINavigationController)?
 
   /// Keep the applied tab bar mode in sync with the ViewModel (single source of truth)
   /// Accounts for remote config feature flag load issues.
@@ -145,11 +148,19 @@ public final class RootTabBarViewController: UITabBarController, MessageBannerVi
       .observeForUI()
       .map { $0.map { RootTabBarViewController.viewController(from: $0) }.compact() }
       .map { $0.map(UINavigationController.init(rootViewController:)) }
-      .observeValues { [weak self] in
-        // hybrid_router demo: append any extra tabs the app injected (the native
-        // "Hybrid" tab hosting the single Flutter engine). The framework only
-        // sees plain UIViewControllers, keeping Flutter out of this layer.
-        self?.setViewControllers($0 + RootTabBarViewController.additionalTabs, animated: false)
+      .observeValues { [weak self] navs in
+        // hybrid_router demo: take over the Search tab's slot with the native
+        // "Hybrid" nav that hosts the single Flutter engine. Reusing a known tab
+        // index keeps the RootViewModel's selection logic happy.
+        var vcs: [UIViewController] = navs
+        if let hybridNav = RootTabBarViewController.hybridTabNavProvider?() {
+          if let idx = navs.firstIndex(where: { $0.viewControllers.first is SearchViewController }) {
+            vcs[idx] = hybridNav
+          } else {
+            vcs.append(hybridNav)
+          }
+        }
+        self?.setViewControllers(vcs, animated: false)
       }
 
     self.viewModel.outputs.selectedIndex
