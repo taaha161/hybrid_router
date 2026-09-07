@@ -1,0 +1,326 @@
+// @generated
+// This file was automatically generated and should not be edited.
+
+@_exported import ApolloAPI
+
+public struct ProjectVideoFeedFragment: GraphAPI.SelectionSet, Fragment {
+  public static var fragmentDefinition: StaticString {
+    #"fragment ProjectVideoFeedFragment on Project { __typename id pid name slug url percentFunded deadlineAt launchedAt backersCount isWatched fxRate fxRateCurrency pledged { __typename amount currency } creator { __typename name imageUrl(blur: false, width: 200) } category { __typename name } verticalVideo { __typename id previewImageUrl videoSources { __typename hls { __typename src } } } sharesCount watchesCount }"#
+  }
+
+  public let __data: DataDict
+  public init(_dataDict: DataDict) { __data = _dataDict }
+
+  public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Project }
+  public static var __selections: [ApolloAPI.Selection] { [
+    .field("__typename", String.self),
+    .field("id", GraphAPI.ID.self),
+    .field("pid", Int.self),
+    .field("name", String.self),
+    .field("slug", String.self),
+    .field("url", String.self),
+    .field("percentFunded", Int.self),
+    .field("deadlineAt", GraphAPI.DateTime?.self),
+    .field("launchedAt", GraphAPI.DateTime?.self),
+    .field("backersCount", Int.self),
+    .field("isWatched", Bool.self),
+    .field("fxRate", Double.self),
+    .field("fxRateCurrency", GraphQLEnum<GraphAPI.CurrencyCode>.self),
+    .field("pledged", Pledged.self),
+    .field("creator", Creator?.self),
+    .field("category", Category?.self),
+    .field("verticalVideo", VerticalVideo?.self),
+    .field("sharesCount", Int.self),
+    .field("watchesCount", Int?.self),
+  ] }
+
+  public var id: GraphAPI.ID { __data["id"] }
+  /// The project's pid.
+  public var pid: Int { __data["pid"] }
+  /// The project's name.
+  public var name: String { __data["name"] }
+  /// The project's unique URL identifier.
+  public var slug: String { __data["slug"] }
+  /// A URL to the project's page.
+  public var url: String { __data["url"] }
+  /// What percent the project has towards meeting its funding goal.
+  public var percentFunded: Int { __data["percentFunded"] }
+  /// When is the project scheduled to end?
+  public var deadlineAt: GraphAPI.DateTime? { __data["deadlineAt"] }
+  /// When the project launched
+  public var launchedAt: GraphAPI.DateTime? { __data["launchedAt"] }
+  /// Total backers for the project
+  public var backersCount: Int { __data["backersCount"] }
+  /// Is the current user watching this project?
+  public var isWatched: Bool { __data["isWatched"] }
+  /// Exchange rate for the current user's currency
+  public var fxRate: Double { __data["fxRate"] }
+  /// Currency code for the current user's currency
+  public var fxRateCurrency: GraphQLEnum<GraphAPI.CurrencyCode> { __data["fxRateCurrency"] }
+  /// How much money is pledged to the project.
+  public var pledged: Pledged { __data["pledged"] }
+  /// The project's creator.
+  public var creator: Creator? { __data["creator"] }
+  /// The project's category.
+  public var category: Category? { __data["category"] }
+  /// A project vertical video.
+  public var verticalVideo: VerticalVideo? { __data["verticalVideo"] }
+  /// Total number of times the project has been shared to social platforms
+  public var sharesCount: Int { __data["sharesCount"] }
+  /// Number of watchers a project has.
+  public var watchesCount: Int? { __data["watchesCount"] }
+
+  public init(
+    id: GraphAPI.ID,
+    pid: Int,
+    name: String,
+    slug: String,
+    url: String,
+    percentFunded: Int,
+    deadlineAt: GraphAPI.DateTime? = nil,
+    launchedAt: GraphAPI.DateTime? = nil,
+    backersCount: Int,
+    isWatched: Bool,
+    fxRate: Double,
+    fxRateCurrency: GraphQLEnum<GraphAPI.CurrencyCode>,
+    pledged: Pledged,
+    creator: Creator? = nil,
+    category: Category? = nil,
+    verticalVideo: VerticalVideo? = nil,
+    sharesCount: Int,
+    watchesCount: Int? = nil
+  ) {
+    self.init(_dataDict: DataDict(
+      data: [
+        "__typename": GraphAPI.Objects.Project.typename,
+        "id": id,
+        "pid": pid,
+        "name": name,
+        "slug": slug,
+        "url": url,
+        "percentFunded": percentFunded,
+        "deadlineAt": deadlineAt,
+        "launchedAt": launchedAt,
+        "backersCount": backersCount,
+        "isWatched": isWatched,
+        "fxRate": fxRate,
+        "fxRateCurrency": fxRateCurrency,
+        "pledged": pledged._fieldData,
+        "creator": creator._fieldData,
+        "category": category._fieldData,
+        "verticalVideo": verticalVideo._fieldData,
+        "sharesCount": sharesCount,
+        "watchesCount": watchesCount,
+      ],
+      fulfilledFragments: [
+        ObjectIdentifier(ProjectVideoFeedFragment.self)
+      ]
+    ))
+  }
+
+  /// Pledged
+  ///
+  /// Parent Type: `Money`
+  public struct Pledged: GraphAPI.SelectionSet {
+    public let __data: DataDict
+    public init(_dataDict: DataDict) { __data = _dataDict }
+
+    public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Money }
+    public static var __selections: [ApolloAPI.Selection] { [
+      .field("__typename", String.self),
+      .field("amount", String?.self),
+      .field("currency", GraphQLEnum<GraphAPI.CurrencyCode>?.self),
+    ] }
+
+    /// Floating-point numeric value of monetary amount represented as a string
+    public var amount: String? { __data["amount"] }
+    /// Currency of the monetary amount
+    public var currency: GraphQLEnum<GraphAPI.CurrencyCode>? { __data["currency"] }
+
+    public init(
+      amount: String? = nil,
+      currency: GraphQLEnum<GraphAPI.CurrencyCode>? = nil
+    ) {
+      self.init(_dataDict: DataDict(
+        data: [
+          "__typename": GraphAPI.Objects.Money.typename,
+          "amount": amount,
+          "currency": currency,
+        ],
+        fulfilledFragments: [
+          ObjectIdentifier(ProjectVideoFeedFragment.Pledged.self)
+        ]
+      ))
+    }
+  }
+
+  /// Creator
+  ///
+  /// Parent Type: `User`
+  public struct Creator: GraphAPI.SelectionSet {
+    public let __data: DataDict
+    public init(_dataDict: DataDict) { __data = _dataDict }
+
+    public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.User }
+    public static var __selections: [ApolloAPI.Selection] { [
+      .field("__typename", String.self),
+      .field("name", String.self),
+      .field("imageUrl", String.self, arguments: [
+        "blur": false,
+        "width": 200
+      ]),
+    ] }
+
+    /// The user's provided name.
+    public var name: String { __data["name"] }
+    /// The user's avatar.
+    public var imageUrl: String { __data["imageUrl"] }
+
+    public init(
+      name: String,
+      imageUrl: String
+    ) {
+      self.init(_dataDict: DataDict(
+        data: [
+          "__typename": GraphAPI.Objects.User.typename,
+          "name": name,
+          "imageUrl": imageUrl,
+        ],
+        fulfilledFragments: [
+          ObjectIdentifier(ProjectVideoFeedFragment.Creator.self)
+        ]
+      ))
+    }
+  }
+
+  /// Category
+  ///
+  /// Parent Type: `Category`
+  public struct Category: GraphAPI.SelectionSet {
+    public let __data: DataDict
+    public init(_dataDict: DataDict) { __data = _dataDict }
+
+    public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Category }
+    public static var __selections: [ApolloAPI.Selection] { [
+      .field("__typename", String.self),
+      .field("name", String.self),
+    ] }
+
+    /// Category name.
+    public var name: String { __data["name"] }
+
+    public init(
+      name: String
+    ) {
+      self.init(_dataDict: DataDict(
+        data: [
+          "__typename": GraphAPI.Objects.Category.typename,
+          "name": name,
+        ],
+        fulfilledFragments: [
+          ObjectIdentifier(ProjectVideoFeedFragment.Category.self)
+        ]
+      ))
+    }
+  }
+
+  /// VerticalVideo
+  ///
+  /// Parent Type: `Video`
+  public struct VerticalVideo: GraphAPI.SelectionSet {
+    public let __data: DataDict
+    public init(_dataDict: DataDict) { __data = _dataDict }
+
+    public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Video }
+    public static var __selections: [ApolloAPI.Selection] { [
+      .field("__typename", String.self),
+      .field("id", GraphAPI.ID.self),
+      .field("previewImageUrl", String?.self),
+      .field("videoSources", VideoSources?.self),
+    ] }
+
+    public var id: GraphAPI.ID { __data["id"] }
+    /// Preview image url for the video
+    public var previewImageUrl: String? { __data["previewImageUrl"] }
+    /// A video's sources (hls, high, base)
+    public var videoSources: VideoSources? { __data["videoSources"] }
+
+    public init(
+      id: GraphAPI.ID,
+      previewImageUrl: String? = nil,
+      videoSources: VideoSources? = nil
+    ) {
+      self.init(_dataDict: DataDict(
+        data: [
+          "__typename": GraphAPI.Objects.Video.typename,
+          "id": id,
+          "previewImageUrl": previewImageUrl,
+          "videoSources": videoSources._fieldData,
+        ],
+        fulfilledFragments: [
+          ObjectIdentifier(ProjectVideoFeedFragment.VerticalVideo.self)
+        ]
+      ))
+    }
+
+    /// VerticalVideo.VideoSources
+    ///
+    /// Parent Type: `VideoSources`
+    public struct VideoSources: GraphAPI.SelectionSet {
+      public let __data: DataDict
+      public init(_dataDict: DataDict) { __data = _dataDict }
+
+      public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.VideoSources }
+      public static var __selections: [ApolloAPI.Selection] { [
+        .field("__typename", String.self),
+        .field("hls", Hls?.self),
+      ] }
+
+      public var hls: Hls? { __data["hls"] }
+
+      public init(
+        hls: Hls? = nil
+      ) {
+        self.init(_dataDict: DataDict(
+          data: [
+            "__typename": GraphAPI.Objects.VideoSources.typename,
+            "hls": hls._fieldData,
+          ],
+          fulfilledFragments: [
+            ObjectIdentifier(ProjectVideoFeedFragment.VerticalVideo.VideoSources.self)
+          ]
+        ))
+      }
+
+      /// VerticalVideo.VideoSources.Hls
+      ///
+      /// Parent Type: `VideoSourceInfo`
+      public struct Hls: GraphAPI.SelectionSet {
+        public let __data: DataDict
+        public init(_dataDict: DataDict) { __data = _dataDict }
+
+        public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.VideoSourceInfo }
+        public static var __selections: [ApolloAPI.Selection] { [
+          .field("__typename", String.self),
+          .field("src", String?.self),
+        ] }
+
+        public var src: String? { __data["src"] }
+
+        public init(
+          src: String? = nil
+        ) {
+          self.init(_dataDict: DataDict(
+            data: [
+              "__typename": GraphAPI.Objects.VideoSourceInfo.typename,
+              "src": src,
+            ],
+            fulfilledFragments: [
+              ObjectIdentifier(ProjectVideoFeedFragment.VerticalVideo.VideoSources.Hls.self)
+            ]
+          ))
+        }
+      }
+    }
+  }
+}

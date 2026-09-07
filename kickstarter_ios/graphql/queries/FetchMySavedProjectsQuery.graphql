@@ -1,0 +1,15 @@
+query FetchMySavedProjects($first: Int = null, $after: String = null) {
+  projects(first: $first, after: $after, starred: true, sort: END_DATE) {
+    nodes {
+      ...ProjectCardFragment
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+      hasPreviousPage
+      startCursor
+    }
+    totalCount
+  }
+}
+

@@ -1,0 +1,47 @@
+import KDS
+import SwiftUI
+
+public struct RichTextView: View {
+  public var element: [RichTextElement]
+  @Environment(\.richTextStyle) var style
+
+  public init(element: [RichTextElement]) {
+    self.element = element
+  }
+
+  @ViewBuilder private func unimplemented(_ text: String) -> some View {
+    Text("Unimplemented! \(text)")
+      .font(.footnote)
+      .foregroundStyle(Color.red)
+      .frame(maxWidth: .infinity, alignment: .center)
+      .padding()
+      .backgroundStyle(Color.gray)
+  }
+
+  public var body: some View {
+    LazyVStack(spacing: self.style.blockSpacing) {
+      ForEach(Array(self.element.enumerated()), id: \.offset) { _, element in
+        switch element {
+        case let .text(text, header):
+          TextBlock(text: text, header: header)
+        case let .listItem(text):
+          ListItemBlock(text: text)
+        case let .audio(audio):
+          AudioVideoBlock(content: .audio(audio))
+        case let .photo(photo):
+          ImageBlock(photo: photo)
+        case let .video(video):
+          AudioVideoBlock(content: .video(video))
+        case let .oembed(oembed):
+          OEmbedBlock(oembed: oembed)
+        case .listItemOpen, .listItemClose:
+          Group {}
+        case .unknown:
+          EmptyView()
+        }
+      }
+    }
+    .padding(.horizontal, self.style.contentHorizontalPadding)
+    .padding(.vertical)
+  }
+}

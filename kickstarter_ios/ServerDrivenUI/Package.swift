@@ -1,0 +1,60 @@
+// swift-tools-version: 6.1
+// The swift-tools-version declares the minimum version of Swift required to build this package.
+
+import PackageDescription
+
+let package = Package(
+  name: "ServerDrivenUI",
+  platforms: [
+    .iOS(.v18)
+  ],
+  products: [
+    // Products define the executables and libraries a package produces, making them visible to other packages.
+    .library(
+      name: "ServerDrivenUI",
+      targets: ["ServerDrivenUI"],
+    ),
+    .library(
+      name: "ServerDrivenUITestHelpers",
+      targets: ["ServerDrivenUITestHelpers"],
+    )
+  ],
+  dependencies: [
+    .package(name: "KDS", path: "../KDS"),
+    .package(name: "GraphAPI", path: "../GraphAPI"),
+    .package(name: "KsApi", path: "../KsApi"),
+    .package(url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.18.6"),
+    .package(url: "https://github.com/onevcat/Kingfisher", from: "8.5.0"),
+    .package(url: "https://github.com/nalexn/ViewInspector", from: "0.10.3")
+  ],
+  targets: [
+    .target(
+      name: "ServerDrivenUI",
+      dependencies: [
+        .byName(name: "KDS"),
+        .byName(name: "KsApi"),
+        .byName(name: "GraphAPI"),
+        .product(name: "Kingfisher", package: "Kingfisher")
+      ]
+    ),
+    .target(
+      name: "ServerDrivenUITestHelpers",
+      dependencies: [
+        .byName(name: "KDS"),
+        .byName(name: "ServerDrivenUI")
+      ]
+    ),
+    .testTarget(
+      name: "ServerDrivenUITests",
+      dependencies: [
+        "ServerDrivenUI",
+        "ServerDrivenUITestHelpers",
+        .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
+        .product(name: "ViewInspector", package: "ViewInspector")
+      ],
+      resources: [
+        .process("TestFiles")
+      ],
+    )
+  ]
+)

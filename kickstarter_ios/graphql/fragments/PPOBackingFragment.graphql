@@ -1,0 +1,31 @@
+# Minimal version of BackingFragment, containing only the fields needed for PPO.
+
+fragment PPOBackingFragment on Backing {
+  amount {
+    ...MoneyFragment
+  }
+  id
+  project {
+    ...PPOProjectFragment
+    ...ProjectAnalyticsFragment
+    ...ProjectCardFragment
+  }
+  
+  backerCompleted
+  backingDetailsPageRoute(type: url, tab: survey_responses)
+
+  deliveryAddress {
+    id
+    addressLine1
+    addressLine2
+    city
+    region
+    postalCode
+    phoneNumber
+    recipientName
+    countryCode
+  }
+
+  # For Stripe
+  clientSecret
+}

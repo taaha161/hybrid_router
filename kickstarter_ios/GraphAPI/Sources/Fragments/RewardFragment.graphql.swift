@@ -1,0 +1,488 @@
+// @generated
+// This file was automatically generated and should not be edited.
+
+@_exported import ApolloAPI
+
+public struct RewardFragment: GraphAPI.SelectionSet, Fragment {
+  public static var fragmentDefinition: StaticString {
+    #"fragment RewardFragment on Reward { __typename amount { __typename ...MoneyFragment } backersCount convertedAmount { __typename ...MoneyFragment } allowedAddons { __typename pageInfo { __typename startCursor } } description displayName endsAt estimatedDeliveryOn id isMaxPledge available featured limit limitPerBacker localReceiptLocation { __typename ...LocationFragment } name pledgeAmount { __typename ...MoneyFragment } latePledgeAmount { __typename ...MoneyFragment } postCampaignPledgingEnabled remainingQuantity shippingPreference shippingSummary startsAt audienceData { __typename secret } }"#
+  }
+
+  public let __data: DataDict
+  public init(_dataDict: DataDict) { __data = _dataDict }
+
+  public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Reward }
+  public static var __selections: [ApolloAPI.Selection] { [
+    .field("__typename", String.self),
+    .field("amount", Amount.self),
+    .field("backersCount", Int?.self),
+    .field("convertedAmount", ConvertedAmount.self),
+    .field("allowedAddons", AllowedAddons.self),
+    .field("description", String?.self),
+    .field("displayName", String.self),
+    .field("endsAt", GraphAPI.DateTime?.self),
+    .field("estimatedDeliveryOn", GraphAPI.Date?.self),
+    .field("id", GraphAPI.ID.self),
+    .field("isMaxPledge", Bool.self),
+    .field("available", Bool.self),
+    .field("featured", Bool.self),
+    .field("limit", Int?.self),
+    .field("limitPerBacker", Int?.self),
+    .field("localReceiptLocation", LocalReceiptLocation?.self),
+    .field("name", String?.self),
+    .field("pledgeAmount", PledgeAmount.self),
+    .field("latePledgeAmount", LatePledgeAmount.self),
+    .field("postCampaignPledgingEnabled", Bool.self),
+    .field("remainingQuantity", Int?.self),
+    .field("shippingPreference", GraphQLEnum<GraphAPI.ShippingPreference>?.self),
+    .field("shippingSummary", String?.self),
+    .field("startsAt", GraphAPI.DateTime?.self),
+    .field("audienceData", AudienceData.self),
+  ] }
+
+  /// Amount for claiming this reward.
+  public var amount: Amount { __data["amount"] }
+  /// count of backers for this reward
+  public var backersCount: Int? { __data["backersCount"] }
+  /// Amount for claiming this reward, in the current user's chosen currency
+  public var convertedAmount: ConvertedAmount { __data["convertedAmount"] }
+  /// Add-ons which can be combined with this reward.
+  /// Uses creator preferences and shipping rules to determine allow-ability.
+  /// Inclusion in this list does not necessarily indicate that the add-on is available for backing.
+  ///
+  public var allowedAddons: AllowedAddons { __data["allowedAddons"] }
+  /// A reward description.
+  public var description: String? { __data["description"] }
+  /// A reward's title plus the amount, or a default title (the reward amount) if it doesn't have a title.
+  public var displayName: String { __data["displayName"] }
+  /// When the reward is scheduled to end in seconds
+  public var endsAt: GraphAPI.DateTime? { __data["endsAt"] }
+  /// Estimated delivery day.
+  public var estimatedDeliveryOn: GraphAPI.Date? { __data["estimatedDeliveryOn"] }
+  public var id: GraphAPI.ID { __data["id"] }
+  /// Does reward amount meet or exceed maximum pledge for the project
+  public var isMaxPledge: Bool { __data["isMaxPledge"] }
+  /// Whether or not the reward is available for new pledges
+  public var available: Bool { __data["available"] }
+  /// Whether or not the reward is featured
+  public var featured: Bool { __data["featured"] }
+  /// A reward limit.
+  public var limit: Int? { __data["limit"] }
+  /// Per backer reward limit.
+  public var limitPerBacker: Int? { __data["limitPerBacker"] }
+  /// Where the reward can be locally received if local receipt is selected as the shipping preference
+  public var localReceiptLocation: LocalReceiptLocation? { __data["localReceiptLocation"] }
+  /// A reward title.
+  public var name: String? { __data["name"] }
+  /// Amount for claiming this reward during the campaign.
+  public var pledgeAmount: PledgeAmount { __data["pledgeAmount"] }
+  /// Amount for claiming this reward after the campaign.
+  public var latePledgeAmount: LatePledgeAmount { __data["latePledgeAmount"] }
+  /// Is this reward available for post-campaign pledges?
+  public var postCampaignPledgingEnabled: Bool { __data["postCampaignPledgingEnabled"] }
+  /// Remaining reward quantity.
+  public var remainingQuantity: Int? { __data["remainingQuantity"] }
+  /// Shipping preference for this reward
+  public var shippingPreference: GraphQLEnum<GraphAPI.ShippingPreference>? { __data["shippingPreference"] }
+  /// A shipping summary
+  public var shippingSummary: String? { __data["shippingSummary"] }
+  /// When the reward is scheduled to start
+  public var startsAt: GraphAPI.DateTime? { __data["startsAt"] }
+  /// Data related to who can view/access this reward
+  public var audienceData: AudienceData { __data["audienceData"] }
+
+  public init(
+    amount: Amount,
+    backersCount: Int? = nil,
+    convertedAmount: ConvertedAmount,
+    allowedAddons: AllowedAddons,
+    description: String? = nil,
+    displayName: String,
+    endsAt: GraphAPI.DateTime? = nil,
+    estimatedDeliveryOn: GraphAPI.Date? = nil,
+    id: GraphAPI.ID,
+    isMaxPledge: Bool,
+    available: Bool,
+    featured: Bool,
+    limit: Int? = nil,
+    limitPerBacker: Int? = nil,
+    localReceiptLocation: LocalReceiptLocation? = nil,
+    name: String? = nil,
+    pledgeAmount: PledgeAmount,
+    latePledgeAmount: LatePledgeAmount,
+    postCampaignPledgingEnabled: Bool,
+    remainingQuantity: Int? = nil,
+    shippingPreference: GraphQLEnum<GraphAPI.ShippingPreference>? = nil,
+    shippingSummary: String? = nil,
+    startsAt: GraphAPI.DateTime? = nil,
+    audienceData: AudienceData
+  ) {
+    self.init(_dataDict: DataDict(
+      data: [
+        "__typename": GraphAPI.Objects.Reward.typename,
+        "amount": amount._fieldData,
+        "backersCount": backersCount,
+        "convertedAmount": convertedAmount._fieldData,
+        "allowedAddons": allowedAddons._fieldData,
+        "description": description,
+        "displayName": displayName,
+        "endsAt": endsAt,
+        "estimatedDeliveryOn": estimatedDeliveryOn,
+        "id": id,
+        "isMaxPledge": isMaxPledge,
+        "available": available,
+        "featured": featured,
+        "limit": limit,
+        "limitPerBacker": limitPerBacker,
+        "localReceiptLocation": localReceiptLocation._fieldData,
+        "name": name,
+        "pledgeAmount": pledgeAmount._fieldData,
+        "latePledgeAmount": latePledgeAmount._fieldData,
+        "postCampaignPledgingEnabled": postCampaignPledgingEnabled,
+        "remainingQuantity": remainingQuantity,
+        "shippingPreference": shippingPreference,
+        "shippingSummary": shippingSummary,
+        "startsAt": startsAt,
+        "audienceData": audienceData._fieldData,
+      ],
+      fulfilledFragments: [
+        ObjectIdentifier(RewardFragment.self)
+      ]
+    ))
+  }
+
+  /// Amount
+  ///
+  /// Parent Type: `Money`
+  public struct Amount: GraphAPI.SelectionSet {
+    public let __data: DataDict
+    public init(_dataDict: DataDict) { __data = _dataDict }
+
+    public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Money }
+    public static var __selections: [ApolloAPI.Selection] { [
+      .field("__typename", String.self),
+      .fragment(MoneyFragment.self),
+    ] }
+
+    /// Floating-point numeric value of monetary amount represented as a string
+    public var amount: String? { __data["amount"] }
+    /// Currency of the monetary amount
+    public var currency: GraphQLEnum<GraphAPI.CurrencyCode>? { __data["currency"] }
+    /// Symbol of the currency in which the monetary amount appears
+    public var symbol: String? { __data["symbol"] }
+
+    public struct Fragments: FragmentContainer {
+      public let __data: DataDict
+      public init(_dataDict: DataDict) { __data = _dataDict }
+
+      public var moneyFragment: MoneyFragment { _toFragment() }
+    }
+
+    public init(
+      amount: String? = nil,
+      currency: GraphQLEnum<GraphAPI.CurrencyCode>? = nil,
+      symbol: String? = nil
+    ) {
+      self.init(_dataDict: DataDict(
+        data: [
+          "__typename": GraphAPI.Objects.Money.typename,
+          "amount": amount,
+          "currency": currency,
+          "symbol": symbol,
+        ],
+        fulfilledFragments: [
+          ObjectIdentifier(RewardFragment.Amount.self),
+          ObjectIdentifier(MoneyFragment.self)
+        ]
+      ))
+    }
+  }
+
+  /// ConvertedAmount
+  ///
+  /// Parent Type: `Money`
+  public struct ConvertedAmount: GraphAPI.SelectionSet {
+    public let __data: DataDict
+    public init(_dataDict: DataDict) { __data = _dataDict }
+
+    public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Money }
+    public static var __selections: [ApolloAPI.Selection] { [
+      .field("__typename", String.self),
+      .fragment(MoneyFragment.self),
+    ] }
+
+    /// Floating-point numeric value of monetary amount represented as a string
+    public var amount: String? { __data["amount"] }
+    /// Currency of the monetary amount
+    public var currency: GraphQLEnum<GraphAPI.CurrencyCode>? { __data["currency"] }
+    /// Symbol of the currency in which the monetary amount appears
+    public var symbol: String? { __data["symbol"] }
+
+    public struct Fragments: FragmentContainer {
+      public let __data: DataDict
+      public init(_dataDict: DataDict) { __data = _dataDict }
+
+      public var moneyFragment: MoneyFragment { _toFragment() }
+    }
+
+    public init(
+      amount: String? = nil,
+      currency: GraphQLEnum<GraphAPI.CurrencyCode>? = nil,
+      symbol: String? = nil
+    ) {
+      self.init(_dataDict: DataDict(
+        data: [
+          "__typename": GraphAPI.Objects.Money.typename,
+          "amount": amount,
+          "currency": currency,
+          "symbol": symbol,
+        ],
+        fulfilledFragments: [
+          ObjectIdentifier(RewardFragment.ConvertedAmount.self),
+          ObjectIdentifier(MoneyFragment.self)
+        ]
+      ))
+    }
+  }
+
+  /// AllowedAddons
+  ///
+  /// Parent Type: `RewardConnection`
+  public struct AllowedAddons: GraphAPI.SelectionSet {
+    public let __data: DataDict
+    public init(_dataDict: DataDict) { __data = _dataDict }
+
+    public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.RewardConnection }
+    public static var __selections: [ApolloAPI.Selection] { [
+      .field("__typename", String.self),
+      .field("pageInfo", PageInfo.self),
+    ] }
+
+    /// Information to aid in pagination.
+    public var pageInfo: PageInfo { __data["pageInfo"] }
+
+    public init(
+      pageInfo: PageInfo
+    ) {
+      self.init(_dataDict: DataDict(
+        data: [
+          "__typename": GraphAPI.Objects.RewardConnection.typename,
+          "pageInfo": pageInfo._fieldData,
+        ],
+        fulfilledFragments: [
+          ObjectIdentifier(RewardFragment.AllowedAddons.self)
+        ]
+      ))
+    }
+
+    /// AllowedAddons.PageInfo
+    ///
+    /// Parent Type: `PageInfo`
+    public struct PageInfo: GraphAPI.SelectionSet {
+      public let __data: DataDict
+      public init(_dataDict: DataDict) { __data = _dataDict }
+
+      public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.PageInfo }
+      public static var __selections: [ApolloAPI.Selection] { [
+        .field("__typename", String.self),
+        .field("startCursor", String?.self),
+      ] }
+
+      /// When paginating backwards, the cursor to continue.
+      public var startCursor: String? { __data["startCursor"] }
+
+      public init(
+        startCursor: String? = nil
+      ) {
+        self.init(_dataDict: DataDict(
+          data: [
+            "__typename": GraphAPI.Objects.PageInfo.typename,
+            "startCursor": startCursor,
+          ],
+          fulfilledFragments: [
+            ObjectIdentifier(RewardFragment.AllowedAddons.PageInfo.self)
+          ]
+        ))
+      }
+    }
+  }
+
+  /// LocalReceiptLocation
+  ///
+  /// Parent Type: `Location`
+  public struct LocalReceiptLocation: GraphAPI.SelectionSet {
+    public let __data: DataDict
+    public init(_dataDict: DataDict) { __data = _dataDict }
+
+    public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Location }
+    public static var __selections: [ApolloAPI.Selection] { [
+      .field("__typename", String.self),
+      .fragment(LocationFragment.self),
+    ] }
+
+    /// The country code.
+    public var country: String { __data["country"] }
+    /// The localized country name.
+    public var countryName: String? { __data["countryName"] }
+    /// The displayable name. It includes the state code for US cities. ex: 'Seattle, WA'
+    public var displayableName: String { __data["displayableName"] }
+    public var id: GraphAPI.ID { __data["id"] }
+    /// The localized name
+    public var name: String { __data["name"] }
+
+    public struct Fragments: FragmentContainer {
+      public let __data: DataDict
+      public init(_dataDict: DataDict) { __data = _dataDict }
+
+      public var locationFragment: LocationFragment { _toFragment() }
+    }
+
+    public init(
+      country: String,
+      countryName: String? = nil,
+      displayableName: String,
+      id: GraphAPI.ID,
+      name: String
+    ) {
+      self.init(_dataDict: DataDict(
+        data: [
+          "__typename": GraphAPI.Objects.Location.typename,
+          "country": country,
+          "countryName": countryName,
+          "displayableName": displayableName,
+          "id": id,
+          "name": name,
+        ],
+        fulfilledFragments: [
+          ObjectIdentifier(RewardFragment.LocalReceiptLocation.self),
+          ObjectIdentifier(LocationFragment.self)
+        ]
+      ))
+    }
+  }
+
+  /// PledgeAmount
+  ///
+  /// Parent Type: `Money`
+  public struct PledgeAmount: GraphAPI.SelectionSet {
+    public let __data: DataDict
+    public init(_dataDict: DataDict) { __data = _dataDict }
+
+    public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Money }
+    public static var __selections: [ApolloAPI.Selection] { [
+      .field("__typename", String.self),
+      .fragment(MoneyFragment.self),
+    ] }
+
+    /// Floating-point numeric value of monetary amount represented as a string
+    public var amount: String? { __data["amount"] }
+    /// Currency of the monetary amount
+    public var currency: GraphQLEnum<GraphAPI.CurrencyCode>? { __data["currency"] }
+    /// Symbol of the currency in which the monetary amount appears
+    public var symbol: String? { __data["symbol"] }
+
+    public struct Fragments: FragmentContainer {
+      public let __data: DataDict
+      public init(_dataDict: DataDict) { __data = _dataDict }
+
+      public var moneyFragment: MoneyFragment { _toFragment() }
+    }
+
+    public init(
+      amount: String? = nil,
+      currency: GraphQLEnum<GraphAPI.CurrencyCode>? = nil,
+      symbol: String? = nil
+    ) {
+      self.init(_dataDict: DataDict(
+        data: [
+          "__typename": GraphAPI.Objects.Money.typename,
+          "amount": amount,
+          "currency": currency,
+          "symbol": symbol,
+        ],
+        fulfilledFragments: [
+          ObjectIdentifier(RewardFragment.PledgeAmount.self),
+          ObjectIdentifier(MoneyFragment.self)
+        ]
+      ))
+    }
+  }
+
+  /// LatePledgeAmount
+  ///
+  /// Parent Type: `Money`
+  public struct LatePledgeAmount: GraphAPI.SelectionSet {
+    public let __data: DataDict
+    public init(_dataDict: DataDict) { __data = _dataDict }
+
+    public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Money }
+    public static var __selections: [ApolloAPI.Selection] { [
+      .field("__typename", String.self),
+      .fragment(MoneyFragment.self),
+    ] }
+
+    /// Floating-point numeric value of monetary amount represented as a string
+    public var amount: String? { __data["amount"] }
+    /// Currency of the monetary amount
+    public var currency: GraphQLEnum<GraphAPI.CurrencyCode>? { __data["currency"] }
+    /// Symbol of the currency in which the monetary amount appears
+    public var symbol: String? { __data["symbol"] }
+
+    public struct Fragments: FragmentContainer {
+      public let __data: DataDict
+      public init(_dataDict: DataDict) { __data = _dataDict }
+
+      public var moneyFragment: MoneyFragment { _toFragment() }
+    }
+
+    public init(
+      amount: String? = nil,
+      currency: GraphQLEnum<GraphAPI.CurrencyCode>? = nil,
+      symbol: String? = nil
+    ) {
+      self.init(_dataDict: DataDict(
+        data: [
+          "__typename": GraphAPI.Objects.Money.typename,
+          "amount": amount,
+          "currency": currency,
+          "symbol": symbol,
+        ],
+        fulfilledFragments: [
+          ObjectIdentifier(RewardFragment.LatePledgeAmount.self),
+          ObjectIdentifier(MoneyFragment.self)
+        ]
+      ))
+    }
+  }
+
+  /// AudienceData
+  ///
+  /// Parent Type: `ResourceAudience`
+  public struct AudienceData: GraphAPI.SelectionSet {
+    public let __data: DataDict
+    public init(_dataDict: DataDict) { __data = _dataDict }
+
+    public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.ResourceAudience }
+    public static var __selections: [ApolloAPI.Selection] { [
+      .field("__typename", String.self),
+      .field("secret", Bool.self),
+    ] }
+
+    /// True if the resource has access restricted by an access rule
+    public var secret: Bool { __data["secret"] }
+
+    public init(
+      secret: Bool
+    ) {
+      self.init(_dataDict: DataDict(
+        data: [
+          "__typename": GraphAPI.Objects.ResourceAudience.typename,
+          "secret": secret,
+        ],
+        fulfilledFragments: [
+          ObjectIdentifier(RewardFragment.AudienceData.self)
+        ]
+      ))
+    }
+  }
+}

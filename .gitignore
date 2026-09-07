@@ -1,0 +1,38 @@
+# Flutter / Dart
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+pubspec.lock
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/generated_plugin_registrant.dart
+.melos_tool/
+
+# add-to-app module generated host artifacts
+kickstarter_flutter/apps/kickstarter_app/.ios/
+kickstarter_flutter/apps/kickstarter_app/.android/
+
+# iOS / Xcode (native fork)
+*.xcworkspace/xcuserdata/
+**/xcuserdata/
+**/DerivedData/
+kickstarter_ios/Pods/
+kickstarter_ios/vendor/
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.pbxuser
+
+# CocoaPods / Ruby
+.bundle/
+vendor/bundle/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# macOS
+.DS_Store

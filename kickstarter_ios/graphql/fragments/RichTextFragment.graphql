@@ -1,0 +1,90 @@
+fragment RichTextItemFragment on RichTextItem {
+  ... on RichText {
+    text
+    link
+    styles
+  }
+  ... on RichTextHeader {
+    text
+    link
+    styles
+  }
+  ... on RichTextListItem {
+    text
+    link
+    styles
+  }
+  ... on RichTextListOpen {
+    _present
+  }
+  ... on RichTextListClose {
+    _present
+  }
+  ... on RichTextPhoto {
+    altText
+    asset {
+      id
+      url(width:99999)
+    }
+    caption
+  }
+  ... on RichTextAudio {
+    altText
+    asset {
+      id
+    }
+    caption
+    url
+  }
+  ... on RichTextVideo {
+    altText
+    asset {
+      id
+      poster
+      formats {
+        encoding
+        height
+        width
+        profile
+        url
+      }
+    }
+    caption
+    url
+  }
+  ... on RichTextOembed {
+    width
+    height
+    version
+    title
+    type
+
+    iframeUrl
+    originalUrl
+
+    thumbnailHeight
+    thumbnailUrl
+    thumbnailWidth
+  }
+}
+
+fragment RichTextComponentFragment on RichTextComponent {
+  items {
+    ...RichTextItemFragment
+    ... on RichText {
+      children {
+        ...RichTextItemFragment
+      }
+    }
+    ... on RichTextHeader {
+      children {
+        ...RichTextItemFragment
+      }
+    }
+    ... on RichTextListItem {
+      children {
+        ...RichTextItemFragment
+      }
+    }
+  }
+}
