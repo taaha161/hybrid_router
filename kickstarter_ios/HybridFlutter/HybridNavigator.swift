@@ -50,6 +50,7 @@ final class HybridNavigator: NSObject {
 
     /// Push a native page for `path` on top of the current stack.
     func pushNative(path: String, args: Any?) {
+        NSLog("[hybrid] ios pushNative %@", path)
         guard let vc = routeFactory.makeViewController(path: path, args: args) else { return }
         vc.hybridPath = path
         // Let a demo native page trigger a native -> Flutter push (interleaving).
@@ -71,6 +72,7 @@ final class HybridNavigator: NSObject {
     /// stepping `flutterVC` behind it. Used when a Flutter pop lands on a
     /// placeholder standing in for this native page.
     func showNative(path: String) {
+        NSLog("[hybrid] ios showNative %@ (reparent flutterVC behind native)", path)
         guard let target = nativeStack.last(where: { $0.path == path })?.vc else { return }
         var vcs = navigationController.viewControllers
         // Move flutterVC directly beneath the target native page.
@@ -89,6 +91,7 @@ final class HybridNavigator: NSObject {
     /// (via the channel) navigate. If a native page is currently on top, reorder
     /// so `flutterVC` sits above it (the interleaved case).
     func showFlutter(path: String, args: Any? = nil) {
+        NSLog("[hybrid] ios showFlutter %@ (bring flutterVC front + pushFlutter)", path)
         if navigationController.topViewController !== flutterVC {
             var vcs = navigationController.viewControllers
             if vcs.contains(where: { $0 === flutterVC }) {
@@ -116,6 +119,7 @@ extension HybridNavigator: UINavigationControllerDelegate {
         let liveVCs = Set(navigationController.viewControllers.map { ObjectIdentifier($0) })
         for entry in nativeStack.reversed() where !liveVCs.contains(ObjectIdentifier(entry.vc)) {
             nativeStack.removeAll { $0.vc === entry.vc }
+            NSLog("[hybrid] ios native back -> didPopNative %@", entry.path)
             channel.didPopNative(path: entry.path)
         }
     }
