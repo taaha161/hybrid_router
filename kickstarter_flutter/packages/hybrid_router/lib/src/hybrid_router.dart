@@ -82,11 +82,22 @@ class HybridRouter {
 
   HybridStackEntry? get _top => _stack.isEmpty ? null : _stack.last;
 
+  /// When true, boundary crossings are logged with a `[hybrid]` tag so the demo
+  /// journey can be traced in the device log alongside the native side.
+  bool logEnabled = true;
+
+  void _log(String action) {
+    if (!logEnabled) return;
+    final stack = _stack.map((e) => e.toString()).join(' > ');
+    debugPrint('[hybrid] dart $action  ::  $stack');
+  }
+
   /// Push [path] onto the stack. Mirrors `GoRouter.push`.
   void push(String path, {Object? extra}) {
     if (_registry.isNative(path)) {
       _channel.pushNative(path, extra);
       _stack.add(NativeEntry(path));
+      _log('push native $path');
       return;
     }
     // Flutter target. If we're currently sitting on a native page, insert a
@@ -96,10 +107,12 @@ class HybridRouter {
       final location = NativePlaceholder.locationFor(top.path);
       _flutter.push(location);
       _flutterNav.add(location);
+      _log('inserted placeholder for ${top.path}');
     }
     _flutter.push(path, extra: extra);
     _flutterNav.add(path);
     _stack.add(FlutterEntry(path));
+    _log('push flutter $path');
   }
 
   /// Replace the current top with [path]. Mirrors `GoRouter.pushReplacement`.
@@ -151,6 +164,7 @@ class HybridRouter {
     if (top is NativeEntry) {
       _channel.popNative();
       _stack.removeLast();
+      _log('pop native ${top.path}');
       return;
     }
 
@@ -167,6 +181,9 @@ class HybridRouter {
         _flutterNav.isNotEmpty &&
         NativePlaceholder.matches(_flutterNav.last)) {
       _channel.showNative(newTop.path);
+      _log('pop flutter ${top.path} -> showNative ${newTop.path}');
+    } else {
+      _log('pop flutter ${top.path}');
     }
   }
 
@@ -183,6 +200,7 @@ class HybridRouter {
       _flutter.pop();
       _flutterNav.removeLast();
     }
+    _log('didPopNative $path');
     // Native has already removed its VC; the FlutterViewController comes forward
     // showing the Flutter page now on top (if any).
   }
