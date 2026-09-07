@@ -36,3 +36,6 @@ vendor/bundle/
 
 # macOS
 .DS_Store
+
+# Flutter add-to-app xcframeworks (regenerate: flutter build ios-framework --xcframework)
+kickstarter_ios/Frameworks/*.xcframework/

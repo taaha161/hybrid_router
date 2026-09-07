@@ -28,6 +28,11 @@ public final class RootTabBarViewController: UITabBarController, MessageBannerVi
 
   fileprivate let viewModel: RootViewModelType = RootViewModel()
 
+  /// Extra tabs injected by the app layer (e.g. the hybrid_router demo's native
+  /// "Hybrid" tab). Set before the tab bar loads. Kept as plain
+  /// UIViewControllers so this framework has no Flutter dependency.
+  public static var additionalTabs: [UIViewController] = []
+
   /// Keep the applied tab bar mode in sync with the ViewModel (single source of truth)
   /// Accounts for remote config feature flag load issues.
   private var isFloatingTabBarEnabled: Bool = false
@@ -141,7 +146,10 @@ public final class RootTabBarViewController: UITabBarController, MessageBannerVi
       .map { $0.map { RootTabBarViewController.viewController(from: $0) }.compact() }
       .map { $0.map(UINavigationController.init(rootViewController:)) }
       .observeValues { [weak self] in
-        self?.setViewControllers($0, animated: false)
+        // hybrid_router demo: append any extra tabs the app injected (the native
+        // "Hybrid" tab hosting the single Flutter engine). The framework only
+        // sees plain UIViewControllers, keeping Flutter out of this layer.
+        self?.setViewControllers($0 + RootTabBarViewController.additionalTabs, animated: false)
       }
 
     self.viewModel.outputs.selectedIndex
