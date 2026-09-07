@@ -1,0 +1,19 @@
+query FetchPledgedProjects($first: Int = null, $after: String = null, $tierTypes: [PledgeProjectsOverviewSort!]) {
+  pledgeProjectsOverview(tierTypes: $tierTypes) {
+    pledges(first: $first, after: $after) {
+      totalCount
+      edges {
+        cursor
+        node {
+          ...PPOCardFragment
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+        hasPreviousPage
+        startCursor
+      }
+    }
+  }
+}

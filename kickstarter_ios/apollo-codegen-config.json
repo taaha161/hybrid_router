@@ -1,0 +1,53 @@
+{
+  "schemaNamespace": "GraphAPI",
+  "schemaDownload": {
+    "downloadMethod": {
+      "introspection": {
+        "endpointURL": "https://staging.kickstarter.com/graph",
+        "httpMethod": {
+          "POST": {}
+        },
+        "includeDeprecatedInputValues": false,
+        "outputFormat": "JSON"
+      }
+    },
+    "downloadTimeout": 60,
+    "headers": [
+      {
+        "key": "User-Agent",
+        "value": "Kickstarter-iOS"
+      }
+    ],
+    "outputPath": "graphql/graphql-schema.json"
+  },
+  "input": {
+    "operationSearchPaths": [
+      "graphql/**/*.graphql"
+    ],
+    "schemaSearchPaths": [
+      "graphql/graphql-schema.json"
+    ]
+  },
+  "options": {
+    "selectionSetInitializers": {
+      "operations": true,
+      "namedFragments": true
+    }
+  },
+  "output": {
+    "testMocks": {
+      "swiftPackage": {
+        "targetName": "GraphAPITestMocks"
+      }
+    },
+    "schemaTypes": {
+      "path": "./GraphAPI",
+      "moduleType": {
+        "swiftPackageManager": {}
+      }
+    },
+    "operations": {
+      "inSchemaModule": {}
+    }
+  }
+}

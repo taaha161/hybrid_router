@@ -1,0 +1,17 @@
+fragment ProjectStatsFragment on Project {
+  backersCount
+  commentsCount(withReplies: true)
+  currency
+  fxRate
+  fxRateCurrency
+  goal {
+    ...MoneyFragment
+  }
+  pledged {
+    ...MoneyFragment
+  }
+  posts {
+    totalCount
+  }
+  usdExchangeRate
+}

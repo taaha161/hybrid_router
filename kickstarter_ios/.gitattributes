@@ -1,0 +1,5 @@
+*.pbxproj merge=union
+Frameworks/* linguist-vendored
+graphql/graphql-schema.json linguist-vendored
+GraphAPI/** linguist-generated
+GraphAPITestMocks/* linguist-generated

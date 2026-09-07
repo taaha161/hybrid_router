@@ -1,0 +1,37 @@
+# Minimal version of ProjectFragment, containing only the fields needed for showing video feed cells.
+fragment ProjectVideoFeedFragment on Project {
+  id
+  pid
+  name
+  slug
+  url
+  percentFunded
+  deadlineAt
+  launchedAt
+  backersCount
+  isWatched
+  fxRate
+  fxRateCurrency
+  pledged {
+    amount
+    currency
+  }
+  creator {
+    name
+    imageUrl(blur: false, width: 200)
+  }
+  category {
+    name
+  }
+  verticalVideo {
+    id
+    previewImageUrl
+    videoSources {
+      hls {
+        src
+      }
+    }
+  }
+  sharesCount
+  watchesCount
+}

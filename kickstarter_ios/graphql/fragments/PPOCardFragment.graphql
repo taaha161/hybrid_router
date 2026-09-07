@@ -1,0 +1,15 @@
+fragment PPOCardFragment on PledgeProjectOverviewItem {
+  backing {
+    ...PPOBackingFragment
+  }
+  tierType
+  flags {
+    icon
+    message
+    type
+  }
+  webviewUrl
+  showShippingAddress
+  showEditAddressAction
+  showRewardReceivedToggle
+}

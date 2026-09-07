@@ -1,0 +1,13 @@
+query FetchSortedProjectRewardsById($projectId: Int!, $location: CountryCode) {
+  project(pid: $projectId) {
+    ...NoRewardRewardFragment
+    rewards(location: $location, sort: ELIGIBILITY) {
+      nodes {
+        ...RewardFragment
+        ...RewardImageFragment
+        ...RewardItemsFragment
+        ...RewardSimpleShippingRulesExpandedFragment
+      }
+    }
+  }
+}

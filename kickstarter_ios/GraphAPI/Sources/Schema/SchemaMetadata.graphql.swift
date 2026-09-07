@@ -1,0 +1,160 @@
+// @generated
+// This file was automatically generated and should not be edited.
+
+import ApolloAPI
+
+public typealias ID = String
+
+public protocol SelectionSet: ApolloAPI.SelectionSet & ApolloAPI.RootSelectionSet
+where Schema == GraphAPI.SchemaMetadata {}
+
+public protocol InlineFragment: ApolloAPI.SelectionSet & ApolloAPI.InlineFragment
+where Schema == GraphAPI.SchemaMetadata {}
+
+public protocol MutableSelectionSet: ApolloAPI.MutableRootSelectionSet
+where Schema == GraphAPI.SchemaMetadata {}
+
+public protocol MutableInlineFragment: ApolloAPI.MutableSelectionSet & ApolloAPI.InlineFragment
+where Schema == GraphAPI.SchemaMetadata {}
+
+public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
+  public static let configuration: ApolloAPI.SchemaConfiguration.Type = SchemaConfiguration.self
+
+  public static func objectType(forTypename typename: String) -> ApolloAPI.Object? {
+    switch typename {
+    case "Mutation": return GraphAPI.Objects.Mutation
+    case "UpdateBackingPayload": return GraphAPI.Objects.UpdateBackingPayload
+    case "Checkout": return GraphAPI.Objects.Checkout
+    case "User": return GraphAPI.Objects.User
+    case "UserUrl": return GraphAPI.Objects.UserUrl
+    case "Location": return GraphAPI.Objects.Location
+    case "Task": return GraphAPI.Objects.Task
+    case "Project": return GraphAPI.Objects.Project
+    case "CreatorInterview": return GraphAPI.Objects.CreatorInterview
+    case "FreeformPost": return GraphAPI.Objects.FreeformPost
+    case "Comment": return GraphAPI.Objects.Comment
+    case "Backing": return GraphAPI.Objects.Backing
+    case "Address": return GraphAPI.Objects.Address
+    case "RewardItem": return GraphAPI.Objects.RewardItem
+    case "Reward": return GraphAPI.Objects.Reward
+    case "Photo": return GraphAPI.Objects.Photo
+    case "ShippingRule": return GraphAPI.Objects.ShippingRule
+    case "Conversation": return GraphAPI.Objects.Conversation
+    case "Message": return GraphAPI.Objects.Message
+    case "Order": return GraphAPI.Objects.Order
+    case "AdjustmentSummary": return GraphAPI.Objects.AdjustmentSummary
+    case "Refund": return GraphAPI.Objects.Refund
+    case "AttachedAudio": return GraphAPI.Objects.AttachedAudio
+    case "AttachedVideo": return GraphAPI.Objects.AttachedVideo
+    case "AiDisclosure": return GraphAPI.Objects.AiDisclosure
+    case "Category": return GraphAPI.Objects.Category
+    case "ProjectProfile": return GraphAPI.Objects.ProjectProfile
+    case "Tag": return GraphAPI.Objects.Tag
+    case "Video": return GraphAPI.Objects.Video
+    case "VideoTrack": return GraphAPI.Objects.VideoTrack
+    case "VideoTrackCue": return GraphAPI.Objects.VideoTrackCue
+    case "Flagging": return GraphAPI.Objects.Flagging
+    case "ChangeLog": return GraphAPI.Objects.ChangeLog
+    case "VersionHistory": return GraphAPI.Objects.VersionHistory
+    case "CreatorPrompt": return GraphAPI.Objects.CreatorPrompt
+    case "InterviewQuestion": return GraphAPI.Objects.InterviewQuestion
+    case "InterviewAnswer": return GraphAPI.Objects.InterviewAnswer
+    case "ShipStationConfiguration": return GraphAPI.Objects.ShipStationConfiguration
+    case "ZendeskTicket": return GraphAPI.Objects.ZendeskTicket
+    case "Organization": return GraphAPI.Objects.Organization
+    case "CuratedPage": return GraphAPI.Objects.CuratedPage
+    case "UserSettings": return GraphAPI.Objects.UserSettings
+    case "SavedSearchSegment": return GraphAPI.Objects.SavedSearchSegment
+    case "ProjectInvestigation": return GraphAPI.Objects.ProjectInvestigation
+    case "Survey": return GraphAPI.Objects.Survey
+    case "PostCommentPayload": return GraphAPI.Objects.PostCommentPayload
+    case "CommentConnection": return GraphAPI.Objects.CommentConnection
+    case "CompleteOnSessionCheckoutPayload": return GraphAPI.Objects.CompleteOnSessionCheckoutPayload
+    case "CreateCheckoutPayload": return GraphAPI.Objects.CreateCheckoutPayload
+    case "CreatePaymentIntentPayload": return GraphAPI.Objects.CreatePaymentIntentPayload
+    case "AddUserToSecretRewardGroupPayload": return GraphAPI.Objects.AddUserToSecretRewardGroupPayload
+    case "ProjectRewardConnection": return GraphAPI.Objects.ProjectRewardConnection
+    case "UpdateUserAccountPayload": return GraphAPI.Objects.UpdateUserAccountPayload
+    case "UnwatchProjectPayload": return GraphAPI.Objects.UnwatchProjectPayload
+    case "CreateAttributionEventPayload": return GraphAPI.Objects.CreateAttributionEventPayload
+    case "UpdateUserProfilePayload": return GraphAPI.Objects.UpdateUserProfilePayload
+    case "CreateSetupIntentPayload": return GraphAPI.Objects.CreateSetupIntentPayload
+    case "BlockUserPayload": return GraphAPI.Objects.BlockUserPayload
+    case "ClearUserUnseenActivityPayload": return GraphAPI.Objects.ClearUserUnseenActivityPayload
+    case "CreatePaymentSourcePayload": return GraphAPI.Objects.CreatePaymentSourcePayload
+    case "CreditCard": return GraphAPI.Objects.CreditCard
+    case "BankAccount": return GraphAPI.Objects.BankAccount
+    case "CreateOrUpdateBackingAddressPayload": return GraphAPI.Objects.CreateOrUpdateBackingAddressPayload
+    case "SignInWithApplePayload": return GraphAPI.Objects.SignInWithApplePayload
+    case "CreateFlaggingPayload": return GraphAPI.Objects.CreateFlaggingPayload
+    case "CreateBackingPayload": return GraphAPI.Objects.CreateBackingPayload
+    case "WatchProjectPayload": return GraphAPI.Objects.WatchProjectPayload
+    case "UserSendEmailVerificationPayload": return GraphAPI.Objects.UserSendEmailVerificationPayload
+    case "CancelBackingPayload": return GraphAPI.Objects.CancelBackingPayload
+    case "PaymentSourceDeletePayload": return GraphAPI.Objects.PaymentSourceDeletePayload
+    case "UserCreditCardTypeConnection": return GraphAPI.Objects.UserCreditCardTypeConnection
+    case "TriggerThirdPartyEventPayload": return GraphAPI.Objects.TriggerThirdPartyEventPayload
+    case "UpdateBackerCompletedPayload": return GraphAPI.Objects.UpdateBackerCompletedPayload
+    case "Query": return GraphAPI.Objects.Query
+    case "Money": return GraphAPI.Objects.Money
+    case "RewardConnection": return GraphAPI.Objects.RewardConnection
+    case "PageInfo": return GraphAPI.Objects.PageInfo
+    case "ResourceAudience": return GraphAPI.Objects.ResourceAudience
+    case "RewardItemsConnection": return GraphAPI.Objects.RewardItemsConnection
+    case "RewardItemEdge": return GraphAPI.Objects.RewardItemEdge
+    case "SimpleShippingRule": return GraphAPI.Objects.SimpleShippingRule
+    case "ProjectsConnectionWithTotalCount": return GraphAPI.Objects.ProjectsConnectionWithTotalCount
+    case "Country": return GraphAPI.Objects.Country
+    case "UserCreatedProjectsConnection": return GraphAPI.Objects.UserCreatedProjectsConnection
+    case "PostConnection": return GraphAPI.Objects.PostConnection
+    case "VideoSources": return GraphAPI.Objects.VideoSources
+    case "VideoSourceInfo": return GraphAPI.Objects.VideoSourceInfo
+    case "VideoFeedConnection": return GraphAPI.Objects.VideoFeedConnection
+    case "VideoFeedItem": return GraphAPI.Objects.VideoFeedItem
+    case "Badge": return GraphAPI.Objects.Badge
+    case "UserBackingsConnection": return GraphAPI.Objects.UserBackingsConnection
+    case "NewsletterSubscriptions": return GraphAPI.Objects.NewsletterSubscriptions
+    case "Notification": return GraphAPI.Objects.Notification
+    case "UserSavedProjectsConnection": return GraphAPI.Objects.UserSavedProjectsConnection
+    case "SurveyResponsesConnection": return GraphAPI.Objects.SurveyResponsesConnection
+    case "RewardTotalCountConnection": return GraphAPI.Objects.RewardTotalCountConnection
+    case "CheckoutWave": return GraphAPI.Objects.CheckoutWave
+    case "PledgeManager": return GraphAPI.Objects.PledgeManager
+    case "PaymentIncrement": return GraphAPI.Objects.PaymentIncrement
+    case "PaymentIncrementAmount": return GraphAPI.Objects.PaymentIncrementAmount
+    case "RichTextComponent": return GraphAPI.Objects.RichTextComponent
+    case "RichText": return GraphAPI.Objects.RichText
+    case "RichTextHeader": return GraphAPI.Objects.RichTextHeader
+    case "RichTextListItem": return GraphAPI.Objects.RichTextListItem
+    case "RichTextListOpen": return GraphAPI.Objects.RichTextListOpen
+    case "RichTextListClose": return GraphAPI.Objects.RichTextListClose
+    case "RichTextPhoto": return GraphAPI.Objects.RichTextPhoto
+    case "RichTextAudio": return GraphAPI.Objects.RichTextAudio
+    case "RichTextVideo": return GraphAPI.Objects.RichTextVideo
+    case "RichTextOembed": return GraphAPI.Objects.RichTextOembed
+    case "AttachedVideoFormat": return GraphAPI.Objects.AttachedVideoFormat
+    case "CategorySubcategoriesConnection": return GraphAPI.Objects.CategorySubcategoriesConnection
+    case "PaymentPlan": return GraphAPI.Objects.PaymentPlan
+    case "Validation": return GraphAPI.Objects.Validation
+    case "CommentEdge": return GraphAPI.Objects.CommentEdge
+    case "PaymentIncrementBadge": return GraphAPI.Objects.PaymentIncrementBadge
+    case "LocationsConnection": return GraphAPI.Objects.LocationsConnection
+    case "ShippingForLocation": return GraphAPI.Objects.ShippingForLocation
+    case "EnvironmentalCommitment": return GraphAPI.Objects.EnvironmentalCommitment
+    case "ProjectFaqConnection": return GraphAPI.Objects.ProjectFaqConnection
+    case "ProjectFaq": return GraphAPI.Objects.ProjectFaq
+    case "FlaggingNode": return GraphAPI.Objects.FlaggingNode
+    case "RewardShippingRulesConnection": return GraphAPI.Objects.RewardShippingRulesConnection
+    case "PledgeProjectsOverview": return GraphAPI.Objects.PledgeProjectsOverview
+    case "PledgedProjectsOverviewPledgesConnection": return GraphAPI.Objects.PledgedProjectsOverviewPledgesConnection
+    case "PledgeProjectOverviewItemEdge": return GraphAPI.Objects.PledgeProjectOverviewItemEdge
+    case "PledgeProjectOverviewItem": return GraphAPI.Objects.PledgeProjectOverviewItem
+    case "PledgedProjectsOverviewPledgeFlags": return GraphAPI.Objects.PledgedProjectsOverviewPledgeFlags
+    default: return nil
+    }
+  }
+}
+
+public enum Objects {}
+public enum Interfaces {}
+public enum Unions {}

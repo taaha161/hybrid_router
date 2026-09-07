@@ -1,0 +1,42 @@
+fragment RewardFragment on Reward {
+  amount {
+    ...MoneyFragment
+  }
+  backersCount
+  convertedAmount {
+    ...MoneyFragment
+  }
+  allowedAddons {
+    pageInfo {
+      startCursor
+    }
+  }
+  description
+  displayName
+  endsAt
+  estimatedDeliveryOn
+  id
+  isMaxPledge
+  available
+  featured
+  limit
+  limitPerBacker
+  localReceiptLocation {
+    ...LocationFragment
+  }
+  name
+  pledgeAmount {
+    ...MoneyFragment
+  }
+  latePledgeAmount {
+    ...MoneyFragment
+  }
+  postCampaignPledgingEnabled
+  remainingQuantity
+  shippingPreference
+  shippingSummary
+  startsAt
+  audienceData {
+    secret
+  }
+}

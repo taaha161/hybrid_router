@@ -1,0 +1,54 @@
+# fileHeader
+--header strip
+
+# indent
+--indent 2
+
+# numberFormatting
+--decimalgrouping 3
+--hexgrouping "ignore"
+
+# redundantSelf
+# Reference `self` explicitly
+--self insert
+
+# spaceAroundOperators
+--nospaceoperators ...,..<
+
+# wrap
+--maxwidth 110
+
+# trailingCommas
+--commas inline
+
+# unusedArguments
+--stripunusedargs always
+
+# wrapArguments
+--wraparguments before-first
+--wrapcollections before-first
+
+# Disabled rules
+--disable redundantInit
+--disable void
+
+# These are rules that were all added to swiftformat when we upgraded from 0.44 to 0.53.
+# In the interest of minimizing changes, we disabled them - but these are perfectly good rules
+# that we should revisit enabling.
+--disable assertionFailures
+--disable blankLineAfterImports
+--disable enumNamespaces
+--disable extensionAccessControl
+--disable hoistTry
+--disable modifierOrder
+--disable preferForLoop
+--disable redundantClosure
+--disable redundantInternal
+--disable redundantType
+--disable wrapLoopBodies 
+--disable wrapMultilineStatementBraces
+--disable wrapSingleLineComments
+
+
+# Excluded files
+--exclude bin,Carthage,Frameworks,Library/Sources/Library/Library/Strings.swift,vendor,KsApi/GraphAPI.swift,GraphAPI,GraphAPITestMocks

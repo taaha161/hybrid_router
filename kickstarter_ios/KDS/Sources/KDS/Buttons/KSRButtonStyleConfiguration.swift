@@ -1,0 +1,112 @@
+import UIKit
+
+private let buttonContentInsets = NSDirectionalEdgeInsets(
+  top: Spacing.unit_03,
+  leading: Spacing.unit_03,
+  bottom: Spacing.unit_03,
+  trailing: Spacing.unit_03
+)
+
+private let buttonWithImageContentInsets = NSDirectionalEdgeInsets(
+  top: 8.5,
+  leading: Spacing.unit_03,
+  bottom: 8.5,
+  trailing: Spacing.unit_03
+)
+
+public protocol KSRButtonStyleConfiguration {
+  // Button config
+  var buttonConfiguration: UIButton.Configuration { get }
+  // Background
+  var backgroundColor: UIColor { get }
+  var highlightedBackgroundColor: UIColor { get }
+  var disabledBackgroundColor: UIColor { get }
+  // Title
+  var titleColor: UIColor { get }
+  var highlightedTitleColor: UIColor { get }
+  var disabledTitleColor: UIColor { get }
+  var font: UIFont { get }
+  // Border
+  var borderWidth: CGFloat { get }
+  var borderColor: UIColor { get }
+  var highlightedBorderColor: UIColor { get }
+  var disabledBorderColor: UIColor { get }
+  var cornerRadius: CGFloat { get }
+}
+
+extension UIButton {
+  public func applyStyleConfiguration(_ styleConfig: KSRButtonStyleConfiguration) {
+    var buttonConfiguration = styleConfig.buttonConfiguration
+
+    buttonConfiguration.contentInsets = buttonContentInsets
+
+    buttonConfiguration.background.cornerRadius = styleConfig.cornerRadius
+
+    buttonConfiguration.imagePadding = 6.0
+    buttonConfiguration.imagePlacement = .leading
+
+    buttonConfiguration.titleLineBreakMode = .byWordWrapping
+    buttonConfiguration.titleAlignment = .center
+
+    self.tintColor = styleConfig.titleColor
+
+    self.configurationUpdateHandler = { [weak self] _ in
+      guard let self = self else { return }
+
+      self.updateColors(with: styleConfig)
+      self.updateContentInsets()
+    }
+
+    buttonConfiguration.titleTextAttributesTransformer =
+      UIConfigurationTextAttributesTransformer { [weak self] config in
+        guard let self = self else { return config }
+
+        var newConfig = config
+        newConfig.font = styleConfig.font
+        // The `foregroundColor` set gets used directly when determining font color.
+        // Without this override, the `baseForegroundColor` in the configuration does
+        // not actually get used when determining text color for disabled buttons.
+        newConfig.foregroundColor = self.configuration?.baseForegroundColor ?? self.tintColor
+
+        return newConfig
+      }
+
+    buttonConfiguration.imageColorTransformer = UIConfigurationColorTransformer { [weak self] _ in
+      self?.tintColor ?? .white
+    }
+
+    self.configuration = buttonConfiguration
+    self.setNeedsUpdateConfiguration()
+  }
+
+  private func updateContentInsets() {
+    guard var buttonConfiguration = self.configuration else { return }
+
+    buttonConfiguration.contentInsets = buttonConfiguration
+      .image == nil ? buttonContentInsets : buttonWithImageContentInsets
+  }
+
+  private func updateColors(with styleConfig: KSRButtonStyleConfiguration) {
+    guard var buttonConfiguration = self.configuration else { return }
+
+    switch self.state {
+    case .disabled:
+      buttonConfiguration.background.backgroundColor = styleConfig.disabledBackgroundColor
+      buttonConfiguration.baseForegroundColor = styleConfig.disabledTitleColor
+      buttonConfiguration.background.strokeColor = styleConfig.disabledBorderColor
+      buttonConfiguration.background.strokeWidth = styleConfig.borderWidth
+    case .highlighted:
+      buttonConfiguration.background.backgroundColor = styleConfig.highlightedBackgroundColor
+      buttonConfiguration.baseForegroundColor = styleConfig.highlightedTitleColor
+      buttonConfiguration.background.strokeColor = styleConfig.highlightedBorderColor
+      buttonConfiguration.background.strokeWidth = styleConfig.borderWidth
+    default:
+      buttonConfiguration.background.backgroundColor = styleConfig.backgroundColor
+      buttonConfiguration.baseForegroundColor = styleConfig.titleColor
+      buttonConfiguration.background.strokeColor = styleConfig.borderColor
+      buttonConfiguration.background.strokeWidth = styleConfig.borderWidth
+    }
+
+    self.configuration = buttonConfiguration
+  }
+}

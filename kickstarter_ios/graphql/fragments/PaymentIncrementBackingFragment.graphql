@@ -1,0 +1,16 @@
+fragment PaymentIncrementBackingFragment on PaymentIncrement {
+  amount {
+    amountFormattedInProjectNativeCurrency
+    currency
+  }
+  badge {
+    copy
+    variant
+  }
+  scheduledCollection
+  state
+  refundUpdatedAmountInProjectNativeCurrency
+  refundedAmount {
+    currency
+  }
+}

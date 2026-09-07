@@ -1,0 +1,1582 @@
+// @generated
+// This file was automatically generated and should not be edited.
+
+@_exported import ApolloAPI
+
+public class FetchBackingWithIncrementsRefundedQuery: GraphQLQuery {
+  public static let operationName: String = "FetchBackingWithIncrementsRefunded"
+  public static let operationDocument: ApolloAPI.OperationDocument = .init(
+    definition: .init(
+      #"query FetchBackingWithIncrementsRefunded($id: ID!) { backing(id: $id) { __typename addOns { __typename nodes { __typename ...RewardFragment ...RewardImageFragment ...RewardItemsFragment } } ...BackingFragment reward { __typename ...RewardSimpleShippingRulesExpandedFragment } paymentIncrements { __typename ...PaymentIncrementBackingFragment } } }"#,
+      fragments: [BackingFragment.self, CountryFragment.self, LocationFragment.self, MoneyFragment.self, NoRewardRewardFragment.self, OrderFragment.self, PaymentIncrementBackingFragment.self, PaymentSourceFragment.self, PublicUserFragment.self, RewardFragment.self, RewardImageFragment.self, RewardItemsFragment.self, RewardSimpleShippingRulesExpandedFragment.self, SimpleShippingRuleFragment.self]
+    ))
+
+  public var id: ID
+
+  public init(id: ID) {
+    self.id = id
+  }
+
+  public var __variables: Variables? { ["id": id] }
+
+  public struct Data: GraphAPI.SelectionSet {
+    public let __data: DataDict
+    public init(_dataDict: DataDict) { __data = _dataDict }
+
+    public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Query }
+    public static var __selections: [ApolloAPI.Selection] { [
+      .field("backing", Backing?.self, arguments: ["id": .variable("id")]),
+    ] }
+
+    /// Fetches a backing given its id.
+    public var backing: Backing? { __data["backing"] }
+
+    public init(
+      backing: Backing? = nil
+    ) {
+      self.init(_dataDict: DataDict(
+        data: [
+          "__typename": GraphAPI.Objects.Query.typename,
+          "backing": backing._fieldData,
+        ],
+        fulfilledFragments: [
+          ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.self)
+        ]
+      ))
+    }
+
+    /// Backing
+    ///
+    /// Parent Type: `Backing`
+    public struct Backing: GraphAPI.SelectionSet {
+      public let __data: DataDict
+      public init(_dataDict: DataDict) { __data = _dataDict }
+
+      public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Backing }
+      public static var __selections: [ApolloAPI.Selection] { [
+        .field("__typename", String.self),
+        .field("addOns", AddOns?.self),
+        .field("reward", Reward?.self),
+        .field("paymentIncrements", [PaymentIncrement]?.self),
+        .fragment(BackingFragment.self),
+      ] }
+
+      /// The add-ons that the backer selected
+      public var addOns: AddOns? { __data["addOns"] }
+      /// The reward the backer is expecting
+      public var reward: Reward? { __data["reward"] }
+      /// Scheduled incremental payments
+      public var paymentIncrements: [PaymentIncrement]? { __data["paymentIncrements"] }
+      /// Total amount pledged by the backer to the project, including shipping.
+      public var amount: Amount { __data["amount"] }
+      /// The backer
+      public var backer: Backer? { __data["backer"] }
+      /// If the backer_completed_at is set or not
+      public var backerCompleted: Bool { __data["backerCompleted"] }
+      /// Extra amount the backer pledged on top of the minimum.
+      public var bonusAmount: BonusAmount { __data["bonusAmount"] }
+      /// If the backing can be cancelled
+      public var cancelable: Bool { __data["cancelable"] }
+      /// Payment source used on a backing.
+      public var paymentSource: PaymentSource? { __data["paymentSource"] }
+      public var id: GraphAPI.ID { __data["id"] }
+      /// Whether or not the backing is a late pledge
+      public var isLatePledge: Bool { __data["isLatePledge"] }
+      /// The backing location.
+      public var location: Location? { __data["location"] }
+      /// The order associated with the backing
+      public var order: Order? { __data["order"] }
+      /// When the backing was created
+      public var pledgedOn: GraphAPI.DateTime? { __data["pledgedOn"] }
+      /// The project
+      public var project: Project? { __data["project"] }
+      /// Amount pledged for all rewards, the sum off all minimums, excluding shipping
+      public var rewardsAmount: RewardsAmount { __data["rewardsAmount"] }
+      /// Sequence of the backing
+      public var sequence: Int? { __data["sequence"] }
+      /// Shipping amount for the rewards chosen by the backer for their location
+      public var shippingAmount: ShippingAmount? { __data["shippingAmount"] }
+      /// The status of a backing
+      public var status: GraphQLEnum<GraphAPI.BackingState> { __data["status"] }
+      /// URL/path for the backing details page
+      public var backingDetailsPageRoute: String { __data["backingDetailsPageRoute"] }
+
+      public struct Fragments: FragmentContainer {
+        public let __data: DataDict
+        public init(_dataDict: DataDict) { __data = _dataDict }
+
+        public var backingFragment: BackingFragment { _toFragment() }
+      }
+
+      public init(
+        addOns: AddOns? = nil,
+        reward: Reward? = nil,
+        paymentIncrements: [PaymentIncrement]? = nil,
+        amount: Amount,
+        backer: Backer? = nil,
+        backerCompleted: Bool,
+        bonusAmount: BonusAmount,
+        cancelable: Bool,
+        paymentSource: PaymentSource? = nil,
+        id: GraphAPI.ID,
+        isLatePledge: Bool,
+        location: Location? = nil,
+        order: Order? = nil,
+        pledgedOn: GraphAPI.DateTime? = nil,
+        project: Project? = nil,
+        rewardsAmount: RewardsAmount,
+        sequence: Int? = nil,
+        shippingAmount: ShippingAmount? = nil,
+        status: GraphQLEnum<GraphAPI.BackingState>,
+        backingDetailsPageRoute: String
+      ) {
+        self.init(_dataDict: DataDict(
+          data: [
+            "__typename": GraphAPI.Objects.Backing.typename,
+            "addOns": addOns._fieldData,
+            "reward": reward._fieldData,
+            "paymentIncrements": paymentIncrements._fieldData,
+            "amount": amount._fieldData,
+            "backer": backer._fieldData,
+            "backerCompleted": backerCompleted,
+            "bonusAmount": bonusAmount._fieldData,
+            "cancelable": cancelable,
+            "paymentSource": paymentSource._fieldData,
+            "id": id,
+            "isLatePledge": isLatePledge,
+            "location": location._fieldData,
+            "order": order._fieldData,
+            "pledgedOn": pledgedOn,
+            "project": project._fieldData,
+            "rewardsAmount": rewardsAmount._fieldData,
+            "sequence": sequence,
+            "shippingAmount": shippingAmount._fieldData,
+            "status": status,
+            "backingDetailsPageRoute": backingDetailsPageRoute,
+          ],
+          fulfilledFragments: [
+            ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.self),
+            ObjectIdentifier(BackingFragment.self)
+          ]
+        ))
+      }
+
+      /// Backing.AddOns
+      ///
+      /// Parent Type: `RewardTotalCountConnection`
+      public struct AddOns: GraphAPI.SelectionSet {
+        public let __data: DataDict
+        public init(_dataDict: DataDict) { __data = _dataDict }
+
+        public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.RewardTotalCountConnection }
+        public static var __selections: [ApolloAPI.Selection] { [
+          .field("__typename", String.self),
+          .field("nodes", [Node?]?.self),
+        ] }
+
+        /// A list of nodes.
+        public var nodes: [Node?]? { __data["nodes"] }
+
+        public init(
+          nodes: [Node?]? = nil
+        ) {
+          self.init(_dataDict: DataDict(
+            data: [
+              "__typename": GraphAPI.Objects.RewardTotalCountConnection.typename,
+              "nodes": nodes._fieldData,
+            ],
+            fulfilledFragments: [
+              ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.AddOns.self)
+            ]
+          ))
+        }
+
+        /// Backing.AddOns.Node
+        ///
+        /// Parent Type: `Reward`
+        public struct Node: GraphAPI.SelectionSet {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
+
+          public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Reward }
+          public static var __selections: [ApolloAPI.Selection] { [
+            .field("__typename", String.self),
+            .fragment(RewardFragment.self),
+            .fragment(RewardImageFragment.self),
+            .fragment(RewardItemsFragment.self),
+          ] }
+
+          /// Amount for claiming this reward.
+          public var amount: Amount { __data["amount"] }
+          /// count of backers for this reward
+          public var backersCount: Int? { __data["backersCount"] }
+          /// Amount for claiming this reward, in the current user's chosen currency
+          public var convertedAmount: ConvertedAmount { __data["convertedAmount"] }
+          /// Add-ons which can be combined with this reward.
+          /// Uses creator preferences and shipping rules to determine allow-ability.
+          /// Inclusion in this list does not necessarily indicate that the add-on is available for backing.
+          ///
+          public var allowedAddons: AllowedAddons { __data["allowedAddons"] }
+          /// A reward description.
+          public var description: String? { __data["description"] }
+          /// A reward's title plus the amount, or a default title (the reward amount) if it doesn't have a title.
+          public var displayName: String { __data["displayName"] }
+          /// When the reward is scheduled to end in seconds
+          public var endsAt: GraphAPI.DateTime? { __data["endsAt"] }
+          /// Estimated delivery day.
+          public var estimatedDeliveryOn: GraphAPI.Date? { __data["estimatedDeliveryOn"] }
+          public var id: GraphAPI.ID { __data["id"] }
+          /// Does reward amount meet or exceed maximum pledge for the project
+          public var isMaxPledge: Bool { __data["isMaxPledge"] }
+          /// Whether or not the reward is available for new pledges
+          public var available: Bool { __data["available"] }
+          /// Whether or not the reward is featured
+          public var featured: Bool { __data["featured"] }
+          /// A reward limit.
+          public var limit: Int? { __data["limit"] }
+          /// Per backer reward limit.
+          public var limitPerBacker: Int? { __data["limitPerBacker"] }
+          /// Where the reward can be locally received if local receipt is selected as the shipping preference
+          public var localReceiptLocation: LocalReceiptLocation? { __data["localReceiptLocation"] }
+          /// A reward title.
+          public var name: String? { __data["name"] }
+          /// Amount for claiming this reward during the campaign.
+          public var pledgeAmount: PledgeAmount { __data["pledgeAmount"] }
+          /// Amount for claiming this reward after the campaign.
+          public var latePledgeAmount: LatePledgeAmount { __data["latePledgeAmount"] }
+          /// Is this reward available for post-campaign pledges?
+          public var postCampaignPledgingEnabled: Bool { __data["postCampaignPledgingEnabled"] }
+          /// Remaining reward quantity.
+          public var remainingQuantity: Int? { __data["remainingQuantity"] }
+          /// Shipping preference for this reward
+          public var shippingPreference: GraphQLEnum<GraphAPI.ShippingPreference>? { __data["shippingPreference"] }
+          /// A shipping summary
+          public var shippingSummary: String? { __data["shippingSummary"] }
+          /// When the reward is scheduled to start
+          public var startsAt: GraphAPI.DateTime? { __data["startsAt"] }
+          /// Data related to who can view/access this reward
+          public var audienceData: AudienceData { __data["audienceData"] }
+          /// The reward image.
+          public var image: Image? { __data["image"] }
+          /// The project
+          public var project: Project? { __data["project"] }
+          /// Items in the reward.
+          public var items: Items? { __data["items"] }
+
+          public struct Fragments: FragmentContainer {
+            public let __data: DataDict
+            public init(_dataDict: DataDict) { __data = _dataDict }
+
+            public var rewardFragment: RewardFragment { _toFragment() }
+            public var rewardImageFragment: RewardImageFragment { _toFragment() }
+            public var rewardItemsFragment: RewardItemsFragment { _toFragment() }
+          }
+
+          public init(
+            amount: Amount,
+            backersCount: Int? = nil,
+            convertedAmount: ConvertedAmount,
+            allowedAddons: AllowedAddons,
+            description: String? = nil,
+            displayName: String,
+            endsAt: GraphAPI.DateTime? = nil,
+            estimatedDeliveryOn: GraphAPI.Date? = nil,
+            id: GraphAPI.ID,
+            isMaxPledge: Bool,
+            available: Bool,
+            featured: Bool,
+            limit: Int? = nil,
+            limitPerBacker: Int? = nil,
+            localReceiptLocation: LocalReceiptLocation? = nil,
+            name: String? = nil,
+            pledgeAmount: PledgeAmount,
+            latePledgeAmount: LatePledgeAmount,
+            postCampaignPledgingEnabled: Bool,
+            remainingQuantity: Int? = nil,
+            shippingPreference: GraphQLEnum<GraphAPI.ShippingPreference>? = nil,
+            shippingSummary: String? = nil,
+            startsAt: GraphAPI.DateTime? = nil,
+            audienceData: AudienceData,
+            image: Image? = nil,
+            project: Project? = nil,
+            items: Items? = nil
+          ) {
+            self.init(_dataDict: DataDict(
+              data: [
+                "__typename": GraphAPI.Objects.Reward.typename,
+                "amount": amount._fieldData,
+                "backersCount": backersCount,
+                "convertedAmount": convertedAmount._fieldData,
+                "allowedAddons": allowedAddons._fieldData,
+                "description": description,
+                "displayName": displayName,
+                "endsAt": endsAt,
+                "estimatedDeliveryOn": estimatedDeliveryOn,
+                "id": id,
+                "isMaxPledge": isMaxPledge,
+                "available": available,
+                "featured": featured,
+                "limit": limit,
+                "limitPerBacker": limitPerBacker,
+                "localReceiptLocation": localReceiptLocation._fieldData,
+                "name": name,
+                "pledgeAmount": pledgeAmount._fieldData,
+                "latePledgeAmount": latePledgeAmount._fieldData,
+                "postCampaignPledgingEnabled": postCampaignPledgingEnabled,
+                "remainingQuantity": remainingQuantity,
+                "shippingPreference": shippingPreference,
+                "shippingSummary": shippingSummary,
+                "startsAt": startsAt,
+                "audienceData": audienceData._fieldData,
+                "image": image._fieldData,
+                "project": project._fieldData,
+                "items": items._fieldData,
+              ],
+              fulfilledFragments: [
+                ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.AddOns.Node.self),
+                ObjectIdentifier(RewardFragment.self),
+                ObjectIdentifier(RewardImageFragment.self),
+                ObjectIdentifier(RewardItemsFragment.self)
+              ]
+            ))
+          }
+
+          /// Backing.AddOns.Node.Amount
+          ///
+          /// Parent Type: `Money`
+          public struct Amount: GraphAPI.SelectionSet {
+            public let __data: DataDict
+            public init(_dataDict: DataDict) { __data = _dataDict }
+
+            public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Money }
+
+            /// Floating-point numeric value of monetary amount represented as a string
+            public var amount: String? { __data["amount"] }
+            /// Currency of the monetary amount
+            public var currency: GraphQLEnum<GraphAPI.CurrencyCode>? { __data["currency"] }
+            /// Symbol of the currency in which the monetary amount appears
+            public var symbol: String? { __data["symbol"] }
+
+            public struct Fragments: FragmentContainer {
+              public let __data: DataDict
+              public init(_dataDict: DataDict) { __data = _dataDict }
+
+              public var moneyFragment: MoneyFragment { _toFragment() }
+            }
+
+            public init(
+              amount: String? = nil,
+              currency: GraphQLEnum<GraphAPI.CurrencyCode>? = nil,
+              symbol: String? = nil
+            ) {
+              self.init(_dataDict: DataDict(
+                data: [
+                  "__typename": GraphAPI.Objects.Money.typename,
+                  "amount": amount,
+                  "currency": currency,
+                  "symbol": symbol,
+                ],
+                fulfilledFragments: [
+                  ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.AddOns.Node.Amount.self),
+                  ObjectIdentifier(RewardFragment.Amount.self),
+                  ObjectIdentifier(MoneyFragment.self)
+                ]
+              ))
+            }
+          }
+
+          /// Backing.AddOns.Node.ConvertedAmount
+          ///
+          /// Parent Type: `Money`
+          public struct ConvertedAmount: GraphAPI.SelectionSet {
+            public let __data: DataDict
+            public init(_dataDict: DataDict) { __data = _dataDict }
+
+            public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Money }
+
+            /// Floating-point numeric value of monetary amount represented as a string
+            public var amount: String? { __data["amount"] }
+            /// Currency of the monetary amount
+            public var currency: GraphQLEnum<GraphAPI.CurrencyCode>? { __data["currency"] }
+            /// Symbol of the currency in which the monetary amount appears
+            public var symbol: String? { __data["symbol"] }
+
+            public struct Fragments: FragmentContainer {
+              public let __data: DataDict
+              public init(_dataDict: DataDict) { __data = _dataDict }
+
+              public var moneyFragment: MoneyFragment { _toFragment() }
+            }
+
+            public init(
+              amount: String? = nil,
+              currency: GraphQLEnum<GraphAPI.CurrencyCode>? = nil,
+              symbol: String? = nil
+            ) {
+              self.init(_dataDict: DataDict(
+                data: [
+                  "__typename": GraphAPI.Objects.Money.typename,
+                  "amount": amount,
+                  "currency": currency,
+                  "symbol": symbol,
+                ],
+                fulfilledFragments: [
+                  ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.AddOns.Node.ConvertedAmount.self),
+                  ObjectIdentifier(RewardFragment.ConvertedAmount.self),
+                  ObjectIdentifier(MoneyFragment.self)
+                ]
+              ))
+            }
+          }
+
+          public typealias AllowedAddons = RewardFragment.AllowedAddons
+
+          /// Backing.AddOns.Node.LocalReceiptLocation
+          ///
+          /// Parent Type: `Location`
+          public struct LocalReceiptLocation: GraphAPI.SelectionSet {
+            public let __data: DataDict
+            public init(_dataDict: DataDict) { __data = _dataDict }
+
+            public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Location }
+
+            /// The country code.
+            public var country: String { __data["country"] }
+            /// The localized country name.
+            public var countryName: String? { __data["countryName"] }
+            /// The displayable name. It includes the state code for US cities. ex: 'Seattle, WA'
+            public var displayableName: String { __data["displayableName"] }
+            public var id: GraphAPI.ID { __data["id"] }
+            /// The localized name
+            public var name: String { __data["name"] }
+
+            public struct Fragments: FragmentContainer {
+              public let __data: DataDict
+              public init(_dataDict: DataDict) { __data = _dataDict }
+
+              public var locationFragment: LocationFragment { _toFragment() }
+            }
+
+            public init(
+              country: String,
+              countryName: String? = nil,
+              displayableName: String,
+              id: GraphAPI.ID,
+              name: String
+            ) {
+              self.init(_dataDict: DataDict(
+                data: [
+                  "__typename": GraphAPI.Objects.Location.typename,
+                  "country": country,
+                  "countryName": countryName,
+                  "displayableName": displayableName,
+                  "id": id,
+                  "name": name,
+                ],
+                fulfilledFragments: [
+                  ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.AddOns.Node.LocalReceiptLocation.self),
+                  ObjectIdentifier(RewardFragment.LocalReceiptLocation.self),
+                  ObjectIdentifier(LocationFragment.self)
+                ]
+              ))
+            }
+          }
+
+          /// Backing.AddOns.Node.PledgeAmount
+          ///
+          /// Parent Type: `Money`
+          public struct PledgeAmount: GraphAPI.SelectionSet {
+            public let __data: DataDict
+            public init(_dataDict: DataDict) { __data = _dataDict }
+
+            public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Money }
+
+            /// Floating-point numeric value of monetary amount represented as a string
+            public var amount: String? { __data["amount"] }
+            /// Currency of the monetary amount
+            public var currency: GraphQLEnum<GraphAPI.CurrencyCode>? { __data["currency"] }
+            /// Symbol of the currency in which the monetary amount appears
+            public var symbol: String? { __data["symbol"] }
+
+            public struct Fragments: FragmentContainer {
+              public let __data: DataDict
+              public init(_dataDict: DataDict) { __data = _dataDict }
+
+              public var moneyFragment: MoneyFragment { _toFragment() }
+            }
+
+            public init(
+              amount: String? = nil,
+              currency: GraphQLEnum<GraphAPI.CurrencyCode>? = nil,
+              symbol: String? = nil
+            ) {
+              self.init(_dataDict: DataDict(
+                data: [
+                  "__typename": GraphAPI.Objects.Money.typename,
+                  "amount": amount,
+                  "currency": currency,
+                  "symbol": symbol,
+                ],
+                fulfilledFragments: [
+                  ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.AddOns.Node.PledgeAmount.self),
+                  ObjectIdentifier(RewardFragment.PledgeAmount.self),
+                  ObjectIdentifier(MoneyFragment.self)
+                ]
+              ))
+            }
+          }
+
+          /// Backing.AddOns.Node.LatePledgeAmount
+          ///
+          /// Parent Type: `Money`
+          public struct LatePledgeAmount: GraphAPI.SelectionSet {
+            public let __data: DataDict
+            public init(_dataDict: DataDict) { __data = _dataDict }
+
+            public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Money }
+
+            /// Floating-point numeric value of monetary amount represented as a string
+            public var amount: String? { __data["amount"] }
+            /// Currency of the monetary amount
+            public var currency: GraphQLEnum<GraphAPI.CurrencyCode>? { __data["currency"] }
+            /// Symbol of the currency in which the monetary amount appears
+            public var symbol: String? { __data["symbol"] }
+
+            public struct Fragments: FragmentContainer {
+              public let __data: DataDict
+              public init(_dataDict: DataDict) { __data = _dataDict }
+
+              public var moneyFragment: MoneyFragment { _toFragment() }
+            }
+
+            public init(
+              amount: String? = nil,
+              currency: GraphQLEnum<GraphAPI.CurrencyCode>? = nil,
+              symbol: String? = nil
+            ) {
+              self.init(_dataDict: DataDict(
+                data: [
+                  "__typename": GraphAPI.Objects.Money.typename,
+                  "amount": amount,
+                  "currency": currency,
+                  "symbol": symbol,
+                ],
+                fulfilledFragments: [
+                  ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.AddOns.Node.LatePledgeAmount.self),
+                  ObjectIdentifier(RewardFragment.LatePledgeAmount.self),
+                  ObjectIdentifier(MoneyFragment.self)
+                ]
+              ))
+            }
+          }
+
+          public typealias AudienceData = RewardFragment.AudienceData
+
+          public typealias Image = RewardImageFragment.Image
+
+          public typealias Project = RewardItemsFragment.Project
+
+          public typealias Items = RewardItemsFragment.Items
+        }
+      }
+
+      /// Backing.Reward
+      ///
+      /// Parent Type: `Reward`
+      public struct Reward: GraphAPI.SelectionSet {
+        public let __data: DataDict
+        public init(_dataDict: DataDict) { __data = _dataDict }
+
+        public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Reward }
+        public static var __selections: [ApolloAPI.Selection] { [
+          .field("__typename", String.self),
+          .fragment(RewardSimpleShippingRulesExpandedFragment.self),
+        ] }
+
+        /// Simple shipping rules expanded as a faster alternative to shippingRulesExpanded since connection type is slow
+        public var simpleShippingRulesExpanded: [SimpleShippingRulesExpanded?] { __data["simpleShippingRulesExpanded"] }
+        /// Amount for claiming this reward.
+        public var amount: Amount { __data["amount"] }
+        /// count of backers for this reward
+        public var backersCount: Int? { __data["backersCount"] }
+        /// Amount for claiming this reward, in the current user's chosen currency
+        public var convertedAmount: ConvertedAmount { __data["convertedAmount"] }
+        /// Add-ons which can be combined with this reward.
+        /// Uses creator preferences and shipping rules to determine allow-ability.
+        /// Inclusion in this list does not necessarily indicate that the add-on is available for backing.
+        ///
+        public var allowedAddons: AllowedAddons { __data["allowedAddons"] }
+        /// A reward description.
+        public var description: String? { __data["description"] }
+        /// A reward's title plus the amount, or a default title (the reward amount) if it doesn't have a title.
+        public var displayName: String { __data["displayName"] }
+        /// When the reward is scheduled to end in seconds
+        public var endsAt: GraphAPI.DateTime? { __data["endsAt"] }
+        /// Estimated delivery day.
+        public var estimatedDeliveryOn: GraphAPI.Date? { __data["estimatedDeliveryOn"] }
+        public var id: GraphAPI.ID { __data["id"] }
+        /// Does reward amount meet or exceed maximum pledge for the project
+        public var isMaxPledge: Bool { __data["isMaxPledge"] }
+        /// Whether or not the reward is available for new pledges
+        public var available: Bool { __data["available"] }
+        /// Whether or not the reward is featured
+        public var featured: Bool { __data["featured"] }
+        /// A reward limit.
+        public var limit: Int? { __data["limit"] }
+        /// Per backer reward limit.
+        public var limitPerBacker: Int? { __data["limitPerBacker"] }
+        /// Where the reward can be locally received if local receipt is selected as the shipping preference
+        public var localReceiptLocation: LocalReceiptLocation? { __data["localReceiptLocation"] }
+        /// A reward title.
+        public var name: String? { __data["name"] }
+        /// Amount for claiming this reward during the campaign.
+        public var pledgeAmount: PledgeAmount { __data["pledgeAmount"] }
+        /// Amount for claiming this reward after the campaign.
+        public var latePledgeAmount: LatePledgeAmount { __data["latePledgeAmount"] }
+        /// Is this reward available for post-campaign pledges?
+        public var postCampaignPledgingEnabled: Bool { __data["postCampaignPledgingEnabled"] }
+        /// Remaining reward quantity.
+        public var remainingQuantity: Int? { __data["remainingQuantity"] }
+        /// Shipping preference for this reward
+        public var shippingPreference: GraphQLEnum<GraphAPI.ShippingPreference>? { __data["shippingPreference"] }
+        /// A shipping summary
+        public var shippingSummary: String? { __data["shippingSummary"] }
+        /// When the reward is scheduled to start
+        public var startsAt: GraphAPI.DateTime? { __data["startsAt"] }
+        /// Data related to who can view/access this reward
+        public var audienceData: AudienceData { __data["audienceData"] }
+        /// The reward image.
+        public var image: Image? { __data["image"] }
+        /// The project
+        public var project: Project? { __data["project"] }
+        /// Items in the reward.
+        public var items: Items? { __data["items"] }
+
+        public struct Fragments: FragmentContainer {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
+
+          public var rewardSimpleShippingRulesExpandedFragment: RewardSimpleShippingRulesExpandedFragment { _toFragment() }
+          public var rewardFragment: RewardFragment { _toFragment() }
+          public var rewardImageFragment: RewardImageFragment { _toFragment() }
+          public var rewardItemsFragment: RewardItemsFragment { _toFragment() }
+        }
+
+        public init(
+          simpleShippingRulesExpanded: [SimpleShippingRulesExpanded?],
+          amount: Amount,
+          backersCount: Int? = nil,
+          convertedAmount: ConvertedAmount,
+          allowedAddons: AllowedAddons,
+          description: String? = nil,
+          displayName: String,
+          endsAt: GraphAPI.DateTime? = nil,
+          estimatedDeliveryOn: GraphAPI.Date? = nil,
+          id: GraphAPI.ID,
+          isMaxPledge: Bool,
+          available: Bool,
+          featured: Bool,
+          limit: Int? = nil,
+          limitPerBacker: Int? = nil,
+          localReceiptLocation: LocalReceiptLocation? = nil,
+          name: String? = nil,
+          pledgeAmount: PledgeAmount,
+          latePledgeAmount: LatePledgeAmount,
+          postCampaignPledgingEnabled: Bool,
+          remainingQuantity: Int? = nil,
+          shippingPreference: GraphQLEnum<GraphAPI.ShippingPreference>? = nil,
+          shippingSummary: String? = nil,
+          startsAt: GraphAPI.DateTime? = nil,
+          audienceData: AudienceData,
+          image: Image? = nil,
+          project: Project? = nil,
+          items: Items? = nil
+        ) {
+          self.init(_dataDict: DataDict(
+            data: [
+              "__typename": GraphAPI.Objects.Reward.typename,
+              "simpleShippingRulesExpanded": simpleShippingRulesExpanded._fieldData,
+              "amount": amount._fieldData,
+              "backersCount": backersCount,
+              "convertedAmount": convertedAmount._fieldData,
+              "allowedAddons": allowedAddons._fieldData,
+              "description": description,
+              "displayName": displayName,
+              "endsAt": endsAt,
+              "estimatedDeliveryOn": estimatedDeliveryOn,
+              "id": id,
+              "isMaxPledge": isMaxPledge,
+              "available": available,
+              "featured": featured,
+              "limit": limit,
+              "limitPerBacker": limitPerBacker,
+              "localReceiptLocation": localReceiptLocation._fieldData,
+              "name": name,
+              "pledgeAmount": pledgeAmount._fieldData,
+              "latePledgeAmount": latePledgeAmount._fieldData,
+              "postCampaignPledgingEnabled": postCampaignPledgingEnabled,
+              "remainingQuantity": remainingQuantity,
+              "shippingPreference": shippingPreference,
+              "shippingSummary": shippingSummary,
+              "startsAt": startsAt,
+              "audienceData": audienceData._fieldData,
+              "image": image._fieldData,
+              "project": project._fieldData,
+              "items": items._fieldData,
+            ],
+            fulfilledFragments: [
+              ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.Reward.self),
+              ObjectIdentifier(RewardSimpleShippingRulesExpandedFragment.self),
+              ObjectIdentifier(BackingFragment.Reward.self),
+              ObjectIdentifier(RewardFragment.self),
+              ObjectIdentifier(RewardImageFragment.self),
+              ObjectIdentifier(RewardItemsFragment.self)
+            ]
+          ))
+        }
+
+        /// Backing.Reward.SimpleShippingRulesExpanded
+        ///
+        /// Parent Type: `SimpleShippingRule`
+        public struct SimpleShippingRulesExpanded: GraphAPI.SelectionSet {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
+
+          public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.SimpleShippingRule }
+
+          public var cost: String? { __data["cost"] }
+          public var estimatedMin: String? { __data["estimatedMin"] }
+          public var estimatedMax: String? { __data["estimatedMax"] }
+          public var currency: String? { __data["currency"] }
+          public var locationId: GraphAPI.ID? { __data["locationId"] }
+          public var locationName: String? { __data["locationName"] }
+          public var country: String { __data["country"] }
+
+          public struct Fragments: FragmentContainer {
+            public let __data: DataDict
+            public init(_dataDict: DataDict) { __data = _dataDict }
+
+            public var simpleShippingRuleFragment: SimpleShippingRuleFragment { _toFragment() }
+          }
+
+          public init(
+            cost: String? = nil,
+            estimatedMin: String? = nil,
+            estimatedMax: String? = nil,
+            currency: String? = nil,
+            locationId: GraphAPI.ID? = nil,
+            locationName: String? = nil,
+            country: String
+          ) {
+            self.init(_dataDict: DataDict(
+              data: [
+                "__typename": GraphAPI.Objects.SimpleShippingRule.typename,
+                "cost": cost,
+                "estimatedMin": estimatedMin,
+                "estimatedMax": estimatedMax,
+                "currency": currency,
+                "locationId": locationId,
+                "locationName": locationName,
+                "country": country,
+              ],
+              fulfilledFragments: [
+                ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.Reward.SimpleShippingRulesExpanded.self),
+                ObjectIdentifier(RewardSimpleShippingRulesExpandedFragment.SimpleShippingRulesExpanded.self),
+                ObjectIdentifier(SimpleShippingRuleFragment.self)
+              ]
+            ))
+          }
+        }
+
+        /// Backing.Reward.Amount
+        ///
+        /// Parent Type: `Money`
+        public struct Amount: GraphAPI.SelectionSet {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
+
+          public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Money }
+
+          /// Floating-point numeric value of monetary amount represented as a string
+          public var amount: String? { __data["amount"] }
+          /// Currency of the monetary amount
+          public var currency: GraphQLEnum<GraphAPI.CurrencyCode>? { __data["currency"] }
+          /// Symbol of the currency in which the monetary amount appears
+          public var symbol: String? { __data["symbol"] }
+
+          public struct Fragments: FragmentContainer {
+            public let __data: DataDict
+            public init(_dataDict: DataDict) { __data = _dataDict }
+
+            public var moneyFragment: MoneyFragment { _toFragment() }
+          }
+
+          public init(
+            amount: String? = nil,
+            currency: GraphQLEnum<GraphAPI.CurrencyCode>? = nil,
+            symbol: String? = nil
+          ) {
+            self.init(_dataDict: DataDict(
+              data: [
+                "__typename": GraphAPI.Objects.Money.typename,
+                "amount": amount,
+                "currency": currency,
+                "symbol": symbol,
+              ],
+              fulfilledFragments: [
+                ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.Reward.Amount.self),
+                ObjectIdentifier(RewardFragment.Amount.self),
+                ObjectIdentifier(MoneyFragment.self)
+              ]
+            ))
+          }
+        }
+
+        /// Backing.Reward.ConvertedAmount
+        ///
+        /// Parent Type: `Money`
+        public struct ConvertedAmount: GraphAPI.SelectionSet {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
+
+          public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Money }
+
+          /// Floating-point numeric value of monetary amount represented as a string
+          public var amount: String? { __data["amount"] }
+          /// Currency of the monetary amount
+          public var currency: GraphQLEnum<GraphAPI.CurrencyCode>? { __data["currency"] }
+          /// Symbol of the currency in which the monetary amount appears
+          public var symbol: String? { __data["symbol"] }
+
+          public struct Fragments: FragmentContainer {
+            public let __data: DataDict
+            public init(_dataDict: DataDict) { __data = _dataDict }
+
+            public var moneyFragment: MoneyFragment { _toFragment() }
+          }
+
+          public init(
+            amount: String? = nil,
+            currency: GraphQLEnum<GraphAPI.CurrencyCode>? = nil,
+            symbol: String? = nil
+          ) {
+            self.init(_dataDict: DataDict(
+              data: [
+                "__typename": GraphAPI.Objects.Money.typename,
+                "amount": amount,
+                "currency": currency,
+                "symbol": symbol,
+              ],
+              fulfilledFragments: [
+                ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.Reward.ConvertedAmount.self),
+                ObjectIdentifier(RewardFragment.ConvertedAmount.self),
+                ObjectIdentifier(MoneyFragment.self)
+              ]
+            ))
+          }
+        }
+
+        public typealias AllowedAddons = RewardFragment.AllowedAddons
+
+        /// Backing.Reward.LocalReceiptLocation
+        ///
+        /// Parent Type: `Location`
+        public struct LocalReceiptLocation: GraphAPI.SelectionSet {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
+
+          public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Location }
+
+          /// The country code.
+          public var country: String { __data["country"] }
+          /// The localized country name.
+          public var countryName: String? { __data["countryName"] }
+          /// The displayable name. It includes the state code for US cities. ex: 'Seattle, WA'
+          public var displayableName: String { __data["displayableName"] }
+          public var id: GraphAPI.ID { __data["id"] }
+          /// The localized name
+          public var name: String { __data["name"] }
+
+          public struct Fragments: FragmentContainer {
+            public let __data: DataDict
+            public init(_dataDict: DataDict) { __data = _dataDict }
+
+            public var locationFragment: LocationFragment { _toFragment() }
+          }
+
+          public init(
+            country: String,
+            countryName: String? = nil,
+            displayableName: String,
+            id: GraphAPI.ID,
+            name: String
+          ) {
+            self.init(_dataDict: DataDict(
+              data: [
+                "__typename": GraphAPI.Objects.Location.typename,
+                "country": country,
+                "countryName": countryName,
+                "displayableName": displayableName,
+                "id": id,
+                "name": name,
+              ],
+              fulfilledFragments: [
+                ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.Reward.LocalReceiptLocation.self),
+                ObjectIdentifier(RewardFragment.LocalReceiptLocation.self),
+                ObjectIdentifier(LocationFragment.self)
+              ]
+            ))
+          }
+        }
+
+        /// Backing.Reward.PledgeAmount
+        ///
+        /// Parent Type: `Money`
+        public struct PledgeAmount: GraphAPI.SelectionSet {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
+
+          public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Money }
+
+          /// Floating-point numeric value of monetary amount represented as a string
+          public var amount: String? { __data["amount"] }
+          /// Currency of the monetary amount
+          public var currency: GraphQLEnum<GraphAPI.CurrencyCode>? { __data["currency"] }
+          /// Symbol of the currency in which the monetary amount appears
+          public var symbol: String? { __data["symbol"] }
+
+          public struct Fragments: FragmentContainer {
+            public let __data: DataDict
+            public init(_dataDict: DataDict) { __data = _dataDict }
+
+            public var moneyFragment: MoneyFragment { _toFragment() }
+          }
+
+          public init(
+            amount: String? = nil,
+            currency: GraphQLEnum<GraphAPI.CurrencyCode>? = nil,
+            symbol: String? = nil
+          ) {
+            self.init(_dataDict: DataDict(
+              data: [
+                "__typename": GraphAPI.Objects.Money.typename,
+                "amount": amount,
+                "currency": currency,
+                "symbol": symbol,
+              ],
+              fulfilledFragments: [
+                ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.Reward.PledgeAmount.self),
+                ObjectIdentifier(RewardFragment.PledgeAmount.self),
+                ObjectIdentifier(MoneyFragment.self)
+              ]
+            ))
+          }
+        }
+
+        /// Backing.Reward.LatePledgeAmount
+        ///
+        /// Parent Type: `Money`
+        public struct LatePledgeAmount: GraphAPI.SelectionSet {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
+
+          public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Money }
+
+          /// Floating-point numeric value of monetary amount represented as a string
+          public var amount: String? { __data["amount"] }
+          /// Currency of the monetary amount
+          public var currency: GraphQLEnum<GraphAPI.CurrencyCode>? { __data["currency"] }
+          /// Symbol of the currency in which the monetary amount appears
+          public var symbol: String? { __data["symbol"] }
+
+          public struct Fragments: FragmentContainer {
+            public let __data: DataDict
+            public init(_dataDict: DataDict) { __data = _dataDict }
+
+            public var moneyFragment: MoneyFragment { _toFragment() }
+          }
+
+          public init(
+            amount: String? = nil,
+            currency: GraphQLEnum<GraphAPI.CurrencyCode>? = nil,
+            symbol: String? = nil
+          ) {
+            self.init(_dataDict: DataDict(
+              data: [
+                "__typename": GraphAPI.Objects.Money.typename,
+                "amount": amount,
+                "currency": currency,
+                "symbol": symbol,
+              ],
+              fulfilledFragments: [
+                ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.Reward.LatePledgeAmount.self),
+                ObjectIdentifier(RewardFragment.LatePledgeAmount.self),
+                ObjectIdentifier(MoneyFragment.self)
+              ]
+            ))
+          }
+        }
+
+        public typealias AudienceData = RewardFragment.AudienceData
+
+        public typealias Image = RewardImageFragment.Image
+
+        public typealias Project = RewardItemsFragment.Project
+
+        public typealias Items = RewardItemsFragment.Items
+      }
+
+      /// Backing.PaymentIncrement
+      ///
+      /// Parent Type: `PaymentIncrement`
+      public struct PaymentIncrement: GraphAPI.SelectionSet {
+        public let __data: DataDict
+        public init(_dataDict: DataDict) { __data = _dataDict }
+
+        public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.PaymentIncrement }
+        public static var __selections: [ApolloAPI.Selection] { [
+          .field("__typename", String.self),
+          .fragment(PaymentIncrementBackingFragment.self),
+        ] }
+
+        /// The payment increment amount represented in various formats
+        public var amount: Amount { __data["amount"] }
+        /// If the payment increment has a backing, return human-readable information about the status of the payment increment
+        public var badge: Badge? { __data["badge"] }
+        public var scheduledCollection: GraphAPI.ISO8601DateTime { __data["scheduledCollection"] }
+        /// The state of the payment increment
+        public var state: GraphQLEnum<GraphAPI.PaymentIncrementState> { __data["state"] }
+        /// The original amount minus the refunded amount formatted in the project native currency
+        public var refundUpdatedAmountInProjectNativeCurrency: String? { __data["refundUpdatedAmountInProjectNativeCurrency"] }
+        /// The total amount that has been refunded on the payment increment, across potentially multiple adjustments
+        public var refundedAmount: RefundedAmount? { __data["refundedAmount"] }
+
+        public struct Fragments: FragmentContainer {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
+
+          public var paymentIncrementBackingFragment: PaymentIncrementBackingFragment { _toFragment() }
+        }
+
+        public init(
+          amount: Amount,
+          badge: Badge? = nil,
+          scheduledCollection: GraphAPI.ISO8601DateTime,
+          state: GraphQLEnum<GraphAPI.PaymentIncrementState>,
+          refundUpdatedAmountInProjectNativeCurrency: String? = nil,
+          refundedAmount: RefundedAmount? = nil
+        ) {
+          self.init(_dataDict: DataDict(
+            data: [
+              "__typename": GraphAPI.Objects.PaymentIncrement.typename,
+              "amount": amount._fieldData,
+              "badge": badge._fieldData,
+              "scheduledCollection": scheduledCollection,
+              "state": state,
+              "refundUpdatedAmountInProjectNativeCurrency": refundUpdatedAmountInProjectNativeCurrency,
+              "refundedAmount": refundedAmount._fieldData,
+            ],
+            fulfilledFragments: [
+              ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.PaymentIncrement.self),
+              ObjectIdentifier(PaymentIncrementBackingFragment.self)
+            ]
+          ))
+        }
+
+        public typealias Amount = PaymentIncrementBackingFragment.Amount
+
+        public typealias Badge = PaymentIncrementBackingFragment.Badge
+
+        public typealias RefundedAmount = PaymentIncrementBackingFragment.RefundedAmount
+      }
+
+      /// Backing.Amount
+      ///
+      /// Parent Type: `Money`
+      public struct Amount: GraphAPI.SelectionSet {
+        public let __data: DataDict
+        public init(_dataDict: DataDict) { __data = _dataDict }
+
+        public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Money }
+
+        /// Floating-point numeric value of monetary amount represented as a string
+        public var amount: String? { __data["amount"] }
+        /// Currency of the monetary amount
+        public var currency: GraphQLEnum<GraphAPI.CurrencyCode>? { __data["currency"] }
+        /// Symbol of the currency in which the monetary amount appears
+        public var symbol: String? { __data["symbol"] }
+
+        public struct Fragments: FragmentContainer {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
+
+          public var moneyFragment: MoneyFragment { _toFragment() }
+        }
+
+        public init(
+          amount: String? = nil,
+          currency: GraphQLEnum<GraphAPI.CurrencyCode>? = nil,
+          symbol: String? = nil
+        ) {
+          self.init(_dataDict: DataDict(
+            data: [
+              "__typename": GraphAPI.Objects.Money.typename,
+              "amount": amount,
+              "currency": currency,
+              "symbol": symbol,
+            ],
+            fulfilledFragments: [
+              ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.Amount.self),
+              ObjectIdentifier(BackingFragment.Amount.self),
+              ObjectIdentifier(MoneyFragment.self)
+            ]
+          ))
+        }
+      }
+
+      /// Backing.Backer
+      ///
+      /// Parent Type: `User`
+      public struct Backer: GraphAPI.SelectionSet {
+        public let __data: DataDict
+        public init(_dataDict: DataDict) { __data = _dataDict }
+
+        public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.User }
+
+        public var id: GraphAPI.ID { __data["id"] }
+        /// The user's avatar.
+        public var imageUrl: String { __data["imageUrl"] }
+        /// Is user blocked by current user
+        public var isBlocked: Bool? { __data["isBlocked"] }
+        /// Whether or not you are following the user.
+        public var isFollowing: Bool { __data["isFollowing"] }
+        /// Where the user is based.
+        public var location: Location? { __data["location"] }
+        /// The user's provided name.
+        public var name: String { __data["name"] }
+        /// Is the user's profile public
+        public var showPublicProfile: Bool? { __data["showPublicProfile"] }
+        /// A user's uid
+        public var uid: String { __data["uid"] }
+        /// Number of backings for this user.
+        public var backingsCount: Int { __data["backingsCount"] }
+        /// Projects a user has created.
+        public var createdProjects: CreatedProjects? { __data["createdProjects"] }
+
+        public struct Fragments: FragmentContainer {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
+
+          public var publicUserFragment: PublicUserFragment { _toFragment() }
+        }
+
+        public init(
+          id: GraphAPI.ID,
+          imageUrl: String,
+          isBlocked: Bool? = nil,
+          isFollowing: Bool,
+          location: Location? = nil,
+          name: String,
+          showPublicProfile: Bool? = nil,
+          uid: String,
+          backingsCount: Int,
+          createdProjects: CreatedProjects? = nil
+        ) {
+          self.init(_dataDict: DataDict(
+            data: [
+              "__typename": GraphAPI.Objects.User.typename,
+              "id": id,
+              "imageUrl": imageUrl,
+              "isBlocked": isBlocked,
+              "isFollowing": isFollowing,
+              "location": location._fieldData,
+              "name": name,
+              "showPublicProfile": showPublicProfile,
+              "uid": uid,
+              "backingsCount": backingsCount,
+              "createdProjects": createdProjects._fieldData,
+            ],
+            fulfilledFragments: [
+              ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.Backer.self),
+              ObjectIdentifier(BackingFragment.Backer.self),
+              ObjectIdentifier(PublicUserFragment.self)
+            ]
+          ))
+        }
+
+        /// Backing.Backer.Location
+        ///
+        /// Parent Type: `Location`
+        public struct Location: GraphAPI.SelectionSet {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
+
+          public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Location }
+
+          /// The country code.
+          public var country: String { __data["country"] }
+          /// The localized country name.
+          public var countryName: String? { __data["countryName"] }
+          /// The displayable name. It includes the state code for US cities. ex: 'Seattle, WA'
+          public var displayableName: String { __data["displayableName"] }
+          public var id: GraphAPI.ID { __data["id"] }
+          /// The localized name
+          public var name: String { __data["name"] }
+
+          public struct Fragments: FragmentContainer {
+            public let __data: DataDict
+            public init(_dataDict: DataDict) { __data = _dataDict }
+
+            public var locationFragment: LocationFragment { _toFragment() }
+          }
+
+          public init(
+            country: String,
+            countryName: String? = nil,
+            displayableName: String,
+            id: GraphAPI.ID,
+            name: String
+          ) {
+            self.init(_dataDict: DataDict(
+              data: [
+                "__typename": GraphAPI.Objects.Location.typename,
+                "country": country,
+                "countryName": countryName,
+                "displayableName": displayableName,
+                "id": id,
+                "name": name,
+              ],
+              fulfilledFragments: [
+                ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.Backer.Location.self),
+                ObjectIdentifier(PublicUserFragment.Location.self),
+                ObjectIdentifier(LocationFragment.self)
+              ]
+            ))
+          }
+        }
+
+        public typealias CreatedProjects = PublicUserFragment.CreatedProjects
+      }
+
+      /// Backing.BonusAmount
+      ///
+      /// Parent Type: `Money`
+      public struct BonusAmount: GraphAPI.SelectionSet {
+        public let __data: DataDict
+        public init(_dataDict: DataDict) { __data = _dataDict }
+
+        public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Money }
+
+        /// Floating-point numeric value of monetary amount represented as a string
+        public var amount: String? { __data["amount"] }
+        /// Currency of the monetary amount
+        public var currency: GraphQLEnum<GraphAPI.CurrencyCode>? { __data["currency"] }
+        /// Symbol of the currency in which the monetary amount appears
+        public var symbol: String? { __data["symbol"] }
+
+        public struct Fragments: FragmentContainer {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
+
+          public var moneyFragment: MoneyFragment { _toFragment() }
+        }
+
+        public init(
+          amount: String? = nil,
+          currency: GraphQLEnum<GraphAPI.CurrencyCode>? = nil,
+          symbol: String? = nil
+        ) {
+          self.init(_dataDict: DataDict(
+            data: [
+              "__typename": GraphAPI.Objects.Money.typename,
+              "amount": amount,
+              "currency": currency,
+              "symbol": symbol,
+            ],
+            fulfilledFragments: [
+              ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.BonusAmount.self),
+              ObjectIdentifier(BackingFragment.BonusAmount.self),
+              ObjectIdentifier(MoneyFragment.self)
+            ]
+          ))
+        }
+      }
+
+      public typealias PaymentSource = BackingFragment.PaymentSource
+
+      /// Backing.Location
+      ///
+      /// Parent Type: `Location`
+      public struct Location: GraphAPI.SelectionSet {
+        public let __data: DataDict
+        public init(_dataDict: DataDict) { __data = _dataDict }
+
+        public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Location }
+
+        /// The country code.
+        public var country: String { __data["country"] }
+        /// The localized country name.
+        public var countryName: String? { __data["countryName"] }
+        /// The displayable name. It includes the state code for US cities. ex: 'Seattle, WA'
+        public var displayableName: String { __data["displayableName"] }
+        public var id: GraphAPI.ID { __data["id"] }
+        /// The localized name
+        public var name: String { __data["name"] }
+
+        public struct Fragments: FragmentContainer {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
+
+          public var locationFragment: LocationFragment { _toFragment() }
+        }
+
+        public init(
+          country: String,
+          countryName: String? = nil,
+          displayableName: String,
+          id: GraphAPI.ID,
+          name: String
+        ) {
+          self.init(_dataDict: DataDict(
+            data: [
+              "__typename": GraphAPI.Objects.Location.typename,
+              "country": country,
+              "countryName": countryName,
+              "displayableName": displayableName,
+              "id": id,
+              "name": name,
+            ],
+            fulfilledFragments: [
+              ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.Location.self),
+              ObjectIdentifier(BackingFragment.Location.self),
+              ObjectIdentifier(LocationFragment.self)
+            ]
+          ))
+        }
+      }
+
+      /// Backing.Order
+      ///
+      /// Parent Type: `Order`
+      public struct Order: GraphAPI.SelectionSet {
+        public let __data: DataDict
+        public init(_dataDict: DataDict) { __data = _dataDict }
+
+        public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Order }
+
+        public var id: GraphAPI.ID { __data["id"] }
+        /// The state of checkout (taking into account order and cart status)
+        public var checkoutState: GraphQLEnum<GraphAPI.CheckoutStateEnum> { __data["checkoutState"] }
+        /// The currency of the order
+        public var currency: GraphQLEnum<GraphAPI.CurrencyCode> { __data["currency"] }
+        /// The total cost for the order including taxes and shipping
+        public var total: Int? { __data["total"] }
+
+        public struct Fragments: FragmentContainer {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
+
+          public var orderFragment: OrderFragment { _toFragment() }
+        }
+
+        public init(
+          id: GraphAPI.ID,
+          checkoutState: GraphQLEnum<GraphAPI.CheckoutStateEnum>,
+          currency: GraphQLEnum<GraphAPI.CurrencyCode>,
+          total: Int? = nil
+        ) {
+          self.init(_dataDict: DataDict(
+            data: [
+              "__typename": GraphAPI.Objects.Order.typename,
+              "id": id,
+              "checkoutState": checkoutState,
+              "currency": currency,
+              "total": total,
+            ],
+            fulfilledFragments: [
+              ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.Order.self),
+              ObjectIdentifier(BackingFragment.Order.self),
+              ObjectIdentifier(OrderFragment.self)
+            ]
+          ))
+        }
+      }
+
+      /// Backing.Project
+      ///
+      /// Parent Type: `Project`
+      public struct Project: GraphAPI.SelectionSet {
+        public let __data: DataDict
+        public init(_dataDict: DataDict) { __data = _dataDict }
+
+        public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Project }
+
+        /// The project's pid.
+        public var pid: Int { __data["pid"] }
+        /// Exchange rate for the current user's currency
+        public var fxRate: Double { __data["fxRate"] }
+        /// The min pledge amount for a single reward tier.
+        public var minPledge: Int { __data["minPledge"] }
+        /// The project's country
+        public var country: Country { __data["country"] }
+
+        public struct Fragments: FragmentContainer {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
+
+          public var noRewardRewardFragment: NoRewardRewardFragment { _toFragment() }
+        }
+
+        public init(
+          pid: Int,
+          fxRate: Double,
+          minPledge: Int,
+          country: Country
+        ) {
+          self.init(_dataDict: DataDict(
+            data: [
+              "__typename": GraphAPI.Objects.Project.typename,
+              "pid": pid,
+              "fxRate": fxRate,
+              "minPledge": minPledge,
+              "country": country._fieldData,
+            ],
+            fulfilledFragments: [
+              ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.Project.self),
+              ObjectIdentifier(BackingFragment.Project.self),
+              ObjectIdentifier(NoRewardRewardFragment.self)
+            ]
+          ))
+        }
+
+        /// Backing.Project.Country
+        ///
+        /// Parent Type: `Country`
+        public struct Country: GraphAPI.SelectionSet {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
+
+          public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Country }
+
+          /// ISO ALPHA-2 code.
+          public var code: GraphQLEnum<GraphAPI.CountryCode> { __data["code"] }
+          /// Country name.
+          public var name: String { __data["name"] }
+
+          public struct Fragments: FragmentContainer {
+            public let __data: DataDict
+            public init(_dataDict: DataDict) { __data = _dataDict }
+
+            public var countryFragment: CountryFragment { _toFragment() }
+          }
+
+          public init(
+            code: GraphQLEnum<GraphAPI.CountryCode>,
+            name: String
+          ) {
+            self.init(_dataDict: DataDict(
+              data: [
+                "__typename": GraphAPI.Objects.Country.typename,
+                "code": code,
+                "name": name,
+              ],
+              fulfilledFragments: [
+                ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.Project.Country.self),
+                ObjectIdentifier(BackingFragment.Project.Country.self),
+                ObjectIdentifier(CountryFragment.self)
+              ]
+            ))
+          }
+        }
+      }
+
+      /// Backing.RewardsAmount
+      ///
+      /// Parent Type: `Money`
+      public struct RewardsAmount: GraphAPI.SelectionSet {
+        public let __data: DataDict
+        public init(_dataDict: DataDict) { __data = _dataDict }
+
+        public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Money }
+
+        /// Floating-point numeric value of monetary amount represented as a string
+        public var amount: String? { __data["amount"] }
+        /// Currency of the monetary amount
+        public var currency: GraphQLEnum<GraphAPI.CurrencyCode>? { __data["currency"] }
+        /// Symbol of the currency in which the monetary amount appears
+        public var symbol: String? { __data["symbol"] }
+
+        public struct Fragments: FragmentContainer {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
+
+          public var moneyFragment: MoneyFragment { _toFragment() }
+        }
+
+        public init(
+          amount: String? = nil,
+          currency: GraphQLEnum<GraphAPI.CurrencyCode>? = nil,
+          symbol: String? = nil
+        ) {
+          self.init(_dataDict: DataDict(
+            data: [
+              "__typename": GraphAPI.Objects.Money.typename,
+              "amount": amount,
+              "currency": currency,
+              "symbol": symbol,
+            ],
+            fulfilledFragments: [
+              ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.RewardsAmount.self),
+              ObjectIdentifier(BackingFragment.RewardsAmount.self),
+              ObjectIdentifier(MoneyFragment.self)
+            ]
+          ))
+        }
+      }
+
+      /// Backing.ShippingAmount
+      ///
+      /// Parent Type: `Money`
+      public struct ShippingAmount: GraphAPI.SelectionSet {
+        public let __data: DataDict
+        public init(_dataDict: DataDict) { __data = _dataDict }
+
+        public static var __parentType: ApolloAPI.ParentType { GraphAPI.Objects.Money }
+
+        /// Floating-point numeric value of monetary amount represented as a string
+        public var amount: String? { __data["amount"] }
+        /// Currency of the monetary amount
+        public var currency: GraphQLEnum<GraphAPI.CurrencyCode>? { __data["currency"] }
+        /// Symbol of the currency in which the monetary amount appears
+        public var symbol: String? { __data["symbol"] }
+
+        public struct Fragments: FragmentContainer {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
+
+          public var moneyFragment: MoneyFragment { _toFragment() }
+        }
+
+        public init(
+          amount: String? = nil,
+          currency: GraphQLEnum<GraphAPI.CurrencyCode>? = nil,
+          symbol: String? = nil
+        ) {
+          self.init(_dataDict: DataDict(
+            data: [
+              "__typename": GraphAPI.Objects.Money.typename,
+              "amount": amount,
+              "currency": currency,
+              "symbol": symbol,
+            ],
+            fulfilledFragments: [
+              ObjectIdentifier(FetchBackingWithIncrementsRefundedQuery.Data.Backing.ShippingAmount.self),
+              ObjectIdentifier(BackingFragment.ShippingAmount.self),
+              ObjectIdentifier(MoneyFragment.self)
+            ]
+          ))
+        }
+      }
+    }
+  }
+}

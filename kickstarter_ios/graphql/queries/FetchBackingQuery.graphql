@@ -1,0 +1,18 @@
+query FetchBacking($id: ID!) {
+  backing(id: $id) {
+    addOns {
+      nodes {
+        ...RewardFragment
+        ...RewardImageFragment
+        ...RewardItemsFragment
+      }
+    }
+    ...BackingFragment
+    project {
+      ...ProjectFragment
+    }
+    paymentIncrements {
+      ...PaymentIncrementFragment
+    }
+  }
+}

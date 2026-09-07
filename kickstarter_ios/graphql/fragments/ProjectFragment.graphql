@@ -1,0 +1,50 @@
+fragment ProjectFragment on Project {
+  availableCardTypes
+  category {
+    ...CategoryFragment
+  }
+  canComment
+  country {
+    ...CountryFragment
+  }
+  creator {
+    ...PublicUserFragment
+  }
+  description
+  image {
+    id
+    url(width: 1024)
+  }
+  isProjectWeLove
+  isWatched
+  isLaunched
+  isInPostCampaignPledgingPhase
+  lastWave {
+    ...LastWaveFragment
+  }
+  location {
+    ...LocationFragment
+  }
+  maxPledge
+  minPledge
+  name
+  ...NoRewardRewardFragment
+  pid
+  pledgeManager {
+    ...PledgeManagerFragment
+  }
+  ...PledgeOverTimeFragment
+  postCampaignPledgingEnabled
+  prelaunchActivated
+  ...ProjectStatsFragment
+  ...ProjectDatesFragment
+  redemptionPageUrl
+  sendMetaCapiEvents
+  slug
+  state
+  tags(scope: DISCOVER) {
+    name
+  }
+  url
+  watchesCount
+}

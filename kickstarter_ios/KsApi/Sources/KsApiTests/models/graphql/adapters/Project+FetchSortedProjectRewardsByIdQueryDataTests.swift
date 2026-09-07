@@ -1,0 +1,85 @@
+import Apollo
+import GraphAPI
+@testable import KsApi
+@testable import KsApiTestHelpers
+import ReactiveSwift
+import XCTest
+
+private enum NoRewardSortType {
+  case first
+  case last
+}
+
+private struct TestNoRewardInserter: NoRewardInserter {
+  let sortType: NoRewardSortType
+
+  func insert(noReward: KsApi.Reward, intoRewards rewards: [KsApi.Reward]) -> [KsApi.Reward] {
+    switch self.sortType {
+    case .first:
+      return [noReward] + rewards
+    case .last:
+      return rewards + [noReward]
+    }
+  }
+}
+
+final class Project_FetchSortedProjectRewardsByIdQueryDataTests: XCTestCase {
+  func testFetch_parsesRewards_andAddsNoRewardReward() {
+    let dataUrl = Bundle.module.url(forResource: "FetchSortedProjectRewardsById", withExtension: "json")!
+    let data: GraphAPI.FetchSortedProjectRewardsByIdQuery.Data =
+      try! testGraphObject(fromResource: dataUrl, variables: [
+        "projectId": 1_480_998_200,
+        "location": "DE",
+        "includeShippingRules": true,
+        "includeLocalPickup": true
+      ])
+    XCTAssertNotNil(data)
+
+    let rewards = Project.projectRewards(from: data, withNoReward: TestNoRewardInserter(sortType: .first))
+
+    XCTAssertEqual(rewards.count, 2)
+
+    guard let firstReward = rewards.first else {
+      XCTFail("Expected there to be two rewards")
+      return
+    }
+
+    // Unlike the other rewards fetch, this one automatically adds no-reward.
+    XCTAssertTrue(firstReward.isNoReward, "Query should have inserted no-reward reward first")
+    XCTAssertEqual(firstReward.convertedMinimum, 0.780313)
+
+    // The rewards and shipping rules code goes through the same pathway as
+    // FetchProjectRewardsByIdQuery, and is largely exercised by those tests.
+    let secondReward = rewards[1]
+    XCTAssertEqual(secondReward.title, "Germany reward (not featured)")
+    XCTAssertEqual(
+      secondReward.shippingRulesExpanded?.count,
+      1,
+      "Should have parsed the expanded shipping rules"
+    )
+  }
+
+  func testFetch_noRewardSort_lastPutsNoRewardLast() {
+    let dataUrl = Bundle.module.url(forResource: "FetchSortedProjectRewardsById", withExtension: "json")!
+    let data: GraphAPI.FetchSortedProjectRewardsByIdQuery.Data =
+      try! testGraphObject(fromResource: dataUrl, variables: [
+        "projectId": 1_480_998_200,
+        "location": "DE",
+        "includeShippingRules": true,
+        "includeLocalPickup": true
+      ])
+    XCTAssertNotNil(data)
+
+    let rewards = Project.projectRewards(from: data, withNoReward: TestNoRewardInserter(sortType: .last))
+
+    XCTAssertEqual(rewards.count, 2)
+
+    guard let lastReward = rewards.last else {
+      XCTFail("Expected there to be two rewards")
+      return
+    }
+
+    // Unlike the other rewards fetch, this one automatically adds no-reward.
+    XCTAssertTrue(lastReward.isNoReward, "Query should have inserted no-reward reward last")
+  }
+}

@@ -1,0 +1,26 @@
+name: kickstarter_flutter
+
+packages:
+  - packages/*
+  - features/*
+  - apps/*
+
+command:
+  bootstrap:
+    # Use Dart pub workspaces (single shared lockfile at the root).
+    usePubspecOverrides: true
+
+scripts:
+  analyze:
+    description: Analyze all packages.
+    exec: dart analyze --fatal-infos
+
+  test:
+    description: Run tests in every package that has them.
+    exec: flutter test
+    packageFilters:
+      dirExists: test
+
+  format:
+    description: Format all Dart code.
+    exec: dart format .

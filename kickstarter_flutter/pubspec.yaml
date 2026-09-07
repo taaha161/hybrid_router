@@ -1,0 +1,13 @@
+name: kickstarter_flutter_workspace
+publish_to: none
+
+environment:
+  sdk: ^3.11.5
+
+# Dart pub workspace — all members resolve against one shared lockfile.
+# Managed with Melos (see melos.yaml).
+workspace:
+  - packages/hybrid_router
+  - features/project_details
+  - features/user_profile
+  - apps/kickstarter_app
