@@ -39,3 +39,8 @@ vendor/bundle/
 
 # Flutter add-to-app xcframeworks (regenerate: flutter build ios-framework --xcframework)
 kickstarter_ios/Frameworks/*.xcframework/
+
+# Slide-deck pptx build scratch (regenerate: node build_pptx/build.js)
+build_pptx/
+
+docs/
