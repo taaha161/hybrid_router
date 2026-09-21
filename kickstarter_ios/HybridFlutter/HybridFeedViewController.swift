@@ -38,8 +38,7 @@ final class HybridFeedViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Hybrid"
-        navigationItem.prompt = "NATIVE · feed"
+        title = "Hybrid Feed (native)"
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
 
         if let nav = navigationController {

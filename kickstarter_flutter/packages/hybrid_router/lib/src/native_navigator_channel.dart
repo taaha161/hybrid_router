@@ -8,6 +8,7 @@ abstract final class NavMethods {
   static const popNative = 'popNative';
   static const showNative = 'showNative';
   static const popToRoot = 'popToRoot';
+  static const closeFlutter = 'closeFlutter';
 
   // Native -> Flutter
   static const pushFlutter = 'pushFlutter';
@@ -26,7 +27,13 @@ class NativeNavigationCallbacks {
 
   /// Native asked to show a Flutter route (e.g. tapping a Flutter cell in a
   /// native list).
-  final void Function(String path, Object? args) onPushFlutter;
+  ///
+  /// [reset] is true when this opens a **fresh** Flutter journey from a native
+  /// root (e.g. a feed row tap, where `flutterVC` was not already embedded) —
+  /// any stale Flutter history is discarded first. It is false for an
+  /// interleaved push (a native page opening the next Flutter page), which keeps
+  /// the existing stack so the `flutterA -> native -> flutterB` chain is built.
+  final void Function(String path, Object? args, bool reset) onPushFlutter;
 
   /// Native asked Flutter to pop its top route.
   final void Function() onPopFlutter;
@@ -60,6 +67,7 @@ class NativeNavigatorChannel {
           callbacks.onPushFlutter(
             _pathOf(args),
             (args is Map) ? args['args'] : null,
+            (args is Map && args['reset'] == true),
           );
         case NavMethods.popFlutter:
           callbacks.onPopFlutter();
@@ -93,6 +101,16 @@ class NativeNavigatorChannel {
   /// Ask native to unwind its navigation stack to the root.
   Future<void> popToRoot() =>
       _channel.invokeMethod<void>(NavMethods.popToRoot);
+
+  /// Ask native to pop the single FlutterViewController off the host stack.
+  ///
+  /// Sent when the Flutter/GoRouter stack has unwound back to its base route:
+  /// the current Flutter "segment" is exhausted, so the container itself must
+  /// leave the native navigation controller, revealing the native page beneath
+  /// (e.g. the Hybrid Feed). Without this a Flutter-side back at the last page
+  /// would strand the user on the invisible Flutter root.
+  Future<void> closeFlutter() =>
+      _channel.invokeMethod<void>(NavMethods.closeFlutter);
 
   static String _pathOf(Object? args) {
     if (args is String) return args;
