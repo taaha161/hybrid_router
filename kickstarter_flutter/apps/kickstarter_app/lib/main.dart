@@ -14,8 +14,13 @@ final kNativeRoutes = NativeRouteRegistry.of({
 });
 
 /// The single GoRouter that drives the one FlutterViewController.
-GoRouter buildGoRouter() => GoRouter(
+///
+/// [observers] carries the [HybridPopObserver] so Flutter's own back
+/// affordances (AppBar back, edge-swipe) reach the [HybridRouter].
+GoRouter buildGoRouter({List<NavigatorObserver> observers = const []}) =>
+    GoRouter(
       initialLocation: '/',
+      observers: observers,
       routes: [
         GoRoute(
           path: '/',
@@ -44,12 +49,16 @@ HybridRouter buildHybridRouter() {
 }
 
 void main() {
-  final goRouter = buildGoRouter();
+  // Observe the single GoRouter so Flutter-originated pops (AppBar back button,
+  // iOS edge-swipe) route through the HybridRouter just like a programmatic pop.
+  final popObserver = HybridPopObserver();
+  final goRouter = buildGoRouter(observers: [popObserver]);
   final router = HybridRouter(
     flutter: GoRouterNavigation(goRouter),
     channel: NativeNavigatorChannel(),
     registry: kNativeRoutes,
   );
+  popObserver.onFlutterPop = router.handleFlutterNavigatorPop;
 
   runApp(
     ProviderScope(

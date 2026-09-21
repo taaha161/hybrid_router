@@ -10,6 +10,7 @@ enum NavMethod {
     static let popNative = "popNative"
     static let showNative = "showNative"
     static let popToRoot = "popToRoot"
+    static let closeFlutter = "closeFlutter"
     // Native -> Flutter
     static let pushFlutter = "pushFlutter"
     static let popFlutter = "popFlutter"
@@ -57,6 +58,9 @@ final class NavigationChannel {
         case NavMethod.popToRoot:
             navigator?.popToRoot()
             result(nil)
+        case NavMethod.closeFlutter:
+            navigator?.closeFlutter()
+            result(nil)
         default:
             result(FlutterMethodNotImplemented)
         }
@@ -70,8 +74,11 @@ final class NavigationChannel {
 
     /// Ask Flutter (GoRouter) to push a Flutter route, e.g. when a native list
     /// cell that maps to a Flutter page is tapped.
-    func pushFlutter(path: String, args: Any? = nil) {
-        channel.invokeMethod(NavMethod.pushFlutter, arguments: ["path": path, "args": args as Any])
+    func pushFlutter(path: String, args: Any? = nil, reset: Bool = false) {
+        channel.invokeMethod(
+            NavMethod.pushFlutter,
+            arguments: ["path": path, "args": args as Any, "reset": reset]
+        )
     }
 
     /// Ask Flutter to pop its top route.
