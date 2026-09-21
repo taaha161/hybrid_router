@@ -21,22 +21,22 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		01483F222F0DDFF900A1D833 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		015102AE1F1947CB0006C0FC /* BuildFile in Sources */ = {isa = PBXBuildFile; };
+		01483F222F0DDFF900A1D833 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		015102AE1F1947CB0006C0FC /* (null) in Sources */ = {isa = PBXBuildFile; };
 		01F219561DC12BF7005DD2E4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01F219521DC12697005DD2E4 /* LaunchScreen.storyboard */; };
 		06EA2D4C280F76B700F4DE2E /* Prelude in Frameworks */ = {isa = PBXBuildFile; productRef = 06EA2D4B280F76B700F4DE2E /* Prelude */; };
 		194A8E4E2A13FB010099583B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 194A8E4D2A13FB010099583B /* GoogleService-Info.plist */; };
-		1965437428C811B000457EC6 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
+		1965437428C811B000457EC6 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		199E76FB70A601221007C141 /* Flutter.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 913E86CFDF1C07D8454D6DB9 /* Flutter.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		19A97D2328C7FCF00031B857 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		19E9F01729C0F9A20002AD69 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		209B0E3A265801D70006DB7D /* BuildFile in Sources */ = {isa = PBXBuildFile; };
+		19A97D2328C7FCF00031B857 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		19E9F01729C0F9A20002AD69 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		209B0E3A265801D70006DB7D /* (null) in Sources */ = {isa = PBXBuildFile; };
 		2823025DCD6FBA0D89430A92 /* NavigationChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36F4E31E9E1DB6F5CBCB921 /* NavigationChannel.swift */; };
-		3344A77E2D9C93A200D7DE91 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		336195002D8AB5E100BED4BD /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		336195032D8AB96000BED4BD /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		339ED5602CE41015004B301D /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		3959A62F2B69BC6D00FE8055 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
+		3344A77E2D9C93A200D7DE91 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		336195002D8AB5E100BED4BD /* (null) in Sources */ = {isa = PBXBuildFile; };
+		336195032D8AB96000BED4BD /* (null) in Sources */ = {isa = PBXBuildFile; };
+		339ED5602CE41015004B301D /* (null) in Sources */ = {isa = PBXBuildFile; };
+		3959A62F2B69BC6D00FE8055 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		3976B36E2E57DC7F00D2DD50 /* SegmentBrazeUI in Frameworks */ = {isa = PBXBuildFile; productRef = 3976B36D2E57DC7F00D2DD50 /* SegmentBrazeUI */; };
 		39AE634E2F6C581800481A76 /* GraphAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 39AE634D2F6C581800481A76 /* GraphAPI */; };
 		39AE63502F6C581D00481A76 /* GraphAPITestMocks in Frameworks */ = {isa = PBXBuildFile; productRef = 39AE634F2F6C581D00481A76 /* GraphAPITestMocks */; };
@@ -58,8 +58,8 @@
 		9BBE2C069C26EDF0BACB83F5 /* App.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8BDF1830A6AC0532AF719C5C /* App.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A73924041D272404004524C3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D1F9471C850B7C000D41D5 /* AppDelegate.swift */; };
 		A73924051D27247E004524C3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A73923B31D272242004524C3 /* Main.storyboard */; };
-		A78356081E85BE6D0021DA5A /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		A783560A1E85BE890021DA5A /* BuildFile in Sources */ = {isa = PBXBuildFile; };
+		A78356081E85BE6D0021DA5A /* (null) in Sources */ = {isa = PBXBuildFile; };
+		A783560A1E85BE890021DA5A /* (null) in Sources */ = {isa = PBXBuildFile; };
 		AA7B64942F20420F00602E54 /* Stripe in Frameworks */ = {isa = PBXBuildFile; productRef = AA7B64932F20420F00602E54 /* Stripe */; };
 		AAF3BB382F14987300DAE921 /* KsApi in Frameworks */ = {isa = PBXBuildFile; productRef = AAF3BB372F14987300DAE921 /* KsApi */; };
 		AAF3BB3B2F14988F00DAE921 /* Kickstarter-Framework in Frameworks */ = {isa = PBXBuildFile; productRef = AAF3BB3A2F14988F00DAE921 /* Kickstarter-Framework */; };
@@ -307,19 +307,19 @@
 		AAFCED042F2038FC00EAC2FE /* ReactiveExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = AAFCED032F2038FC00EAC2FE /* ReactiveExtensions */; };
 		AAFCED062F2038FC00EAC2FE /* ReactiveExtensions-TestHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = AAFCED052F2038FC00EAC2FE /* ReactiveExtensions-TestHelpers */; };
 		AAFCED082F20399B00EAC2FE /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = AAFCED072F20399B00EAC2FE /* SnapshotTesting */; };
-		D00A376E225BDAF800F46F47 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		D60C8BF321481BCC00D96152 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		D60C8CE12149A65000D96152 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		D6560C2A2182361800CD24BC /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		D6B4F0032107B4760079159D /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		D6B6875221923BCF005F5DA7 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		D6B6F91820EE955B00A295F7 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		D6E7DAFC22089F9800689BD6 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		D6E925CE211107CD00E13010 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		D6F741A821836E5700C2DDA2 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		D72370942119139D001EA4CA /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		D764377C224174B700DAFC9E /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		E108416C2DC27F24000E4F17 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
+		D00A376E225BDAF800F46F47 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		D60C8BF321481BCC00D96152 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		D60C8CE12149A65000D96152 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		D6560C2A2182361800CD24BC /* (null) in Sources */ = {isa = PBXBuildFile; };
+		D6B4F0032107B4760079159D /* (null) in Sources */ = {isa = PBXBuildFile; };
+		D6B6875221923BCF005F5DA7 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		D6B6F91820EE955B00A295F7 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		D6E7DAFC22089F9800689BD6 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		D6E925CE211107CD00E13010 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		D6F741A821836E5700C2DDA2 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		D72370942119139D001EA4CA /* (null) in Sources */ = {isa = PBXBuildFile; };
+		D764377C224174B700DAFC9E /* (null) in Sources */ = {isa = PBXBuildFile; };
+		E108416C2DC27F24000E4F17 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		E10BE8D02B02975C00F73DC9 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10BE8CF2B02975C00F73DC9 /* NotificationService.swift */; };
 		E10BE8D42B02975C00F73DC9 /* RichPushNotifications.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E10BE8CD2B02975C00F73DC9 /* RichPushNotifications.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E10FED153005D38600EAF400 /* ProjectPageViewModel_TrackingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10FED143005D38600EAF400 /* ProjectPageViewModel_TrackingTests.swift */; };
@@ -329,12 +329,12 @@
 		E182E5BC2B8D36FE0008DD69 /* AppEnvironmentTests+OAuthInKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = E182E5BB2B8D36FE0008DD69 /* AppEnvironmentTests+OAuthInKeychain.swift */; };
 		E18CA28A2F9A864E005C22AE /* StatsigExperiment+HelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18CA2882F9A864E005C22AE /* StatsigExperiment+HelperTests.swift */; };
 		E18CA28B2F9A864E005C22AE /* StatsigFeature+HelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18CA2892F9A864E005C22AE /* StatsigFeature+HelperTests.swift */; };
-		E19D49C72DB7F07A004A74D5 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		E1A310242D270CB00062646C /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		E1BAA03E2C1A1CE4004F8B06 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
+		E19D49C72DB7F07A004A74D5 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		E1A310242D270CB00062646C /* (null) in Sources */ = {isa = PBXBuildFile; };
+		E1BAA03E2C1A1CE4004F8B06 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		E1BBB0482FDB0F3C0045D296 /* NoRewardInserterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BBB0472FDB0F320045D296 /* NoRewardInserterTests.swift */; };
-		E1BBB65E2E00724100291D48 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		E1DBB2372DAEBCE10050733F /* BuildFile in Sources */ = {isa = PBXBuildFile; };
+		E1BBB65E2E00724100291D48 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		E1DBB2372DAEBCE10050733F /* (null) in Sources */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -413,8 +413,8 @@
 		8A65E79D2501AE89006F81CC /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Configs/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8A86D7F224FED01C00037A7B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Frameworks/native-secrets/ios/Firebase-Beta/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8A86D7F424FED02A00037A7B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Frameworks/native-secrets/ios/Firebase-Production/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		8BDF1830A6AC0532AF719C5C /* App.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = App.xcframework; path = Frameworks/App.xcframework; sourceTree = SOURCE_ROOT; };
-		913E86CFDF1C07D8454D6DB9 /* Flutter.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = Flutter.xcframework; path = Frameworks/Flutter.xcframework; sourceTree = SOURCE_ROOT; };
+		8BDF1830A6AC0532AF719C5C /* App.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; name = App.xcframework; path = Frameworks/App.xcframework; sourceTree = SOURCE_ROOT; };
+		913E86CFDF1C07D8454D6DB9 /* Flutter.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:S8QB4VV633:FLUTTER.IO LLC"; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; name = Flutter.xcframework; path = Frameworks/Flutter.xcframework; sourceTree = SOURCE_ROOT; };
 		A1580BF7F9481A9C6C42BA31 /* NativeRouteFactory.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NativeRouteFactory.swift; sourceTree = "<group>"; };
 		A36F4E31E9E1DB6F5CBCB921 /* NavigationChannel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NavigationChannel.swift; sourceTree = "<group>"; };
 		A71FB0651E3FF347006C286E /* Release.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Release.entitlements; sourceTree = "<group>"; };
@@ -837,7 +837,6 @@
 				A1580BF7F9481A9C6C42BA31 /* NativeRouteFactory.swift */,
 				136FC990C038136099D9FF85 /* HybridFeedViewController.swift */,
 			);
-			name = HybridFlutter;
 			path = HybridFlutter;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -1972,37 +1971,37 @@
 				AAF549AF2F2445C0001DB5AC /* UIViewController+URLTests.swift in Sources */,
 				AAF549B02F2445C0001DB5AC /* UpdateActivityItemProviderTests.swift in Sources */,
 				AAF549B12F2445C0001DB5AC /* UpdateBackingInput+ConstructorTests.swift in Sources */,
-				19E9F01729C0F9A20002AD69 /* BuildFile in Sources */,
-				A783560A1E85BE890021DA5A /* BuildFile in Sources */,
-				E1BBB65E2E00724100291D48 /* BuildFile in Sources */,
-				1965437428C811B000457EC6 /* BuildFile in Sources */,
-				336195032D8AB96000BED4BD /* BuildFile in Sources */,
-				E108416C2DC27F24000E4F17 /* BuildFile in Sources */,
-				D6B6875221923BCF005F5DA7 /* BuildFile in Sources */,
-				D00A376E225BDAF800F46F47 /* BuildFile in Sources */,
-				D72370942119139D001EA4CA /* BuildFile in Sources */,
-				209B0E3A265801D70006DB7D /* BuildFile in Sources */,
-				19A97D2328C7FCF00031B857 /* BuildFile in Sources */,
-				3959A62F2B69BC6D00FE8055 /* BuildFile in Sources */,
-				D6E7DAFC22089F9800689BD6 /* BuildFile in Sources */,
-				E1DBB2372DAEBCE10050733F /* BuildFile in Sources */,
-				D6E925CE211107CD00E13010 /* BuildFile in Sources */,
-				E1A310242D270CB00062646C /* BuildFile in Sources */,
-				E19D49C72DB7F07A004A74D5 /* BuildFile in Sources */,
-				339ED5602CE41015004B301D /* BuildFile in Sources */,
-				015102AE1F1947CB0006C0FC /* BuildFile in Sources */,
-				D6560C2A2182361800CD24BC /* BuildFile in Sources */,
-				E1BAA03E2C1A1CE4004F8B06 /* BuildFile in Sources */,
-				D764377C224174B700DAFC9E /* BuildFile in Sources */,
-				D6B6F91820EE955B00A295F7 /* BuildFile in Sources */,
-				A78356081E85BE6D0021DA5A /* BuildFile in Sources */,
-				336195002D8AB5E100BED4BD /* BuildFile in Sources */,
-				D60C8BF321481BCC00D96152 /* BuildFile in Sources */,
-				D6B4F0032107B4760079159D /* BuildFile in Sources */,
-				D60C8CE12149A65000D96152 /* BuildFile in Sources */,
-				D6F741A821836E5700C2DDA2 /* BuildFile in Sources */,
-				01483F222F0DDFF900A1D833 /* BuildFile in Sources */,
-				3344A77E2D9C93A200D7DE91 /* BuildFile in Sources */,
+				19E9F01729C0F9A20002AD69 /* (null) in Sources */,
+				A783560A1E85BE890021DA5A /* (null) in Sources */,
+				E1BBB65E2E00724100291D48 /* (null) in Sources */,
+				1965437428C811B000457EC6 /* (null) in Sources */,
+				336195032D8AB96000BED4BD /* (null) in Sources */,
+				E108416C2DC27F24000E4F17 /* (null) in Sources */,
+				D6B6875221923BCF005F5DA7 /* (null) in Sources */,
+				D00A376E225BDAF800F46F47 /* (null) in Sources */,
+				D72370942119139D001EA4CA /* (null) in Sources */,
+				209B0E3A265801D70006DB7D /* (null) in Sources */,
+				19A97D2328C7FCF00031B857 /* (null) in Sources */,
+				3959A62F2B69BC6D00FE8055 /* (null) in Sources */,
+				D6E7DAFC22089F9800689BD6 /* (null) in Sources */,
+				E1DBB2372DAEBCE10050733F /* (null) in Sources */,
+				D6E925CE211107CD00E13010 /* (null) in Sources */,
+				E1A310242D270CB00062646C /* (null) in Sources */,
+				E19D49C72DB7F07A004A74D5 /* (null) in Sources */,
+				339ED5602CE41015004B301D /* (null) in Sources */,
+				015102AE1F1947CB0006C0FC /* (null) in Sources */,
+				D6560C2A2182361800CD24BC /* (null) in Sources */,
+				E1BAA03E2C1A1CE4004F8B06 /* (null) in Sources */,
+				D764377C224174B700DAFC9E /* (null) in Sources */,
+				D6B6F91820EE955B00A295F7 /* (null) in Sources */,
+				A78356081E85BE6D0021DA5A /* (null) in Sources */,
+				336195002D8AB5E100BED4BD /* (null) in Sources */,
+				D60C8BF321481BCC00D96152 /* (null) in Sources */,
+				D6B4F0032107B4760079159D /* (null) in Sources */,
+				D60C8CE12149A65000D96152 /* (null) in Sources */,
+				D6F741A821836E5700C2DDA2 /* (null) in Sources */,
+				01483F222F0DDFF900A1D833 /* (null) in Sources */,
+				3344A77E2D9C93A200D7DE91 /* (null) in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

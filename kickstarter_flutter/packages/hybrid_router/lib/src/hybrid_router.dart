@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 
 import 'flutter_navigation.dart';
 import 'native_navigator_channel.dart';
@@ -50,12 +50,14 @@ class HybridRouter {
     String initialFlutterPath = '/',
   })  : _flutter = flutter,
         _channel = channel,
-        _registry = registry {
+        _registry = registry,
+        _initialFlutterPath = initialFlutterPath {
     _stack.add(FlutterEntry(initialFlutterPath));
     _flutterNav.add(initialFlutterPath);
     _channel.bind(
       NativeNavigationCallbacks(
-        onPushFlutter: (path, args) => push(path, extra: args),
+        onPushFlutter: (path, args, reset) =>
+            reset ? enterFlutter(path, extra: args) : push(path, extra: args),
         onPopFlutter: pop,
         onDidPopNative: _onDidPopNative,
       ),
@@ -65,6 +67,16 @@ class HybridRouter {
   final FlutterNavigation _flutter;
   final NativeNavigatorChannel _channel;
   final NativeRouteRegistry _registry;
+
+  /// The GoRouter base route. When the Flutter navigator unwinds back to just
+  /// this, the current Flutter segment is done and the container is closed.
+  final String _initialFlutterPath;
+
+  /// Count of Flutter-navigator pops the router itself initiated (via [pop] or
+  /// [_onDidPopNative]). The [HybridPopObserver] uses this to tell a pop the
+  /// router already reconciled from a *user gesture* (AppBar back / iOS
+  /// swipe-back) that bypassed [pop] entirely.
+  int _programmaticPops = 0;
 
   /// Visual, cross-boundary stack (bottom -> top). Native holds the authoritative
   /// copy; this mirror is what the router reasons about locally.
@@ -113,6 +125,28 @@ class HybridRouter {
     _flutterNav.add(path);
     _stack.add(FlutterEntry(path));
     _log('push flutter $path');
+  }
+
+  /// Open a **fresh** Flutter journey from a native root (e.g. a feed row tap).
+  ///
+  /// Discards any stale Flutter history first so re-entering Flutter never
+  /// stacks duplicates on top of a previous, abandoned journey. The base route
+  /// is kept beneath so a later back at [path] closes the container cleanly.
+  void enterFlutter(String path, {Object? extra}) {
+    if (_registry.isNative(path)) {
+      // Defensive: a native path can't be a fresh Flutter entry; fall back.
+      push(path, extra: extra);
+      return;
+    }
+    _flutter.go(_initialFlutterPath);
+    _flutterNav
+      ..clear()
+      ..add(_initialFlutterPath);
+    _stack
+      ..clear()
+      ..add(FlutterEntry(_initialFlutterPath));
+    _log('enterFlutter reset -> base');
+    push(path, extra: extra);
   }
 
   /// Replace the current top with [path]. Mirrors `GoRouter.pushReplacement`.
@@ -168,24 +202,65 @@ class HybridRouter {
       return;
     }
 
-    // top is a Flutter page: pop it from the Flutter navigator.
-    _flutter.pop(result);
-    _flutterNav.removeLast();
-    _stack.removeLast();
+    // top is a Flutter page: pop it from the Flutter navigator, then reconcile.
+    // The pop triggers the observer, but we mark it programmatic so the observer
+    // doesn't reconcile a second time (see [handleFlutterNavigatorPop]).
+    _popFlutterNavigator(result);
+    _reconcileFlutterPop();
+  }
 
-    // If we've now uncovered a native page, the Flutter navigator's new top is a
-    // placeholder. Hand control back to native (leave the placeholder in place;
-    // it is removed when native reports didPopNative).
+  /// Pop the Flutter navigator ourselves, tagging it so the observer callback
+  /// treats the resulting signal as already-reconciled.
+  void _popFlutterNavigator([Object? result]) {
+    _programmaticPops++;
+    _flutter.pop(result);
+  }
+
+  /// Called by [HybridPopObserver] on **every** Flutter Navigator pop, whatever
+  /// triggered it. If the router initiated the pop it's already reconciled —
+  /// consume the signal. Otherwise it was a user gesture (Material AppBar back
+  /// button, iOS edge-swipe, Android system back) that bypassed [pop]; reconcile
+  /// now so the logical stack and the native side stay in lockstep.
+  void handleFlutterNavigatorPop() {
+    if (_programmaticPops > 0) {
+      _programmaticPops--;
+      return;
+    }
+    _log('flutter gesture back');
+    _reconcileFlutterPop();
+  }
+
+  /// Bring the logical + native stacks back in line after one Flutter page has
+  /// left the Flutter navigator.
+  void _reconcileFlutterPop() {
+    if (_flutterNav.isEmpty) return;
+    _flutterNav.removeLast();
+    if (_stack.isNotEmpty && _stack.last is FlutterEntry) _stack.removeLast();
+
+    // Uncovered an intervening native page? Its placeholder is now on top: hand
+    // control back to native (the placeholder stays until didPopNative).
     final newTop = _top;
     if (newTop is NativeEntry &&
         _flutterNav.isNotEmpty &&
         NativePlaceholder.matches(_flutterNav.last)) {
       _channel.showNative(newTop.path);
-      _log('pop flutter ${top.path} -> showNative ${newTop.path}');
-    } else {
-      _log('pop flutter ${top.path}');
+      _log('pop flutter -> showNative ${newTop.path}');
+      return;
     }
+
+    // Flutter segment exhausted (only the base route remains): the whole Flutter
+    // container must leave the native stack, revealing the native page beneath.
+    if (_isAtFlutterRoot) {
+      _channel.closeFlutter();
+      _log('pop flutter -> closeFlutter (container closed)');
+      return;
+    }
+    _log('pop flutter');
   }
+
+  /// True when the Flutter navigator holds nothing but its base route.
+  bool get _isAtFlutterRoot =>
+      _flutterNav.length == 1 && _flutterNav.single == _initialFlutterPath;
 
   /// Handle a native-originated back (nav-bar back button / iOS edge-swipe) so
   /// the Flutter stack stays in lockstep with the native one.
@@ -194,14 +269,33 @@ class HybridRouter {
     if (top is! NativeEntry) return; // out of sync guard; ignore stray signals.
     _stack.removeLast();
 
-    // Drop the placeholder that stood in for this native page, if present.
+    // Drop the placeholder that stood in for this native page, if present. The
+    // observer removes it from _flutterNav (marked programmatic).
     if (_flutterNav.isNotEmpty &&
         NativePlaceholder.matches(_flutterNav.last)) {
-      _flutter.pop();
+      _popFlutterNavigator();
       _flutterNav.removeLast();
     }
     _log('didPopNative $path');
     // Native has already removed its VC; the FlutterViewController comes forward
     // showing the Flutter page now on top (if any).
+  }
+}
+
+/// A [NavigatorObserver] that reports every Flutter Navigator pop to a
+/// [HybridRouter], so that Flutter's *own* back affordances — the Material
+/// AppBar back button, the iOS edge-swipe, the Android system back — flow
+/// through the same reconciliation path as a programmatic [HybridRouter.pop].
+///
+/// Attach it to the app's single GoRouter (`GoRouter(observers: [observer])`)
+/// and wire [onFlutterPop] to [HybridRouter.handleFlutterNavigatorPop].
+class HybridPopObserver extends NavigatorObserver {
+  /// Invoked after any route is popped from the observed navigator.
+  void Function()? onFlutterPop;
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    super.didPop(route, previousRoute);
+    onFlutterPop?.call();
   }
 }
