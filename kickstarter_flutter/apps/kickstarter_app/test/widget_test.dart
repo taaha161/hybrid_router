@@ -23,9 +23,4 @@ void main() {
     expect(kNativeRoutes.isNative('/project/42'), isFalse);
     expect(kNativeRoutes.isNative('/backer/ada'), isFalse);
   });
-
-  test('buildHybridRouter starts on the Flutter root', () {
-    final router = buildHybridRouter();
-    expect(router.stack.single, isA<FlutterEntry>());
-  });
 }

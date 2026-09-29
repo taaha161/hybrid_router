@@ -1,172 +1,102 @@
 import Flutter
+import hybrid_router
 import UIKit
 
-/// Drives the host `UINavigationController` in response to the navigation
-/// channel, and reports native-originated pops back to Flutter.
+/// Drives the native stack. Plain UIKit: it owns the navigation controller and
+/// holds the one warm engine.
 ///
-/// ## The single-FlutterViewController model
-///
-/// There is exactly one `FlutterViewController` (`flutterVC`) bound to the one
-/// engine. It hosts *every* Flutter page via GoRouter. Native pages are ordinary
-/// `UIViewController`s. Because `flutterVC` is a single instance, an interleaved
-/// stack (`flutterA → native → flutterB`) is handled by **reordering** who sits
-/// on top, not by creating a second Flutter view:
-///
-/// ```
-/// push /project (flutter)   nav = [discovery, flutterVC(A)]
-/// push /reward  (native)    nav = [discovery, flutterVC(A), rewardVC]
-/// push /backer  (flutter)   Dart inserts a placeholder + shows B in GoRouter;
-///                           native reorders -> [discovery, rewardVC, flutterVC(B)]
-/// pop  (from B)             Dart pops B -> lands on placeholder -> showNative:
-///                           native reorders -> [discovery, flutterVC, rewardVC]
-/// pop  (from rewardVC)      native back -> didPopNative -> Dart pops placeholder
-///                           -> flutterVC shows A -> [discovery, flutterVC(A)]
-/// ```
+/// The engine keeps every Flutter page's state, so a `FlutterViewController`
+/// is just a disposable surface onto it: we create one to show Flutter and
+/// destroy it on the way back. No reparenting, no `moveToFront`.
 final class HybridNavigator: NSObject {
-    private unowned let navigationController: UINavigationController
-    private let flutterVC: FlutterViewController
-    private let channel: NavigationChannel
-    private let routeFactory: NativeRouteFactory
+    let navController: UINavigationController
+    let engine: FlutterEngine // the one warm engine
 
-    /// Native pages currently live, oldest → newest.
-    private var nativeStack: [(path: String, vc: UIViewController)] = []
+    /// Generated Pigeon caller: native → Flutter.
+    let toFlutter: ToFlutter
 
-    /// Number of pending `didShow` callbacks that come from *our own*
-    /// programmatic stack mutations (reorders, programmatic pops). Each such
-    /// mutation changes the top VC and therefore yields exactly one `didShow`.
-    /// The delegate consumes one per callback and skips back-detection for it,
-    /// so only a *genuine* user back (nav-bar back button / edge-swipe) — which
-    /// we never initiate — is reported to Flutter as `didPopNative`.
-    private var pendingProgrammaticTransitions = 0
+    private let routeFactory = NativeRouteFactory()
 
-    /// Run a stack mutation that will trigger one `didShow` we must not mistake
-    /// for a user-initiated back.
-    private func programmatic(_ mutate: () -> Void) {
-        pendingProgrammaticTransitions += 1
-        mutate()
-    }
-
-    init(
-        navigationController: UINavigationController,
-        flutterVC: FlutterViewController,
-        channel: NavigationChannel,
-        routeFactory: NativeRouteFactory = .init()
-    ) {
-        self.navigationController = navigationController
-        self.flutterVC = flutterVC
-        self.channel = channel
-        self.routeFactory = routeFactory
+    init(navController: UINavigationController, engine: FlutterEngine) {
+        self.navController = navController
+        self.engine = engine
+        toFlutter = ToFlutter(binaryMessenger: engine.binaryMessenger)
         super.init()
-        channel.navigator = self
-        navigationController.delegate = self
+        navController.delegate = self
+        navController.interactivePopGestureRecognizer?.delegate = self
     }
 
-    // MARK: Flutter -> Native
-
-    /// Push a native page for `path` on top of the current stack.
-    func pushNative(path: String, args: Any?) {
-        NSLog("[hybrid] ios pushNative %@", path)
-        guard let vc = routeFactory.makeViewController(path: path, args: args) else { return }
-        vc.hybridPath = path
-        // Let a demo native page trigger a native -> Flutter push (interleaving).
-        (vc as? DemoNativePageViewController)?.onOpenFlutter = { [weak self] target in
-            self?.showFlutter(path: target)
+    /// A native screen.
+    func push(_ path: String) {
+        guard let vc = routeFactory.make(path) else { return }
+        (vc as? DemoNativePageViewController)?.onOpenFlutter = { [weak self] path in
+            self?.openFlutter(path)
         }
-        nativeStack.append((path, vc))
-        navigationController.pushViewController(vc, animated: true)
+        navController.pushViewController(vc, animated: true)
     }
 
-    /// Pop the top native page (programmatic Flutter-initiated pop).
-    func popNative() {
-        guard nativeStack.last != nil else { return }
-        nativeStack.removeLast()
-        programmatic { navigationController.popViewController(animated: true) }
+    /// A fresh surface onto the engine.
+    func showFlutter() {
+        engine.viewController = nil // one view at a time
+        navController.pushViewController(FlutterViewController(engine: engine, nibName: nil, bundle: nil), animated: true)
     }
 
-    /// Bring the (already-existing) native page for `path` back to the front,
-    /// stepping `flutterVC` behind it. Used when a Flutter pop lands on a
-    /// placeholder standing in for this native page.
-    func showNative(path: String) {
-        NSLog("[hybrid] ios showNative %@ (reparent flutterVC behind native)", path)
-        guard let target = nativeStack.last(where: { $0.path == path })?.vc else { return }
-        var vcs = navigationController.viewControllers
-        // Move flutterVC directly beneath the target native page.
-        vcs.removeAll { $0 === flutterVC || $0 === target }
-        vcs.append(flutterVC)
-        vcs.append(target)
-        programmatic { navigationController.setViewControllers(vcs, animated: true) }
+    /// Leaving Flutter for good: just destroy the FlutterVC.
+    func returnToNative() {
+        navController.popViewController(animated: true)
     }
 
     func popToRoot() {
-        nativeStack.removeAll()
-        programmatic { navigationController.popToRootViewController(animated: true) }
+        navController.popToRootViewController(animated: true)
     }
 
-    /// The Flutter/GoRouter stack unwound to its base route: remove the single
-    /// `flutterVC` from the host stack so the native page beneath (e.g. the
-    /// Hybrid Feed) comes back. Only acts when `flutterVC` is actually frontmost,
-    /// so a stray signal can't pop an unrelated native page.
-    func closeFlutter() {
-        NSLog("[hybrid] ios closeFlutter (pop flutterVC container)")
-        guard navigationController.topViewController === flutterVC else { return }
-        programmatic { navigationController.popViewController(animated: true) }
-    }
-
-    /// Show a Flutter route: ensure `flutterVC` is frontmost, then let GoRouter
-    /// (via the channel) navigate. If a native page is currently on top, reorder
-    /// so `flutterVC` sits above it (the interleaved case).
-    func showFlutter(path: String, args: Any? = nil) {
-        // Fresh entry (flutterVC not yet in the stack, e.g. a feed row tap) vs an
-        // interleaved push (flutterVC already embedded behind a native page). A
-        // fresh entry resets the Flutter stack so stale history can't pile up.
-        let alreadyEmbedded = navigationController.viewControllers.contains { $0 === flutterVC }
-        NSLog("[hybrid] ios showFlutter %@ (reset=%@)", path, alreadyEmbedded ? "false" : "true")
-        if navigationController.topViewController !== flutterVC {
-            var vcs = navigationController.viewControllers
-            if alreadyEmbedded {
-                vcs.removeAll { $0 === flutterVC }
-                vcs.append(flutterVC)
-                programmatic { navigationController.setViewControllers(vcs, animated: true) }
-            } else {
-                programmatic { navigationController.pushViewController(flutterVC, animated: true) }
-            }
+    /// Native opens a Flutter page: Flutter pushes a placeholder + the page,
+    /// then we show a fresh surface so it appears already on the right page.
+    func openFlutter(_ path: String) {
+        toFlutter.pushFlutterRoute(route: NavRoute(path: path)) { [weak self] _ in
+            self?.showFlutter()
         }
-        channel.pushFlutter(path: path, args: args, reset: !alreadyEmbedded)
+    }
+
+    /// Native owns the back gesture and asks Flutter first.
+    func onBackPressed() {
+        if navController.topViewController is FlutterViewController {
+            toFlutter.handleBack { [weak self] result in
+                if case .success(true) = result { return } // Flutter handled it
+                self?.navController.popViewController(animated: true)
+            }
+        } else {
+            navController.popViewController(animated: true) // native page pops itself
+        }
     }
 }
-
-// MARK: - Native-originated back detection
 
 extension HybridNavigator: UINavigationControllerDelegate {
     func navigationController(
         _ navigationController: UINavigationController,
-        didShow viewController: UIViewController,
+        willShow viewController: UIViewController,
         animated: Bool
     ) {
-        // Skip callbacks caused by our own reorders/programmatic pops — otherwise
-        // a reparent's animated `didShow` looks like a native back and wrongly
-        // evicts a tracked page from `nativeStack` (which then breaks `showNative`).
-        if pendingProgrammaticTransitions > 0 {
-            pendingProgrammaticTransitions -= 1
-            return
-        }
-        // A native page that we tracked is no longer in the stack => the user
-        // popped it (back button / edge-swipe). Tell Flutter so GoRouter syncs.
-        let liveVCs = Set(navigationController.viewControllers.map { ObjectIdentifier($0) })
-        for entry in nativeStack.reversed() where !liveVCs.contains(ObjectIdentifier(entry.vc)) {
-            nativeStack.removeAll { $0.vc === entry.vc }
-            NSLog("[hybrid] ios native back -> didPopNative %@", entry.path)
-            channel.didPopNative(path: entry.path)
+        // Flutter pages draw their own AppBar; native pages use the nav bar.
+        navigationController.setNavigationBarHidden(viewController is FlutterViewController, animated: animated)
+
+        // A native back revealed an older Flutter view: reattach it. The engine
+        // kept the page's state, so it renders right where it was.
+        if let flutterVC = viewController as? FlutterViewController, engine.viewController !== flutterVC {
+            engine.viewController = nil
+            engine.viewController = flutterVC
         }
     }
 }
 
-private var kHybridPathKey: UInt8 = 0
-
-extension UIViewController {
-    /// The hybrid route path this native VC represents (for diagnostics).
-    var hybridPath: String? {
-        get { objc_getAssociatedObject(self, &kHybridPathKey) as? String }
-        set { objc_setAssociatedObject(self, &kHybridPathKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+extension HybridNavigator: UIGestureRecognizerDelegate {
+    /// The iOS edge-swipe goes through `onBackPressed` when Flutter is on top.
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard gestureRecognizer === navController.interactivePopGestureRecognizer else { return true }
+        if navController.topViewController is FlutterViewController {
+            onBackPressed()
+            return false
+        }
+        return navController.viewControllers.count > 1
     }
 }

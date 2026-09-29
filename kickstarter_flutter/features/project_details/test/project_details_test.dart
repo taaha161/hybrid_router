@@ -14,9 +14,7 @@ void main() {
   testWidgets('renders the project id and actions', (tester) async {
     await tester.pumpWidget(
       const ProviderScope(
-        child: MaterialApp(
-          home: ProjectDetailsPage(projectId: '42'),
-        ),
+        child: MaterialApp(home: ProjectDetailsPage(projectId: '42')),
       ),
     );
 

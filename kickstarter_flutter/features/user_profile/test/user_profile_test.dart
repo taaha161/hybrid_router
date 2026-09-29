@@ -14,9 +14,7 @@ void main() {
   testWidgets('renders the user handle', (tester) async {
     await tester.pumpWidget(
       const ProviderScope(
-        child: MaterialApp(
-          home: UserProfilePage(userId: 'ada'),
-        ),
+        child: MaterialApp(home: UserProfilePage(userId: 'ada')),
       ),
     );
 

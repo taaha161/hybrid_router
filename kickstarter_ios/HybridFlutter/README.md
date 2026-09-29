@@ -1,55 +1,49 @@
 # HybridFlutter — iOS integration
 
-The native half of the hybrid router: warms the single Flutter engine, hosts the
-single `FlutterViewController`, and bridges navigation over the
-`com.hybridrouter/navigation` method channel. Mirrors the Dart contract in
-`kickstarter_flutter/packages/hybrid_router`.
+The native half of the hybrid router. One warm `FlutterEngine` holds all
+Flutter state; `FlutterViewController`s are disposable surfaces onto it —
+created to show Flutter, destroyed on the way back. Native talks to Flutter
+through the typed Pigeon bridge from the `hybrid_router` plugin
+(`kickstarter_flutter/packages/hybrid_router`).
 
 ## Files
 
 | File | Role |
 |------|------|
-| `FlutterEngineManager.swift` | Owns the one long-lived `FlutterEngine`; `warmUp()` runs it once. |
-| `NavigationChannel.swift` | Method-channel handler; method names mirror Dart `NavMethods`. |
-| `HybridNavigator.swift` | Drives the host `UINavigationController`; reparents the single `FlutterViewController` for interleaved stacks; reports native back via `didPopNative`. |
+| `FlutterEngineManager.swift` | Owns the one warm `FlutterEngine`; `warmUp()` runs it once and registers plugins. |
+| `HybridNavigator.swift` | Drives the native stack: `push`, `showFlutter`, `returnToNative`, `popToRoot`, `openFlutter`, `onBackPressed`. |
+| `NavBridge.swift` | `ToNativeImpl` — implements the generated `ToNative`, one line per method into `HybridNavigator`; `registerBridge()` wires it up. |
 | `NativeRouteFactory.swift` | Maps a native path → `UIViewController` (demo reward/checkout pages). |
+| `HybridFeedViewController.swift` | The native feed (Hybrid tab); a row tap calls `openFlutter`. |
 
-## Integration steps (into the forked Kickstarter app)
+## The bridge
 
-The fork is **SPM-based (no CocoaPods)**, so embed Flutter as prebuilt
-`.xcframework`s rather than via `podhelper`.
+| API | Direction | Implemented by | Called by |
+|-----|-----------|----------------|-----------|
+| `ToNative` — `pushNativeRoute`, `returnToNative`, `popToRoot` | Flutter → native | `ToNativeImpl` (Swift) | `toNative` (Dart) |
+| `ToFlutter` — `pushFlutterRoute`, `handleBack` | native → Flutter | `ToFlutterImpl` (Dart) | `toFlutter` (Swift) |
 
-1. **Build the frameworks** (from the module):
-   ```sh
-   cd kickstarter_flutter/apps/kickstarter_app
-   flutter build ios-framework --xcframework
-   # -> build/ios/framework/{Debug,Release,Profile}/{Flutter,App}.xcframework
-   ```
-2. **Embed** `Flutter.xcframework` and `App.xcframework` in the `Kickstarter iOS`
-   target: *General → Frameworks, Libraries, and Embedded Content* →
-   *Embed & Sign*. (Add a Debug/Release framework-search-path pointing at the
-   matching build dir, or check the generated frameworks into the repo.)
-3. **Add the four Swift files** in this folder to the `Kickstarter iOS` target.
-4. **Warm the engine** at launch, in the app's `AppDelegate`:
-   ```swift
-   FlutterEngineManager.shared.warmUp()
-   ```
-5. **Host the Flutter view** where Kickstarter's project page is shown. Create the
-   single `FlutterViewController` from the shared engine and a `HybridNavigator`
-   bound to the current `UINavigationController`:
-   ```swift
-   let engine = FlutterEngineManager.shared.engine
-   let flutterVC = FlutterViewController(engine: engine, nibName: nil, bundle: nil)
-   let navigator = HybridNavigator(
-       navigationController: self.navigationController!,
-       flutterVC: flutterVC,
-       channel: FlutterEngineManager.shared.navigation
-   )
-   // From a native list cell (e.g. a project row):
-   navigator.showFlutter(path: "/project/42")
-   ```
-6. **Bottom bar (Case 4):** keep Kickstarter's native `UITabBarController`. One
-   tab hosts the `HybridNavigator`/Flutter surface; the others stay native.
+Back navigation: native owns the back gesture and asks Flutter first.
+`onBackPressed` (edge-swipe) calls `toFlutter.handleBack()`; if Flutter
+returns `false`, native pops. A native page on top just pops itself.
+
+## Building the frameworks
+
+The fork is SPM-based, so Flutter is embedded as prebuilt `.xcframework`s
+(gitignored — rebuild them after changing any Dart or plugin code):
+
+```sh
+cd kickstarter_flutter/apps/kickstarter_app
+flutter build ios-framework --no-profile --no-release --output=/tmp/ks_fw
+cp -R /tmp/ks_fw/Debug/*.xcframework ../../../kickstarter_ios/Frameworks/
+```
+
+That produces four frameworks, all linked and embedded in the `Kickstarter-iOS`
+target: `App`, `Flutter`, `FlutterPluginRegistrant`, and `hybrid_router` (the
+plugin, which carries the generated Swift bridge).
+
+If the plugin changes (e.g. the Pigeon schema), regenerate the bridge first with
+`kickstarter_flutter/packages/hybrid_router/tool/generate.sh`.
 
 ## LLDB init file
 
@@ -58,6 +52,5 @@ Debugging a Flutter module on recent iOS needs an LLDB init file — see Flutter
 
 ## Known scope
 
-Handles Case 1 (nav-stack mixing) and the reparenting variant of Case 4. A single
-engine cannot render two Flutter surfaces at once (doc Case 3 / full Case 4) —
-that is the deliberate memory trade-off.
+One engine can't render two Flutter surfaces at the same time — the deliberate
+trade-off for shared state, one warm-up, and one back stack.
