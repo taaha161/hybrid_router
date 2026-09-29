@@ -1,8 +1,9 @@
 # HybridFlutter — iOS integration
 
 The native half of the hybrid router. One warm `FlutterEngine` holds all
-Flutter state; `FlutterViewController`s are disposable surfaces onto it —
-created to show Flutter, destroyed on the way back. Native talks to Flutter
+Flutter state. A new `FlutterViewController` is created each time native opens
+Flutter and destroyed by `returnToNative`; one left under a native page
+re-attaches to the engine when revealed. Native talks to Flutter
 through the typed Pigeon bridge from the `hybrid_router` plugin
 (`kickstarter_flutter/packages/hybrid_router`).
 
