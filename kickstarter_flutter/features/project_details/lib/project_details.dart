@@ -6,18 +6,18 @@ import 'package:hybrid_router/hybrid_router.dart';
 /// GoRoutes contributed by this feature. The host app collects these from every
 /// feature to build the single GoRouter.
 List<RouteBase> projectDetailsRoutes() => [
-      GoRoute(
-        path: '/project/:id',
-        builder: (context, state) =>
-            ProjectDetailsPage(projectId: state.pathParameters['id'] ?? '?'),
-      ),
-    ];
+  GoRoute(
+    path: '/project/:id',
+    builder: (context, state) =>
+        ProjectDetailsPage(projectId: state.pathParameters['id'] ?? '?'),
+  ),
+];
 
 /// Kickstarter project details — the Flutter analogue of the doc's Yelp
 /// "restaurant details" page (case page 2).
 ///
 /// Note there is **no native-vs-Flutter branching** here: the page just calls
-/// `ref.hybridPush(...)`. Whether `/reward/...` is native and `/backer/...` is
+/// `ref.read(routerProvider).push(...)`. Whether `/reward/...` is native and `/backer/...` is
 /// Flutter is decided by the router's registry, not by this feature.
 class ProjectDetailsPage extends ConsumerWidget {
   const ProjectDetailsPage({required this.projectId, super.key});
@@ -27,12 +27,16 @@ class ProjectDetailsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: Text('Project #$projectId')),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF0E9AAA),
+        foregroundColor: Colors.white,
+        leading: const HybridBackButton(),
+        title: Text('Project #$projectId'),
+        bottom: const _FlutterBanner(feature: 'project_details'),
+      ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          const _Banner(label: 'FLUTTER · project_details'),
-          const SizedBox(height: 16),
           Text(
             'A Bold New Board Game',
             style: Theme.of(context).textTheme.headlineSmall,
@@ -42,18 +46,19 @@ class ProjectDetailsPage extends ConsumerWidget {
           const SizedBox(height: 24),
           FilledButton(
             // Registered as NATIVE -> pushed onto the iOS nav stack.
-            onPressed: () => ref.hybridPush('/reward/$projectId'),
+            onPressed: () =>
+                ref.read(routerProvider).push('/reward/$projectId'),
             child: const Text('Back this project (native reward page)'),
           ),
           const SizedBox(height: 12),
           OutlinedButton(
             // Not in the native registry -> stays inside Flutter via GoRouter.
-            onPressed: () => ref.hybridPush('/backer/ada'),
+            onPressed: () => ref.read(routerProvider).push('/backer/ada'),
             child: const Text('View creator profile (Flutter page)'),
           ),
           const SizedBox(height: 12),
           TextButton(
-            onPressed: () => ref.hybridPop(),
+            onPressed: () => ref.read(routerProvider).pop(),
             child: const Text('Back'),
           ),
         ],
@@ -62,24 +67,38 @@ class ProjectDetailsPage extends ConsumerWidget {
   }
 }
 
-class _Banner extends StatelessWidget {
-  const _Banner({required this.label});
-  final String label;
+/// Big "this is Flutter" strip under the AppBar, so a screen recording shows
+/// which side of the seam each screen lives on.
+class _FlutterBanner extends StatelessWidget implements PreferredSizeWidget {
+  const _FlutterBanner({required this.feature});
+  final String feature;
+
+  @override
+  Size get preferredSize => const Size.fromHeight(40);
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        decoration: BoxDecoration(
-          color: const Color(0xFF05CE78),
-          borderRadius: BorderRadius.circular(6),
-        ),
-        child: Text(
-          label,
-          style: const TextStyle(
+    height: 40,
+    color: const Color(0xFF0B6E79),
+    padding: const EdgeInsets.symmetric(horizontal: 16),
+    child: Row(
+      children: [
+        const FlutterLogo(size: 20),
+        const SizedBox(width: 10),
+        const Text(
+          'FLUTTER SCREEN',
+          style: TextStyle(
             color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 12,
+            fontWeight: FontWeight.w900,
+            letterSpacing: 1.5,
           ),
         ),
-      );
+        const Spacer(),
+        Text(
+          feature,
+          style: const TextStyle(color: Colors.white70, fontSize: 12),
+        ),
+      ],
+    ),
+  );
 }

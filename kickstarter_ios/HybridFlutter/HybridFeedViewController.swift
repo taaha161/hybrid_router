@@ -1,4 +1,3 @@
-import Flutter
 import UIKit
 
 /// Factory for the "Hybrid" tab: a native `UINavigationController` rooted at a
@@ -24,11 +23,6 @@ enum HybridTab {
 /// journey the talk demonstrates.
 final class HybridFeedViewController: UITableViewController {
     private var navigator: HybridNavigator?
-    private lazy var flutterVC = FlutterViewController(
-        engine: FlutterEngineManager.shared.engine,
-        nibName: nil,
-        bundle: nil
-    )
 
     private let projects: [(id: String, name: String, author: String)] = [
         ("42", "A Bold New Board Game", "Ada Studio"),
@@ -38,15 +32,23 @@ final class HybridFeedViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Hybrid Feed (native)"
+        title = "Hybrid Feed"
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        markAsNativeScreen()
+        let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 40))
+        let banner = NativeScreenBanner(feature: "UIKit · feed")
+        header.addSubview(banner)
+        NSLayoutConstraint.activate([
+            banner.topAnchor.constraint(equalTo: header.topAnchor),
+            banner.leadingAnchor.constraint(equalTo: header.leadingAnchor),
+            banner.trailingAnchor.constraint(equalTo: header.trailingAnchor),
+        ])
+        tableView.tableHeaderView = header
 
         if let nav = navigationController {
-            navigator = HybridNavigator(
-                navigationController: nav,
-                flutterVC: flutterVC,
-                channel: FlutterEngineManager.shared.navigation
-            )
+            let navigator = HybridNavigator(navController: nav, engine: FlutterEngineManager.shared.engine)
+            navigator.registerBridge()
+            self.navigator = navigator
         }
     }
 
@@ -70,8 +72,8 @@ final class HybridFeedViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        // No native-vs-Flutter branching here either: the row just names a path;
-        // the router decides. `/project/:id` is a Flutter route.
-        navigator?.showFlutter(path: "/project/\(projects[indexPath.row].id)")
+        // Native opens a Flutter page: placeholder + page in GoRouter, then a
+        // fresh Flutter view on top.
+        navigator?.openFlutter("/project/\(projects[indexPath.row].id)")
     }
 }

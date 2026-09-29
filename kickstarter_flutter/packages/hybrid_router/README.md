@@ -1,39 +1,48 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# hybrid_router
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+A thin GoRouter wrapper for Flutter add-to-app. Feature code calls
+`push` / `go` / `pop` exactly like GoRouter; native routes go over a typed
+Pigeon bridge, everything else goes to GoRouter in a single warm engine.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
+GoRouter's own stack plus invisible **placeholder** routes is the only
+navigation state — there is no second stack to keep in sync.
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+## Pieces
 
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+| | |
+|---|---|
+| `HybridRouter` | `push`, `go`, `pop`. Asks the `NativeRouteRegistry` whether a path is native, then dispatches to `toNative` or GoRouter. |
+| `NativeRouteRegistry` | The native screens — the migration dial. Delete a line to migrate a screen; when it's empty, delete the wrapper. |
+| `ToFlutterImpl` | Implements the generated `ToFlutter`: `pushFlutterRoute` (placeholder + page) and `handleBack`. |
+| `placeholder()` / `isPlaceholder()` | A bare marker route meaning "a native screen sits here". |
+| `HybridBackButton` | AppBar back arrow that runs the same back logic as native. |
+| `routerProvider` | Riverpod provider the host app overrides with its `HybridRouter`. |
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
 ```dart
-const like = 'sample';
+// Host app
+final toNative = ToNative();                                   // generated caller
+ToFlutter.setUp(ToFlutterImpl(goRouter: goRouter, toNative: toNative));
+final router = HybridRouter(goRouter: goRouter, toNative: toNative, registry: registry);
+
+// Feature code
+ref.read(routerProvider).push('/reward/42'); // native today, Flutter tomorrow
 ```
 
-## Additional information
+## The bridge
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+The whole bridge is one schema: `pigeons/hybrid_nav.dart`. Regenerate with:
+
+```sh
+tool/generate.sh
+```
+
+It runs Pigeon and then marks the app-facing Swift types public (Pigeon emits
+internal Swift, and the host app lives in a different module than the plugin).
+
+## Try it yourself
+
+- Carry path and query params (`/project/:id?ref=hn`) through `NavRoute`.
+- Add `pushNamed` / `goNamed`, `pushReplacement`, `canPop`.
+- Add Android: implement `ToNative` in Kotlin — same schema, no Dart changes.
