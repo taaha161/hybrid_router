@@ -1,5 +1,5 @@
 /// A GoRouter wrapper for Flutter add-to-app, with a typed Pigeon bridge to
-/// the host platform. See `docs/hybrid-router-plan.md`.
+/// the host platform. See the package README.
 library;
 
 export 'src/hybrid_back_button.dart';
