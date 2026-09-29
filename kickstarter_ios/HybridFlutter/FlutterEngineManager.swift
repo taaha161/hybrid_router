@@ -1,35 +1,25 @@
 import Flutter
+import FlutterPluginRegistrant
 import UIKit
 
-/// Owns the **single, long-lived** `FlutterEngine` for the whole app.
+/// Owns the **one warm engine** for the whole app.
 ///
-/// This is the crux of the memory story: one engine, warmed once, reused by the
-/// one `FlutterViewController` for every Flutter page. We deliberately do *not*
-/// use `FlutterEngineGroup` / an engine-per-page, which the "Multiple Flutters"
-/// doc shows costs ~38 MB of dirty memory per view.
+/// One engine, warmed once at launch. Flutter view controllers come and go
+/// around it; the engine keeps all Flutter state. We deliberately don't use an
+/// engine per page (~38 MB each) or FlutterEngineGroup (separate isolates, no
+/// shared back stack).
 final class FlutterEngineManager {
     static let shared = FlutterEngineManager()
 
-    let engine: FlutterEngine
-    private(set) var navigation: NavigationChannel!
+    let engine = FlutterEngine(name: "hybrid_router.engine")
 
-    private init() {
-        engine = FlutterEngine(name: "hybrid_router.engine")
-    }
+    private init() {}
 
-    /// Warm the engine at app launch (e.g. from `AppDelegate`), before any
-    /// Flutter page is shown, so the first navigation is warm.
+    /// Warm the engine at app launch (from `AppDelegate`), before any Flutter
+    /// page is shown, so the first navigation is warm.
     func warmUp() {
-        guard !engine.hasRun else { return }
-        engine.run() // runs the module's `main()` -> GoRouter at '/'
-        // No Flutter plugins in this demo. If any are added, embed
-        // FlutterPluginRegistrant and call GeneratedPluginRegistrant.register(with: engine).
-        navigation = NavigationChannel(
-            binaryMessenger: engine.binaryMessenger
-        )
+        guard engine.isolateId == nil else { return }
+        engine.run() // runs the module's main(): GoRouter at '/', ToFlutter set up
+        GeneratedPluginRegistrant.register(with: engine)
     }
-}
-
-private extension FlutterEngine {
-    var hasRun: Bool { isolateId != nil }
 }

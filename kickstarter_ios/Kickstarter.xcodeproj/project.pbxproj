@@ -31,7 +31,7 @@
 		19A97D2328C7FCF00031B857 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		19E9F01729C0F9A20002AD69 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		209B0E3A265801D70006DB7D /* (null) in Sources */ = {isa = PBXBuildFile; };
-		2823025DCD6FBA0D89430A92 /* NavigationChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36F4E31E9E1DB6F5CBCB921 /* NavigationChannel.swift */; };
+		27554D8557D0E308BE001B5F /* hybrid_router.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57250DBAA74070AE04F47224 /* hybrid_router.xcframework */; };
 		3344A77E2D9C93A200D7DE91 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		336195002D8AB5E100BED4BD /* (null) in Sources */ = {isa = PBXBuildFile; };
 		336195032D8AB96000BED4BD /* (null) in Sources */ = {isa = PBXBuildFile; };
@@ -42,6 +42,7 @@
 		39AE63502F6C581D00481A76 /* GraphAPITestMocks in Frameworks */ = {isa = PBXBuildFile; productRef = 39AE634F2F6C581D00481A76 /* GraphAPITestMocks */; };
 		4626928AAB0A3D19B9E5A5A1 /* FlutterEngineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B145EB54CC24191B01994D /* FlutterEngineManager.swift */; };
 		533312FA847784497945A339 /* Flutter.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913E86CFDF1C07D8454D6DB9 /* Flutter.xcframework */; };
+		535800D659776FDE7E350CEF /* FlutterPluginRegistrant.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED6029293C28DD54E264EA51 /* FlutterPluginRegistrant.xcframework */; };
 		5AB216AC7AF7CB12A0440195 /* App.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BDF1830A6AC0532AF719C5C /* App.xcframework */; };
 		600944E42E5CB3A7004A089F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 600944E22E5CB3A7004A089F /* InfoPlist.strings */; };
 		60253C0F2FA0F677008E30A6 /* VideoFeedViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60253C0E2FA0F677008E30A6 /* VideoFeedViewModelTests.swift */; };
@@ -52,6 +53,7 @@
 		8A65E79E2501AE89006F81CC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8A65E79D2501AE89006F81CC /* GoogleService-Info.plist */; };
 		8A86D7F324FED01D00037A7B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8A86D7F224FED01C00037A7B /* GoogleService-Info.plist */; };
 		8A86D7F524FED02A00037A7B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8A86D7F424FED02A00037A7B /* GoogleService-Info.plist */; };
+		8ACE373B284CE6CB0DE656B3 /* NavBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23CC924B6E44BA66D25C237 /* NavBridge.swift */; };
 		8C3DDCB3B783C0A1AE38947B /* HybridNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF6B16445D087CACDCCCBBC /* HybridNavigator.swift */; };
 		90AFD55B6748E8E9FB60EAEA /* NativeRouteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1580BF7F9481A9C6C42BA31 /* NativeRouteFactory.swift */; };
 		950EE104B61C24BCC2976DC5 /* HybridFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136FC990C038136099D9FF85 /* HybridFeedViewController.swift */; };
@@ -61,6 +63,7 @@
 		A78356081E85BE6D0021DA5A /* (null) in Sources */ = {isa = PBXBuildFile; };
 		A783560A1E85BE890021DA5A /* (null) in Sources */ = {isa = PBXBuildFile; };
 		AA7B64942F20420F00602E54 /* Stripe in Frameworks */ = {isa = PBXBuildFile; productRef = AA7B64932F20420F00602E54 /* Stripe */; };
+		AAE1A8410CD8E9648A5C762F /* FlutterPluginRegistrant.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ED6029293C28DD54E264EA51 /* FlutterPluginRegistrant.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AAF3BB382F14987300DAE921 /* KsApi in Frameworks */ = {isa = PBXBuildFile; productRef = AAF3BB372F14987300DAE921 /* KsApi */; };
 		AAF3BB3B2F14988F00DAE921 /* Kickstarter-Framework in Frameworks */ = {isa = PBXBuildFile; productRef = AAF3BB3A2F14988F00DAE921 /* Kickstarter-Framework */; };
 		AAF3BB3D2F14C6DF00DAE921 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAF3BB3C2F14C6DF00DAE921 /* Assets.xcassets */; };
@@ -307,6 +310,7 @@
 		AAFCED042F2038FC00EAC2FE /* ReactiveExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = AAFCED032F2038FC00EAC2FE /* ReactiveExtensions */; };
 		AAFCED062F2038FC00EAC2FE /* ReactiveExtensions-TestHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = AAFCED052F2038FC00EAC2FE /* ReactiveExtensions-TestHelpers */; };
 		AAFCED082F20399B00EAC2FE /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = AAFCED072F20399B00EAC2FE /* SnapshotTesting */; };
+		BAC5F4F2940F59DB34C409E6 /* hybrid_router.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 57250DBAA74070AE04F47224 /* hybrid_router.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D00A376E225BDAF800F46F47 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D60C8BF321481BCC00D96152 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D60C8CE12149A65000D96152 /* (null) in Sources */ = {isa = PBXBuildFile; };
@@ -370,6 +374,8 @@
 			files = (
 				9BBE2C069C26EDF0BACB83F5 /* App.xcframework in Embed Frameworks */,
 				199E76FB70A601221007C141 /* Flutter.xcframework in Embed Frameworks */,
+				AAE1A8410CD8E9648A5C762F /* FlutterPluginRegistrant.xcframework in Embed Frameworks */,
+				BAC5F4F2940F59DB34C409E6 /* hybrid_router.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -395,6 +401,7 @@
 		33AA26C82E39EA00002DBD60 /* PaymentIncrementBackingFragment.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = PaymentIncrementBackingFragment.graphql; sourceTree = "<group>"; };
 		3993AEF72F0C41ED009CC949 /* UpdateBackerCompletedMutation.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = UpdateBackerCompletedMutation.graphql; sourceTree = "<group>"; };
 		3AF6B16445D087CACDCCCBBC /* HybridNavigator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HybridNavigator.swift; sourceTree = "<group>"; };
+		57250DBAA74070AE04F47224 /* hybrid_router.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = hybrid_router.xcframework; path = Frameworks/hybrid_router.xcframework; sourceTree = SOURCE_ROOT; };
 		600944E32E5CB3A7004A089F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		600944E52E5CB3D5004A089F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		600944E62E5CB3D6004A089F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -416,7 +423,6 @@
 		8BDF1830A6AC0532AF719C5C /* App.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; name = App.xcframework; path = Frameworks/App.xcframework; sourceTree = SOURCE_ROOT; };
 		913E86CFDF1C07D8454D6DB9 /* Flutter.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:S8QB4VV633:FLUTTER.IO LLC"; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; name = Flutter.xcframework; path = Frameworks/Flutter.xcframework; sourceTree = SOURCE_ROOT; };
 		A1580BF7F9481A9C6C42BA31 /* NativeRouteFactory.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NativeRouteFactory.swift; sourceTree = "<group>"; };
-		A36F4E31E9E1DB6F5CBCB921 /* NavigationChannel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NavigationChannel.swift; sourceTree = "<group>"; };
 		A71FB0651E3FF347006C286E /* Release.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Release.entitlements; sourceTree = "<group>"; };
 		A734A2161D9BF8B800E05454 /* Beta.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Beta.entitlements; sourceTree = "<group>"; };
 		A73923B31D272242004524C3 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -665,6 +671,7 @@
 		AAF548D22F2445C0001DB5AC /* SearchQuery_AnotherFiveResults.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SearchQuery_AnotherFiveResults.json; sourceTree = "<group>"; };
 		AAF548D32F2445C0001DB5AC /* SearchQuery_EmptyResults.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SearchQuery_EmptyResults.json; sourceTree = "<group>"; };
 		AAF548D42F2445C0001DB5AC /* SearchQuery_FiveResults.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SearchQuery_FiveResults.json; sourceTree = "<group>"; };
+		B23CC924B6E44BA66D25C237 /* NavBridge.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NavBridge.swift; sourceTree = "<group>"; };
 		D0C9BAD521B1AB920098CABA /* Alpha.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Alpha.entitlements; sourceTree = "<group>"; };
 		E1047B652F59D4240071584F /* FetchSortedProjectRewardsByIdQuery.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = FetchSortedProjectRewardsByIdQuery.graphql; sourceTree = "<group>"; };
 		E1047B662F59DAC80071584F /* SimpleShippingRuleFragment.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = SimpleShippingRuleFragment.graphql; sourceTree = "<group>"; };
@@ -772,6 +779,7 @@
 		E1D04A93302B61D6005719DF /* FastFetchProjectPageExtendedPropertiesQuery.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = FastFetchProjectPageExtendedPropertiesQuery.graphql; sourceTree = "<group>"; };
 		E1D529FC2ED4D21A00923AA9 /* ShippableLocationsForProjectQuery.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = ShippableLocationsForProjectQuery.graphql; sourceTree = "<group>"; };
 		E1FD854E2F9A7FF50095DBDB /* Experimentation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Experimentation; sourceTree = "<group>"; };
+		ED6029293C28DD54E264EA51 /* FlutterPluginRegistrant.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = FlutterPluginRegistrant.xcframework; path = Frameworks/FlutterPluginRegistrant.xcframework; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -786,6 +794,8 @@
 				3976B36E2E57DC7F00D2DD50 /* SegmentBrazeUI in Frameworks */,
 				5AB216AC7AF7CB12A0440195 /* App.xcframework in Frameworks */,
 				533312FA847784497945A339 /* Flutter.xcframework in Frameworks */,
+				535800D659776FDE7E350CEF /* FlutterPluginRegistrant.xcframework in Frameworks */,
+				27554D8557D0E308BE001B5F /* hybrid_router.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -832,10 +842,10 @@
 			isa = PBXGroup;
 			children = (
 				72B145EB54CC24191B01994D /* FlutterEngineManager.swift */,
-				A36F4E31E9E1DB6F5CBCB921 /* NavigationChannel.swift */,
 				3AF6B16445D087CACDCCCBBC /* HybridNavigator.swift */,
 				A1580BF7F9481A9C6C42BA31 /* NativeRouteFactory.swift */,
 				136FC990C038136099D9FF85 /* HybridFeedViewController.swift */,
+				B23CC924B6E44BA66D25C237 /* NavBridge.swift */,
 			);
 			path = HybridFlutter;
 			sourceTree = SOURCE_ROOT;
@@ -845,6 +855,8 @@
 			children = (
 				8BDF1830A6AC0532AF719C5C /* App.xcframework */,
 				913E86CFDF1C07D8454D6DB9 /* Flutter.xcframework */,
+				ED6029293C28DD54E264EA51 /* FlutterPluginRegistrant.xcframework */,
+				57250DBAA74070AE04F47224 /* hybrid_router.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1735,10 +1747,10 @@
 			files = (
 				A73924041D272404004524C3 /* AppDelegate.swift in Sources */,
 				4626928AAB0A3D19B9E5A5A1 /* FlutterEngineManager.swift in Sources */,
-				2823025DCD6FBA0D89430A92 /* NavigationChannel.swift in Sources */,
 				8C3DDCB3B783C0A1AE38947B /* HybridNavigator.swift in Sources */,
 				90AFD55B6748E8E9FB60EAEA /* NativeRouteFactory.swift in Sources */,
 				950EE104B61C24BCC2976DC5 /* HybridFeedViewController.swift in Sources */,
+				8ACE373B284CE6CB0DE656B3 /* NavBridge.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

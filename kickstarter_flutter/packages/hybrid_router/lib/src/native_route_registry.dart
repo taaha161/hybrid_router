@@ -37,7 +37,10 @@ class NativeRouteRegistry {
   bool _matches(String pattern, String path) {
     if (pattern == path) return true;
     if (pattern.endsWith('/*')) {
-      final prefix = pattern.substring(0, pattern.length - 1); // keep trailing '/'
+      final prefix = pattern.substring(
+        0,
+        pattern.length - 1,
+      ); // keep trailing '/'
       return path.startsWith(prefix);
     }
     return false;

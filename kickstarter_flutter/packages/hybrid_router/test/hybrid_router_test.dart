@@ -1,252 +1,203 @@
-import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hybrid_router/hybrid_router.dart';
 
-/// Records every navigation the router performs on the Flutter side and keeps a
-/// simple in-memory stack, standing in for a real GoRouter + Navigator.
-class _FakeFlutterNavigation implements FlutterNavigation {
-  final List<String> stack = ['/'];
-  final List<String> log = [];
-
-  @override
-  void push(String location, {Object? extra}) {
-    log.add('push $location');
-    stack.add(location);
-  }
-
-  @override
-  void go(String location, {Object? extra}) {
-    log.add('go $location');
-    stack
-      ..clear()
-      ..add(location);
-  }
-
-  @override
-  void pushReplacement(String location, {Object? extra}) {
-    log.add('pushReplacement $location');
-    if (stack.isNotEmpty) stack.removeLast();
-    stack.add(location);
-  }
-
-  @override
-  void pop([Object? result]) {
-    log.add('pop');
-    if (stack.length > 1) stack.removeLast();
-  }
-}
-
-/// Captures the Flutter -> Native method-channel traffic without a platform.
-class _RecordingChannel extends NativeNavigatorChannel {
-  _RecordingChannel() : super(channel: const MethodChannel('test/nav'));
-
+/// Records Flutter → native calls instead of crossing a platform channel.
+class _FakeToNative extends ToNative {
   final List<String> calls = [];
-  NativeNavigationCallbacks? callbacks;
 
   @override
-  void bind(NativeNavigationCallbacks cb) => callbacks = cb;
+  Future<void> pushNativeRoute(NavRoute route) async =>
+      calls.add('pushNativeRoute ${route.path}');
 
   @override
-  Future<void> pushNative(String path, Object? args) async =>
-      calls.add('pushNative $path');
-
-  @override
-  Future<void> popNative() async => calls.add('popNative');
-
-  @override
-  Future<void> showNative(String path) async => calls.add('showNative $path');
+  Future<void> returnToNative() async => calls.add('returnToNative');
 
   @override
   Future<void> popToRoot() async => calls.add('popToRoot');
-
-  @override
-  Future<void> closeFlutter() async => calls.add('closeFlutter');
 }
 
+Widget _page(String name) => Scaffold(body: Text(name));
+
+GoRouter _goRouter() => GoRouter(
+  initialLocation: '/',
+  routes: [
+    GoRoute(path: '/', builder: (_, _) => _page('home')),
+    nativePlaceholderRoute(),
+    GoRoute(path: '/project/:id', builder: (_, s) => _page('project')),
+    GoRoute(path: '/backer/:id', builder: (_, s) => _page('backer')),
+  ],
+);
+
 void main() {
-  late _FakeFlutterNavigation flutter;
-  late _RecordingChannel channel;
+  late GoRouter goRouter;
+  late _FakeToNative toNative;
   late HybridRouter router;
+  late ToFlutterImpl toFlutter;
 
-  // Native routes for the Kickstarter demo: reward/pledge detail is native.
-  final registry = NativeRouteRegistry.of({'/reward', '/reward/*', '/checkout'});
+  final registry = NativeRouteRegistry.of({
+    '/reward',
+    '/reward/*',
+    '/checkout',
+  });
 
-  setUp(() {
-    flutter = _FakeFlutterNavigation();
-    channel = _RecordingChannel();
+  Future<void> boot(WidgetTester tester) async {
+    goRouter = _goRouter();
+    toNative = _FakeToNative();
     router = HybridRouter(
-      flutter: flutter,
-      channel: channel,
+      goRouter: goRouter,
+      toNative: toNative,
       registry: registry,
-      initialFlutterPath: '/',
     );
-  });
+    toFlutter = ToFlutterImpl(goRouter: goRouter, toNative: toNative);
+    await tester.pumpWidget(MaterialApp.router(routerConfig: goRouter));
+  }
 
-  String stackString() => router.stack.map((e) => e.toString()).join(' > ');
-
-  group('dispatch: native vs flutter', () {
-    test('flutter path is delegated to GoRouter', () {
+  group('push', () {
+    testWidgets('a Flutter path goes straight to GoRouter', (tester) async {
+      await boot(tester);
       router.push('/project/42');
-      expect(flutter.log, contains('push /project/42'));
-      expect(channel.calls, isEmpty);
-      expect(router.stack.last, isA<FlutterEntry>());
+      await tester.pumpAndSettle();
+
+      expect(goRouter.currentTop, '/project/42');
+      expect(toNative.calls, isEmpty);
     });
 
-    test('native path is dispatched over the channel, not to GoRouter', () {
-      router.push('/reward/7');
-      expect(channel.calls, contains('pushNative /reward/7'));
-      expect(flutter.log, isEmpty);
-      expect(router.stack.last, isA<NativeEntry>());
-    });
+    testWidgets('a native path goes over the bridge, GoRouter untouched', (
+      tester,
+    ) async {
+      await boot(tester);
+      router.push('/reward/42');
+      await tester.pumpAndSettle();
 
-    test('wildcard native pattern matches a family of routes', () {
-      expect(registry.isNative('/reward/7?ref=x'), isTrue);
-      expect(registry.isNative('/project/1'), isFalse);
-    });
-  });
-
-  group('interleaved stack: flutterA -> native -> flutterB', () {
-    setUp(() {
-      router.push('/project/42'); // flutterA
-      router.push('/reward/7'); // native
-      router.push('/backer/9'); // flutterB
-    });
-
-    test('a placeholder is inserted for the intervening native page', () {
-      // Flutter navigator: /, flutterA, placeholder(native), flutterB
-      expect(flutter.stack.length, 4);
-      expect(NativePlaceholder.matches(flutter.stack[2]), isTrue);
-      expect(
-        NativePlaceholder.nativePathOf(flutter.stack[2]),
-        '/reward/7',
-      );
-      expect(flutter.stack.last, '/backer/9');
-    });
-
-    test('logical stack reflects the true visual order', () {
-      expect(
-        stackString(),
-        'Flutter(/) > Flutter(/project/42) > Native(/reward/7) > Flutter(/backer/9)',
-      );
-    });
-
-    test('popping flutterB hands control back to the native page', () {
-      channel.calls.clear();
-      router.pop(); // pop flutterB
-      // GoRouter pops flutterB; the placeholder is now top -> ask native to show.
-      expect(flutter.log.last, 'pop');
-      expect(channel.calls, contains('showNative /reward/7'));
-      // Placeholder stays in the Flutter navigator until native reports back.
-      expect(NativePlaceholder.matches(flutter.stack.last), isTrue);
-      expect(router.stack.last, isA<NativeEntry>());
-    });
-
-    test('native back after that resolves to flutterA and clears placeholder',
-        () {
-      router.pop(); // flutterB -> native shown
-      channel.calls.clear();
-      // User taps back on the native page; native notifies Flutter.
-      channel.callbacks!.onDidPopNative('/reward/7');
-      expect(flutter.stack.last, '/project/42'); // placeholder removed
-      expect(router.stack.last, isA<FlutterEntry>());
-      expect((router.stack.last as FlutterEntry).path, '/project/42');
+      expect(toNative.calls, ['pushNativeRoute /reward/42']);
+      expect(goRouter.currentTop, '/');
     });
   });
 
-  group('native-triggered back on a plain native top', () {
-    test('didPopNative pops the native entry without touching Flutter', () {
+  group('go', () {
+    testWidgets('a native path resets the native stack first', (tester) async {
+      await boot(tester);
+      router.go('/checkout');
+      await tester.pumpAndSettle();
+
+      expect(toNative.calls, ['popToRoot', 'pushNativeRoute /checkout']);
+    });
+
+    testWidgets('a Flutter path resets GoRouter', (tester) async {
+      await boot(tester);
       router.push('/project/42');
-      router.push('/reward/7'); // native on top of a flutter page (no placeholder)
-      final flutterLenBefore = flutter.stack.length;
-      channel.callbacks!.onDidPopNative('/reward/7');
-      // No placeholder was inserted (flutter -> native), so Flutter is untouched.
-      expect(flutter.stack.length, flutterLenBefore);
-      expect(router.stack.last, isA<FlutterEntry>());
-      expect((router.stack.last as FlutterEntry).path, '/project/42');
+      router.push('/backer/ada');
+      await tester.pumpAndSettle();
+      router.go('/project/77');
+      await tester.pumpAndSettle();
+
+      expect(goRouter.currentTop, '/project/77');
+      expect(goRouter.canPop(), isFalse);
     });
   });
 
-  group('closing the flutter container at the base route', () {
-    test('programmatic pop of the last flutter page closes the container', () {
-      router.push('/project/42');
-      channel.calls.clear();
-      router.pop(); // back from the only flutter page
-      // Only the base route '/' remains -> the whole container must leave native.
-      expect(channel.calls, contains('closeFlutter'));
-      expect(channel.calls, isNot(contains('popNative')));
-      expect(router.stack.length, 1);
-      expect(router.stack.single, isA<FlutterEntry>());
-    });
+  group('pushFlutterRoute (native opens a Flutter page)', () {
+    testWidgets('pushes a bare placeholder, then the page', (tester) async {
+      await boot(tester);
+      toFlutter.pushFlutterRoute(NavRoute(path: '/project/42'));
+      await tester.pumpAndSettle();
 
-    test('a Flutter gesture back (AppBar/edge-swipe) is reconciled once', () {
-      router.push('/project/42');
-      channel.calls.clear();
-      // Simulate GoRouter popping from a user gesture: the navigator shrinks on
-      // its own, then the observer fires. The router did NOT initiate it.
-      flutter.pop();
-      router.handleFlutterNavigatorPop();
-      expect(channel.calls, contains('closeFlutter'));
-      expect(router.stack.length, 1);
-    });
-
-    test('a programmatic pop is not reconciled twice by the observer', () {
-      router.push('/project/42');
-      router.push('/backer/9');
-      channel.calls.clear();
-      router.pop(); // programmatic: pops /backer/9, marks it programmatic
-      // The observer signal that follows the programmatic pop is consumed.
-      router.handleFlutterNavigatorPop();
-      // Still sitting on /project/42 — the observer did NOT pop a second page.
-      expect(router.stack.last, isA<FlutterEntry>());
-      expect((router.stack.last as FlutterEntry).path, '/project/42');
-      expect(channel.calls, isNot(contains('closeFlutter')));
+      expect(goRouter.currentTop, '/project/42');
+      goRouter.pop();
+      expect(isPlaceholder(goRouter.currentTop), isTrue);
     });
   });
 
-  group('fresh entry from a native root', () {
-    test('enterFlutter discards stale history so it cannot duplicate', () {
-      router.push('/project/42');
-      router.push('/backer/9');
-      // User backed out to the native feed, then taps the same project again.
-      router.enterFlutter('/project/42');
-      expect(flutter.stack, ['/', '/project/42']);
-      expect(stackString(), 'Flutter(/) > Flutter(/project/42)');
+  group('handleBack', () {
+    testWidgets('at the root, returns false so native handles it', (
+      tester,
+    ) async {
+      await boot(tester);
+
+      expect(toFlutter.handleBack(), isFalse);
+      expect(toNative.calls, isEmpty);
     });
 
-    test('native pushFlutter with reset:true routes through enterFlutter', () {
-      router.push('/project/42');
-      router.push('/backer/9');
-      channel.callbacks!.onPushFlutter('/project/42', null, true);
-      expect(stackString(), 'Flutter(/) > Flutter(/project/42)');
+    testWidgets('Flutter → Flutter: pops and stays in Flutter', (tester) async {
+      await boot(tester);
+      toFlutter.pushFlutterRoute(NavRoute(path: '/project/42'));
+      router.push('/backer/ada');
+      await tester.pumpAndSettle();
+
+      expect(toFlutter.handleBack(), isTrue);
+      await tester.pumpAndSettle();
+      expect(goRouter.currentTop, '/project/42');
+      expect(toNative.calls, isEmpty);
     });
 
-    test('native pushFlutter with reset:false keeps the stack (interleaving)',
-        () {
-      router.push('/project/42');
-      channel.callbacks!.onPushFlutter('/backer/9', null, false);
-      expect(stackString(),
-          'Flutter(/) > Flutter(/project/42) > Flutter(/backer/9)');
+    testWidgets('landing on a placeholder returns to native and drops it', (
+      tester,
+    ) async {
+      await boot(tester);
+      toFlutter.pushFlutterRoute(NavRoute(path: '/project/42'));
+      await tester.pumpAndSettle();
+
+      expect(toFlutter.handleBack(), isTrue);
+      await tester.pumpAndSettle();
+      expect(toNative.calls, ['returnToNative']);
+      expect(goRouter.currentTop, '/');
     });
   });
 
-  group('go() resets the flutter history', () {
-    test('go to a flutter route clears the stack', () {
-      router.push('/project/42');
-      router.push('/backer/9');
-      router.go('/');
-      expect(flutter.stack, ['/']);
-      expect(router.stack.length, 1);
-      expect(router.stack.single, isA<FlutterEntry>());
+  group('pop (in-page back arrow)', () {
+    testWidgets('uses handleBack when Flutter can pop', (tester) async {
+      await boot(tester);
+      toFlutter.pushFlutterRoute(NavRoute(path: '/project/42'));
+      router.push('/backer/ada');
+      await tester.pumpAndSettle();
+
+      router.pop();
+      await tester.pumpAndSettle();
+      expect(goRouter.currentTop, '/project/42');
+      expect(toNative.calls, isEmpty);
+    });
+
+    testWidgets('leaves Flutter when there is nothing to pop', (tester) async {
+      await boot(tester);
+      router.pop();
+
+      expect(toNative.calls, ['returnToNative']);
     });
   });
 
-  group('pushReplacement', () {
-    test('replaces a flutter top in place', () {
-      router.push('/project/42');
-      router.pushReplacement('/project/99');
-      expect(flutter.stack.last, '/project/99');
-      expect(router.stack.last, isA<FlutterEntry>());
-      expect((router.stack.last as FlutterEntry).path, '/project/99');
-    });
+  testWidgets('the full Kickstarter journey, forward and back', (tester) async {
+    await boot(tester);
+
+    // Forward: feed (native) → project (Flutter).
+    toFlutter.pushFlutterRoute(NavRoute(path: '/project/42'));
+    await tester.pumpAndSettle();
+    // project → reward (native): over the bridge, GoRouter untouched.
+    router.push('/reward/42');
+    // reward → backer (Flutter): native opens Flutter again.
+    toFlutter.pushFlutterRoute(NavRoute(path: '/backer/ada'));
+    await tester.pumpAndSettle();
+    expect(goRouter.currentTop, '/backer/ada');
+    expect(toNative.calls, ['pushNativeRoute /reward/42']);
+    toNative.calls.clear();
+
+    // Back from backer: lands on reward's placeholder → return to native.
+    expect(toFlutter.handleBack(), isTrue);
+    await tester.pumpAndSettle();
+    expect(toNative.calls, ['returnToNative']);
+    expect(goRouter.currentTop, '/project/42');
+
+    // Back from reward: native page on top pops itself — Flutter isn't asked.
+
+    // Back from project: lands on feed's placeholder → return to native.
+    toNative.calls.clear();
+    expect(toFlutter.handleBack(), isTrue);
+    await tester.pumpAndSettle();
+    expect(toNative.calls, ['returnToNative']);
+    expect(goRouter.currentTop, '/');
+
+    // Nothing left: native handles any further back.
+    expect(toFlutter.handleBack(), isFalse);
   });
 }
